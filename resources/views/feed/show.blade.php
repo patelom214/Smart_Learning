@@ -117,9 +117,11 @@
                         <div class="d-flex align-items-center gap-2">
 
                             @if($post->user->profile_photo)
-                                <img src="{{ asset('storage/' . $post->user->profile_photo) }}"
-                                     width="48" height="48"
-                                     class="rounded-circle border object-fit-cover">
+                                <img src="{{ $user->profile_photo ?? asset('images/default.png') }}"
+                            class="rounded-circle border shadow"
+                            width="150"
+                            height="150"
+                            style="object-fit: cover;" alt="{{ $user->name }}">
                             @else
                                 <div class="d-flex align-items-center justify-content-center rounded-circle border bg-light"
                                      style="width:48px;height:48px;">

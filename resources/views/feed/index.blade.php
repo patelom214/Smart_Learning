@@ -1131,7 +1131,13 @@
                     <div class="profile-card mb-3">
                         <div class="card-body text-center">
                             @if(auth()->user()->profile_photo)
-                            <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}" class="rounded-circle profile-avatar mb-3" alt="{{ auth()->user()->name }}">
+                            <img src="{{ Auth::user()->profile_photo 
+                                ? Auth::user()->profile_photo 
+                                : asset('images/default.png') }}"
+                                class="rounded-circle"
+                                width="36"
+                                height="36"
+                                style="object-fit: cover;">
                             @else
                             <div class="rounded-circle profile-avatar d-flex align-items-center justify-content-center mx-auto mb-3 bg-light">
                                 <i class="bi bi-person-fill fs-2 text-secondary"></i>
@@ -1411,7 +1417,9 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-2">
                                 @if($post->user->profile_photo)
-                                <img src="{{ asset('storage/' . $post->user->profile_photo) }}" width="48" height="48" class="rounded-circle border object-fit-cover">
+                                <img src="{{ $post->user->profile_photo 
+                         ? $post->user->profile_photo 
+                         : asset('images/default.png') }}" width="48" height="48" class="rounded-circle border object-fit-cover">
                                 @else
                                 <div class="d-flex align-items-center justify-content-center rounded-circle border bg-light" style="width:48px;height:48px;">
                                     <i class="bi bi-person-fill fs-5 text-secondary"></i>
@@ -1560,7 +1568,9 @@
                         <div style="display:flex; gap:8px; align-items:center; padding:10px 16px; border-top:1px solid #e4e6ea;">
                             <div class="sl-a-avatar">
                                 @if(auth()->user()->profile_photo)
-                                <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}" alt="">
+                                <img src="{{ Auth::user()->profile_photo 
+                         ? Auth::user()->profile_photo 
+                         : asset('images/default.png') }}" alt="">
                                 @else
                                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                                 @endif
@@ -1644,13 +1654,13 @@
                         <i class="bi bi-inbox fs-1 text-muted mb-3 d-block"></i>
                         <h5 class="text-muted">No posts yet</h5>
                         <p class="text-muted">Follow friends to see their posts here, or create your first post!</p>
-                         @if(request('search'))
-            <p>No results found for "<strong>{{ request('search') }}</strong>"</p>
-        @endif
+                        @if(request('search'))
+                        <p>No results found for "<strong>{{ request('search') }}</strong>"</p>
+                        @endif
 
-        @if(request('tag'))
-            <p>No posts found under tag "<strong>#{{ request('tag') }}</strong>"</p>
-        @endif
+                        @if(request('tag'))
+                        <p>No posts found under tag "<strong>#{{ request('tag') }}</strong>"</p>
+                        @endif
                     </div>
                 </div>
                 @endforelse
@@ -1703,209 +1713,242 @@
 {{-- ══════════════════════════════════════
      ALL JAVASCRIPT — ZERO INLINE HANDLERS
 ══════════════════════════════════════ --}}
-<<script>
+<script>
     const CSRF = document.querySelector('meta[name="csrf-token"]').content;
 
     document.addEventListener('DOMContentLoaded', function() {
 
-    /* ── 1. COMPOSER TABS ── */
-    document.querySelectorAll('.sl-tab').forEach(function(tab) {
-    tab.addEventListener('click', function() {
-    document.querySelectorAll('.sl-panel').forEach(function(p) { p.classList.remove('active'); });
-    document.querySelectorAll('.sl-tab').forEach(function(t) { t.classList.remove('active'); });
-    document.getElementById(this.dataset.panel).classList.add('active');
-    this.classList.add('active');
-    });
-    });
+        /* ── 1. COMPOSER TABS ── */
+        document.querySelectorAll('.sl-tab').forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.sl-panel').forEach(function(p) {
+                    p.classList.remove('active');
+                });
+                document.querySelectorAll('.sl-tab').forEach(function(t) {
+                    t.classList.remove('active');
+                });
+                document.getElementById(this.dataset.panel).classList.add('active');
+                this.classList.add('active');
+            });
+        });
 
-    /* ── 2. QUESTION WIZARD ── */
-    var qCurrent = 1;
+        /* ── 2. QUESTION WIZARD ── */
+        var qCurrent = 1;
 
-    function qGoStep(n) {
-    document.getElementById('qs' + qCurrent).style.display = 'none';
-    for (var i = 1; i < n; i++) {
-        document.getElementById('qsi-' + i).classList.remove('active');
-        document.getElementById('qsi-' + i).classList.add('done');
-        document.getElementById('qsn-' + i).textContent='✓' ;
-        var ln=document.getElementById('qsl-' + i);
-        if (ln) ln.classList.add('done');
+        function qGoStep(n) {
+            document.getElementById('qs' + qCurrent).style.display = 'none';
+            for (var i = 1; i < n; i++) {
+                document.getElementById('qsi-' + i).classList.remove('active');
+                document.getElementById('qsi-' + i).classList.add('done');
+                document.getElementById('qsn-' + i).textContent = '✓';
+                var ln = document.getElementById('qsl-' + i);
+                if (ln) ln.classList.add('done');
+            }
+            document.getElementById('qsi-' + n).classList.remove('done');
+            document.getElementById('qsi-' + n).classList.add('active');
+            document.getElementById('qsn-' + n).textContent = n;
+            document.getElementById('qs' + n).style.display = 'block';
+            qCurrent = n;
         }
-        document.getElementById('qsi-' + n).classList.remove('done');
-        document.getElementById('qsi-' + n).classList.add('active');
-        document.getElementById('qsn-' + n).textContent=n;
-        document.getElementById('qs' + n).style.display='block' ;
-        qCurrent=n;
-        }
 
-        var qTitleInput=document.getElementById('qTitle');
-        var qNext1=document.getElementById('qNext1');
+        var qTitleInput = document.getElementById('qTitle');
+        var qNext1 = document.getElementById('qNext1');
 
         if (qTitleInput && qNext1) {
-        function validateTitle() {
-        var length=qTitleInput.value.trim().length;
-        document.getElementById('qTitleCount').innerText=length + ' / 200' ;
-        qNext1.disabled=length < 15;
-        qNext1.style.opacity=length>= 15 ? '1' : '0.5';
-        }
-        qTitleInput.addEventListener('input', validateTitle);
-        validateTitle();
+            function validateTitle() {
+                var length = qTitleInput.value.trim().length;
+                document.getElementById('qTitleCount').innerText = length + ' / 200';
+                qNext1.disabled = length < 15;
+                qNext1.style.opacity = length >= 15 ? '1' : '0.5';
+            }
+            qTitleInput.addEventListener('input', validateTitle);
+            validateTitle();
         }
 
         var qBody = document.getElementById('qBody');
         var qNext2 = document.getElementById('qNext2');
 
         if (qBody) {
-        qBody.addEventListener('input', function() {
-        var len = this.innerText.trim().length;
-        document.getElementById('qBodyCount').textContent = len + ' / 5000';
-        if (qNext2) qNext2.disabled = len < 50;
+            qBody.addEventListener('input', function() {
+                var len = this.innerText.trim().length;
+                document.getElementById('qBodyCount').textContent = len + ' / 5000';
+                if (qNext2) qNext2.disabled = len < 50;
             });
-            }
+        }
 
-            if (qNext1) qNext1.addEventListener('click', function() { qGoStep(2); });
-            if (qNext2) qNext2.addEventListener('click', function() { qGoStep(3); });
+        if (qNext1) qNext1.addEventListener('click', function() {
+            qGoStep(2);
+        });
+        if (qNext2) qNext2.addEventListener('click', function() {
+            qGoStep(3);
+        });
 
-            var qBack1=document.getElementById('qBack1');
-            var qBack2=document.getElementById('qBack2');
-            if (qBack1) qBack1.addEventListener('click', function() { qGoStep(1); });
-            if (qBack2) qBack2.addEventListener('click', function() { qGoStep(2); });
+        var qBack1 = document.getElementById('qBack1');
+        var qBack2 = document.getElementById('qBack2');
+        if (qBack1) qBack1.addEventListener('click', function() {
+            qGoStep(1);
+        });
+        if (qBack2) qBack2.addEventListener('click', function() {
+            qGoStep(2);
+        });
 
-            /* Rich text toolbar – question */
-            var qRtBar=document.getElementById('qRtBar');
-            if (qRtBar) {
+        /* Rich text toolbar – question */
+        var qRtBar = document.getElementById('qRtBar');
+        if (qRtBar) {
             qRtBar.addEventListener('click', function(e) {
-            var btn=e.target.closest('.sl-rt-btn');
-            if (!btn) return;
-            e.preventDefault();
-            document.execCommand(btn.dataset.cmd, false, btn.dataset.val || null);
+                var btn = e.target.closest('.sl-rt-btn');
+                if (!btn) return;
+                e.preventDefault();
+                document.execCommand(btn.dataset.cmd, false, btn.dataset.val || null);
             });
-            }
+        }
 
-            /* Question type options */
-            document.querySelectorAll('.sl-type-opt').forEach(function(opt) {
+        /* Question type options */
+        document.querySelectorAll('.sl-type-opt').forEach(function(opt) {
             opt.addEventListener('click', function() {
-            document.querySelectorAll('.sl-type-opt').forEach(function(o) { o.classList.remove('selected'); });
-            this.classList.add('selected');
-            var th=document.getElementById('qTypeHidden');
-            if (th) th.value=this.dataset.type;
+                document.querySelectorAll('.sl-type-opt').forEach(function(o) {
+                    o.classList.remove('selected');
+                });
+                this.classList.add('selected');
+                var th = document.getElementById('qTypeHidden');
+                if (th) th.value = this.dataset.type;
             });
-            });
+        });
 
-            /* Question tag input */
-            var qTagIn=document.getElementById('qTagIn');
-            if (qTagIn) {
+        /* Question tag input */
+        var qTagIn = document.getElementById('qTagIn');
+        if (qTagIn) {
             qTagIn.addEventListener('keydown', function(e) {
-            addTagToWrap(e, 'qTagsWrap' , 'qTagsHidden' );
+                addTagToWrap(e, 'qTagsWrap', 'qTagsHidden');
             });
-            }
+        }
 
-            /* Question form submit */
-            var qForm=document.getElementById('qForm');
-            if (qForm) {
+        /* Question form submit */
+        var qForm = document.getElementById('qForm');
+        if (qForm) {
             qForm.addEventListener('submit', function() {
-            var th=document.getElementById('qTitleHidden');
-            var ch=document.getElementById('qContentHidden');
-            var gh=document.getElementById('qTagsHidden');
-            if (th) th.value=document.getElementById('qTitle').value;
-            if (ch && qBody) ch.value=qBody.innerHTML.trim();
-            if (gh) gh.value=collectTags('qTagsWrap');
+                var th = document.getElementById('qTitleHidden');
+                var ch = document.getElementById('qContentHidden');
+                var gh = document.getElementById('qTagsHidden');
+                if (th) th.value = document.getElementById('qTitle').value;
+                if (ch && qBody) ch.value = qBody.innerHTML.trim();
+                if (gh) gh.value = collectTags('qTagsWrap');
             });
+        }
+
+        /* ── 3. EDIT PANEL ── */
+        var editSelector = document.getElementById('editPostSelector');
+
+        function loadEditForm(postId) {
+            document.querySelectorAll('.sl-edit-form').forEach(function(f) {
+                f.style.display = 'none';
+            });
+            var wrap = document.getElementById('editFormWrap');
+            if (!postId) {
+                if (wrap) wrap.style.display = 'none';
+                return;
             }
+            if (wrap) wrap.style.display = 'block';
+            var form = document.getElementById('editForm-' + postId);
+            if (form) form.style.display = 'block';
+        }
 
-            /* ── 3. EDIT PANEL ── */
-            var editSelector=document.getElementById('editPostSelector');
+        if (editSelector) {
+            editSelector.addEventListener('change', function() {
+                loadEditForm(this.value);
+            });
+        }
 
-            function loadEditForm(postId) {
-            document.querySelectorAll('.sl-edit-form').forEach(function(f) { f.style.display='none' ; });
-            var wrap=document.getElementById('editFormWrap');
-            if (!postId) { if (wrap) wrap.style.display='none' ; return; }
-            if (wrap) wrap.style.display='block' ;
-            var form=document.getElementById('editForm-' + postId);
-            if (form) form.style.display='block' ;
-            }
-
-            if (editSelector) {
-            editSelector.addEventListener('change', function() { loadEditForm(this.value); });
-            }
-
-            /* Rich text toolbars – edit forms */
-            document.querySelectorAll('.sl-edit-form .sl-rt-bar').forEach(function(bar) {
+        /* Rich text toolbars – edit forms */
+        document.querySelectorAll('.sl-edit-form .sl-rt-bar').forEach(function(bar) {
             bar.addEventListener('click', function(e) {
-            var btn=e.target.closest('.sl-rt-btn');
-            if (!btn) return;
-            e.preventDefault();
-            document.execCommand(btn.dataset.cmd, false, btn.dataset.val || null);
+                var btn = e.target.closest('.sl-rt-btn');
+                if (!btn) return;
+                e.preventDefault();
+                document.execCommand(btn.dataset.cmd, false, btn.dataset.val || null);
             });
-            });
+        });
 
-            /* Edit form tag inputs */
-            document.querySelectorAll('.edit-tag-input').forEach(function(inp) {
+        /* Edit form tag inputs */
+        document.querySelectorAll('.edit-tag-input').forEach(function(inp) {
             inp.addEventListener('keydown', function(e) {
-            addTagToWrap(e, inp.dataset.wrap, inp.dataset.hidden);
+                addTagToWrap(e, inp.dataset.wrap, inp.dataset.hidden);
             });
-            });
+        });
 
-            /* Edit form image preview */
-            document.querySelectorAll('.edit-img-input').forEach(function(inp) {
+        /* Edit form image preview */
+        document.querySelectorAll('.edit-img-input').forEach(function(inp) {
             inp.addEventListener('change', function() {
-            var postId=this.dataset.post;
-            var r=new FileReader();
-            r.onload=function(ev) {
-            var ni=document.getElementById('editNewImg-' + postId);
-            var nb=document.getElementById('editNewImgBox-' + postId);
-            var ob=document.getElementById('editOldImg-' + postId);
-            if (ni) ni.src=ev.target.result;
-            if (nb) nb.classList.remove('d-none');
-            if (ob) ob.classList.add('d-none');
-            };
-            if (this.files[0]) r.readAsDataURL(this.files[0]);
+                var postId = this.dataset.post;
+                var r = new FileReader();
+                r.onload = function(ev) {
+                    var ni = document.getElementById('editNewImg-' + postId);
+                    var nb = document.getElementById('editNewImgBox-' + postId);
+                    var ob = document.getElementById('editOldImg-' + postId);
+                    if (ni) ni.src = ev.target.result;
+                    if (nb) nb.classList.remove('d-none');
+                    if (ob) ob.classList.add('d-none');
+                };
+                if (this.files[0]) r.readAsDataURL(this.files[0]);
             });
-            });
+        });
 
-            /* Edit save – sync body & tags before submit */
-            document.querySelectorAll('.edit-save-btn').forEach(function(btn) {
+        /* Edit save – sync body & tags before submit */
+        document.querySelectorAll('.edit-save-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
-            var postId=this.dataset.post;
-            var body=document.getElementById('editBody-' + postId);
-            var hidden=document.getElementById('editBodyHidden-' + postId);
-            if (body && hidden) hidden.value=body.innerHTML.trim();
-            var tagHidden=document.getElementById('editTagsHidden-' + postId);
-            if (tagHidden) tagHidden.value=collectTags('editTagsWrap-' + postId);
+                var postId = this.dataset.post;
+                var body = document.getElementById('editBody-' + postId);
+                var hidden = document.getElementById('editBodyHidden-' + postId);
+                if (body && hidden) hidden.value = body.innerHTML.trim();
+                var tagHidden = document.getElementById('editTagsHidden-' + postId);
+                if (tagHidden) tagHidden.value = collectTags('editTagsWrap-' + postId);
             });
-            });
+        });
 
-            /* Edit cancel */
-            document.querySelectorAll('.edit-cancel-btn').forEach(function(btn) {
+        /* Edit cancel */
+        document.querySelectorAll('.edit-cancel-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
-            if (editSelector) editSelector.value='' ;
-            loadEditForm('');
+                if (editSelector) editSelector.value = '';
+                loadEditForm('');
             });
-            });
+        });
 
-            /* Open Edit tab from post dropdown */
-            document.querySelectorAll('.open-edit-tab-btn').forEach(function(btn) {
+        /* Open Edit tab from post dropdown */
+        document.querySelectorAll('.open-edit-tab-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
-            var postId=this.dataset.post;
-            document.querySelectorAll('.sl-panel').forEach(function(p) { p.classList.remove('active'); });
-            document.querySelectorAll('.sl-tab').forEach(function(t) { t.classList.remove('active'); });
-            document.getElementById('edit-panel').classList.add('active');
-            var editTab=document.querySelector('.sl-tab[data-panel="edit-panel" ]');
-            if (editTab) editTab.classList.add('active');
-            if (editSelector) { editSelector.value=postId; loadEditForm(postId); }
-            var composer=document.querySelector('.sl-composer');
-            if (composer) composer.scrollIntoView({ behavior: 'smooth' });
+                var postId = this.dataset.post;
+                document.querySelectorAll('.sl-panel').forEach(function(p) {
+                    p.classList.remove('active');
+                });
+                document.querySelectorAll('.sl-tab').forEach(function(t) {
+                    t.classList.remove('active');
+                });
+                document.getElementById('edit-panel').classList.add('active');
+                var editTab = document.querySelector('.sl-tab[data-panel="edit-panel" ]');
+                if (editTab) editTab.classList.add('active');
+                if (editSelector) {
+                    editSelector.value = postId;
+                    loadEditForm(postId);
+                }
+                var composer = document.querySelector('.sl-composer');
+                if (composer) composer.scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
-            });
+        });
 
-            /* ── 4. TAG HELPERS ── */
-            function addTagToWrap(e, wrapId, hiddenId) {
-            if (e.key !=='Enter' && e.key !==',' ) return;
+        /* ── 4. TAG HELPERS ── */
+        function addTagToWrap(e, wrapId, hiddenId) {
+            if (e.key !== 'Enter' && e.key !== ',') return;
             e.preventDefault();
-            var val=e.target.value.replace(/,/g, '' ).trim();
+            var val = e.target.value.replace(/,/g, '').trim();
             if (!val) return;
-            var wrap=document.getElementById(wrapId);
+            var wrap = document.getElementById(wrapId);
             if (!wrap) return;
-            if (wrap.querySelectorAll('.sl-tag-pill').length>= 5) { alert('Max 5 tags'); return; }
+            if (wrap.querySelectorAll('.sl-tag-pill').length >= 5) {
+                alert('Max 5 tags');
+                return;
+            }
             var pill = document.createElement('span');
             pill.className = 'sl-tag-pill';
             pill.innerHTML = val + ' <button type="button" class="remove-tag-btn">&#215;</button>';
@@ -1913,140 +1956,173 @@
             e.target.value = '';
             var h = document.getElementById(hiddenId);
             if (h) h.value = collectTags(wrapId);
-            }
+        }
 
-            function collectTags(wrapId) {
+        function collectTags(wrapId) {
             var wrap = document.getElementById(wrapId);
             if (!wrap) return '';
             return Array.from(wrap.querySelectorAll('.sl-tag-pill')).map(function(p) {
-            return p.textContent.replace('×', '').trim();
+                return p.textContent.replace('×', '').trim();
             }).join(',');
-            }
+        }
 
-            /* ── 5. RESTORE SESSION STATE (after validation errors) ── */
-            var formType = document.getElementById('sessionFormType')?.value;
-            var editPostId = document.getElementById('sessionEditId')?.value;
+        /* ── 5. RESTORE SESSION STATE (after validation errors) ── */
+        var formType = document.getElementById('sessionFormType')?.value;
+        var editPostId = document.getElementById('sessionEditId')?.value;
 
-            if (formType === 'edit') {
+        if (formType === 'edit') {
             var editTabBtn = document.querySelector('.sl-tab[data-panel="edit-panel"]');
             if (editTabBtn) editTabBtn.click();
-            if (editSelector && editPostId) { editSelector.value = editPostId; loadEditForm(editPostId); }
+            if (editSelector && editPostId) {
+                editSelector.value = editPostId;
+                loadEditForm(editPostId);
             }
+        }
 
-            }); // end DOMContentLoaded
+    }); // end DOMContentLoaded
 
-            /* ════════════════════════════════════════
-            DELEGATED CLICK HANDLER
-            (likes + comments + replies + tags)
-            ════════════════════════════════════════ */
-            document.addEventListener('click', function(e) {
+    /* ════════════════════════════════════════
+    DELEGATED CLICK HANDLER
+    (likes + comments + replies + tags)
+    ════════════════════════════════════════ */
+    document.addEventListener('click', function(e) {
 
-            /* ── Remove tag pill ── */
-            if (e.target.classList.contains('remove-tag-btn')) {
+        /* ── Remove tag pill ── */
+        if (e.target.classList.contains('remove-tag-btn')) {
             var pill = e.target.closest('.sl-tag-pill');
             if (pill) pill.remove();
             return;
-            }
+        }
 
-            /* ── Like / Unlike ── */
-            var likeBtn = e.target.closest('.like-btn');
-            if (likeBtn) {
+        /* ── Like / Unlike ── */
+        var likeBtn = e.target.closest('.like-btn');
+        if (likeBtn) {
             if (likeBtn.disabled) return;
             likeBtn.disabled = true;
             var postId = likeBtn.dataset.post;
 
             fetch('/posts/' + postId + '/like', {
-            method: 'POST',
-            headers: { 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json' }
-            })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-            likeBtn.querySelector('.like-count').innerText = data.likes_count;
-            likeBtn.classList.toggle('liked', data.liked);
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF,
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(function(r) {
+                    return r.json();
+                })
+                .then(function(data) {
+                    likeBtn.querySelector('.like-count').innerText = data.likes_count;
+                    likeBtn.classList.toggle('liked', data.liked);
 
-            var likeText = document.getElementById('likeText-' + postId);
-            if (!likeText) return;
+                    var likeText = document.getElementById('likeText-' + postId);
+                    if (!likeText) return;
 
-            if (data.likes_count === 0) { likeText.innerHTML = ''; return; }
+                    if (data.likes_count === 0) {
+                        likeText.innerHTML = '';
+                        return;
+                    }
 
-            var users = data.top_users;
-            var text = 'Liked by ';
-            if (data.likes_count === 1) {
-            text += users[0];
-            } else if (data.likes_count === 2) {
-            text += users[0] + ', ' + users[1];
-            } else {
-            text += users[0] + ', ' + users[1] +
-            ' and <a href="#" class="text-dark fw-semibold text-decoration-none show-likes"' +
-                        ' data-post="' + postId + '" data-bs-toggle="modal"' +
-                        ' data-bs-target="#likesModal-' + postId + '">' +
-                data.remaining + ' others</a>';
-            }
-            likeText.innerHTML = text;
-            })
-            .catch(function(err) { console.error('Like failed:', err); })
-            .finally(function() { likeBtn.disabled = false; });
+                    var users = data.top_users;
+                    var text = 'Liked by ';
+                    if (data.likes_count === 1) {
+                        text += users[0];
+                    } else if (data.likes_count === 2) {
+                        text += users[0] + ', ' + users[1];
+                    } else {
+                        text += users[0] + ', ' + users[1] +
+                            ' and <a href="#" class="text-dark fw-semibold text-decoration-none show-likes"' +
+                            ' data-post="' + postId + '" data-bs-toggle="modal"' +
+                            ' data-bs-target="#likesModal-' + postId + '">' +
+                            data.remaining + ' others</a>';
+                    }
+                    likeText.innerHTML = text;
+                })
+                .catch(function(err) {
+                    console.error('Like failed:', err);
+                })
+                .finally(function() {
+                    likeBtn.disabled = false;
+                });
             return;
-            }
+        }
 
-            /* ── Show likes modal ── */
-            var showLikes = e.target.closest('.show-likes');
-            if (showLikes) { loadLikesModal(showLikes.dataset.post); return; }
+        /* ── Show likes modal ── */
+        var showLikes = e.target.closest('.show-likes');
+        if (showLikes) {
+            loadLikesModal(showLikes.dataset.post);
+            return;
+        }
 
-            /* ── Toggle comment panel ── */
-            var toggleBtn = e.target.closest('.toggle-answers-btn');
-            if (toggleBtn) {
+        /* ── Toggle comment panel ── */
+        var toggleBtn = e.target.closest('.toggle-answers-btn');
+        if (toggleBtn) {
             var postId = toggleBtn.dataset.post;
             var panel = document.getElementById(toggleBtn.dataset.target);
             if (!panel) return;
             var opening = window.getComputedStyle(panel).display === 'none';
             panel.style.display = opening ? 'block' : 'none';
             if (opening && !panel.dataset.loaded) {
-            loadComments(postId);
-            panel.dataset.loaded = '1';
+                loadComments(postId);
+                panel.dataset.loaded = '1';
             }
             return;
-            }
+        }
 
-            /* ── Post main comment ── */
-            var mainBtn = e.target.closest('.main-comment-btn');
-            if (mainBtn) {
+        /* ── Post main comment ── */
+        var mainBtn = e.target.closest('.main-comment-btn');
+        if (mainBtn) {
             var postId = mainBtn.dataset.post;
             var input = document.querySelector('.main-comment-input[data-post="' + postId + '"]');
             var text = input ? input.value.trim() : '';
             if (!text) return;
             mainBtn.disabled = true;
             fetch('/posts/' + postId + '/comment', {
-            method: 'POST',
-            headers: { 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ comment: text })
-            })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-            input.value = '';
-            prependComment(postId, data);
-            updateCommentCount(postId, 1);
-            })
-            .catch(function(err) { console.error(err); })
-            .finally(function() { mainBtn.disabled = false; });
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        comment: text
+                    })
+                })
+                .then(function(r) {
+                    return r.json();
+                })
+                .then(function(data) {
+                    input.value = '';
+                    prependComment(postId, data);
+                    updateCommentCount(postId, 1);
+                })
+                .catch(function(err) {
+                    console.error(err);
+                })
+                .finally(function() {
+                    mainBtn.disabled = false;
+                });
             return;
-            }
+        }
 
-            /* ── Toggle reply input box ── */
-            var replyToggle = e.target.closest('.reply-toggle-btn');
-            if (replyToggle) {
+        /* ── Toggle reply input box ── */
+        var replyToggle = e.target.closest('.reply-toggle-btn');
+        if (replyToggle) {
             var commentId = replyToggle.dataset.comment;
             var box = document.getElementById('replyBox-' + commentId);
             if (!box) return;
             var hidden = box.style.display === 'none' || box.style.display === '';
             box.style.display = hidden ? 'flex' : 'none';
-            if (hidden) { var inp = box.querySelector('input'); if (inp) inp.focus(); }
-            return;
+            if (hidden) {
+                var inp = box.querySelector('input');
+                if (inp) inp.focus();
             }
+            return;
+        }
 
-            /* ── Post reply ── */
-            var replyBtn = e.target.closest('.post-reply-btn');
-            if (replyBtn) {
+        /* ── Post reply ── */
+        var replyBtn = e.target.closest('.post-reply-btn');
+        if (replyBtn) {
             var postId = replyBtn.dataset.post;
             var commentId = replyBtn.dataset.comment;
             var input = document.querySelector('.reply-input[data-comment="' + commentId + '"]');
@@ -2054,223 +2130,249 @@
             if (!text) return;
             replyBtn.disabled = true;
             fetch('/posts/' + postId + '/comment/' + commentId + '/reply', {
-            method: 'POST',
-            headers: { 'X-CSRF-TOKEN': CSRF, 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ comment: text })
-            })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-            input.value = '';
-            appendReply(commentId, data);
-            updateCommentCount(postId, 1);
-            var box = document.getElementById('replyBox-' + commentId);
-            if (box) box.style.display = 'none';
-            })
-            .catch(function(err) { console.error(err); })
-            .finally(function() { replyBtn.disabled = false; });
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': CSRF,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        comment: text
+                    })
+                })
+                .then(function(r) {
+                    return r.json();
+                })
+                .then(function(data) {
+                    input.value = '';
+                    appendReply(commentId, data);
+                    updateCommentCount(postId, 1);
+                    var box = document.getElementById('replyBox-' + commentId);
+                    if (box) box.style.display = 'none';
+                })
+                .catch(function(err) {
+                    console.error(err);
+                })
+                .finally(function() {
+                    replyBtn.disabled = false;
+                });
             return;
-            }
+        }
 
+    });
+
+    /* ════ COMMENT FUNCTIONS ════ */
+
+    function loadComments(postId) {
+        var list = document.getElementById('commentsList-' + postId);
+        if (!list) return;
+        list.innerHTML = '<p class="text-muted text-center small py-3">Loading…</p>';
+        fetch('/posts/' + postId + '/comments', {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(function(r) {
+                return r.json();
+            })
+            .then(function(data) {
+                list.innerHTML = '';
+                if (!data.comments || !data.comments.length) {
+                    list.innerHTML = '<p class="text-muted text-center small py-3">No comments yet. Be the first!</p>';
+                    return;
+                }
+                data.comments.forEach(function(c) {
+                    list.appendChild(buildCommentEl(postId, c));
+                });
+                var cnt = document.getElementById('answersCount-' + postId);
+                if (cnt) cnt.textContent = data.comments_count;
+            })
+            .catch(function(err) {
+                console.error('Load comments error:', err);
+            });
+    }
+
+    function buildCommentEl(postId, comment) {
+        var div = document.createElement('div');
+        div.className = 'sl-answer-item';
+        div.id = 'comment-' + comment.id;
+        var av = comment.user.photo ?
+            '<img src="' + comment.user.photo + '" alt="">' :
+            comment.user.initial;
+        var repliesHtml = '';
+        if (comment.replies && comment.replies.length)
+            comment.replies.forEach(function(r) {
+                repliesHtml += buildReplyHtml(r);
             });
 
-            /* ════ COMMENT FUNCTIONS ════ */
-
-            function loadComments(postId) {
-            var list = document.getElementById('commentsList-' + postId);
-            if (!list) return;
-            list.innerHTML = '<p class="text-muted text-center small py-3">Loading…</p>';
-            fetch('/posts/' + postId + '/comments', { headers: { 'Accept': 'application/json' } })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-            list.innerHTML = '';
-            if (!data.comments || !data.comments.length) {
-            list.innerHTML = '<p class="text-muted text-center small py-3">No comments yet. Be the first!</p>';
-            return;
-            }
-            data.comments.forEach(function(c) { list.appendChild(buildCommentEl(postId, c)); });
-            var cnt = document.getElementById('answersCount-' + postId);
-            if (cnt) cnt.textContent = data.comments_count;
-            })
-            .catch(function(err) { console.error('Load comments error:', err); });
-            }
-
-            function buildCommentEl(postId, comment) {
-            var div = document.createElement('div');
-            div.className = 'sl-answer-item';
-            div.id = 'comment-' + comment.id;
-            var av = comment.user.photo
-            ? '<img src="/storage/' + comment.user.photo + '" alt="">'
-            : comment.user.initial;
-            var repliesHtml = '';
-            if (comment.replies && comment.replies.length)
-            comment.replies.forEach(function(r) { repliesHtml += buildReplyHtml(r); });
-
-            div.innerHTML =
+        div.innerHTML =
             '<div class="sl-a-avatar">' + av + '</div>' +
             '<div class="sl-a-body">' +
-                '<div class="sl-a-bubble">' +
-                    '<h5>' + escHtml(comment.user.name) + '</h5>' +
-                    '<p>' + escHtml(comment.comment) + '</p>' +
-                    '</div>' +
-                '<div class="sl-a-meta">' +
-                    '<span>' + comment.created_at + '</span>' +
-                    '<button class="reply-toggle-btn" data-comment="' + comment.id + '">Reply</button>' +
-                    '</div>' +
-                '<div id="replyBox-' + comment.id + '" style="display:none;gap:6px;padding:6px 0;align-items:center;">' +
-                    '<input class="sl-reply-input reply-input" type="text" data-comment="' + comment.id + '" placeholder="Write a reply…" style="flex:1;">' +
-                    '<button class="sl-btn sl-btn-primary post-reply-btn" data-post="' + postId + '" data-comment="' + comment.id + '" style="padding:5px 12px;font-size:12px;white-space:nowrap;">Reply</button>' +
-                    '</div>' +
-                '<div class="sl-replies" id="replies-' + comment.id + '" style="display:block;">' + repliesHtml + '</div>' +
-                '</div>';
-            return div;
-            }
+            '<div class="sl-a-bubble">' +
+            '<h5>' + escHtml(comment.user.name) + '</h5>' +
+            '<p>' + escHtml(comment.comment) + '</p>' +
+            '</div>' +
+            '<div class="sl-a-meta">' +
+            '<span>' + comment.created_at + '</span>' +
+            '<button class="reply-toggle-btn" data-comment="' + comment.id + '">Reply</button>' +
+            '</div>' +
+            '<div id="replyBox-' + comment.id + '" style="display:none;gap:6px;padding:6px 0;align-items:center;">' +
+            '<input class="sl-reply-input reply-input" type="text" data-comment="' + comment.id + '" placeholder="Write a reply…" style="flex:1;">' +
+            '<button class="sl-btn sl-btn-primary post-reply-btn" data-post="' + postId + '" data-comment="' + comment.id + '" style="padding:5px 12px;font-size:12px;white-space:nowrap;">Reply</button>' +
+            '</div>' +
+            '<div class="sl-replies" id="replies-' + comment.id + '" style="display:block;">' + repliesHtml + '</div>' +
+            '</div>';
+        return div;
+    }
 
-            function buildReplyHtml(reply) {
+    function buildReplyHtml(reply) {
 
-            var av = reply.user.photo
-            ? '<img src="/storage/' + reply.user.photo + '" alt="">'
-            : reply.user.initial;
+        var av = reply.user.photo ?
+            '<img src="' + reply.user.photo + '" alt="">' :
+            reply.user.initial;
 
-            return '<div class="sl-reply" id="reply-' + reply.id + '">' +
-                '<div class="sl-r-avatar">' + av + '</div>' +
-                '<div class="sl-r-bubble">' +
-                    '<h6>' + escHtml(reply.user.name) + '</h6>' +
-                    '<p>' + escHtml(reply.comment) + '</p>' +
-                    '<span style="font-size:11px;color:#999;">' + reply.created_at + '</span>' +
-                    '</div>' +
-                '</div>';
-            }
+        return '<div class="sl-reply" id="reply-' + reply.id + '">' +
+            '<div class="sl-r-avatar">' + av + '</div>' +
+            '<div class="sl-r-bubble">' +
+            '<h6>' + escHtml(reply.user.name) + '</h6>' +
+            '<p>' + escHtml(reply.comment) + '</p>' +
+            '<span style="font-size:11px;color:#999;">' + reply.created_at + '</span>' +
+            '</div>' +
+            '</div>';
+    }
 
-            function loadLikesModal(postId) {
-            fetch('/posts/' + postId + '/likes')
-            .then(function(r) { return r.json(); })
+    function loadLikesModal(postId) {
+        fetch('/posts/' + postId + '/likes')
+            .then(function(r) {
+                return r.json();
+            })
             .then(function(users) {
-            var html = users.length ? '' : '<p class="text-muted text-center">No likes yet</p>';
-            users.forEach(function(u) {
-            html += '<div class="d-flex align-items-center gap-3 mb-3">';
-                html += u.photo
-                ? '<img src="/storage/' + u.photo + '" class="rounded-circle" width="40" height="40" style="object-fit:cover;">'
-                : '<div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width:40px;height:40px;"><i class="bi bi-person-fill text-secondary"></i></div>';
-                html += '<div class="fw-semibold">' + escHtml(u.name) + '</div>'
-                '</div>';
+                var html = users.length ? '' : '<p class="text-muted text-center">No likes yet</p>';
+                users.forEach(function(u) {
+                    html += '<div class="d-flex align-items-center gap-3 mb-3">';
+                    html += u.photo ?
+                        '<img src="' + u.photo + '" class="rounded-circle" width="40" height="40" style="object-fit:cover;">' :
+                        '<div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width:40px;height:40px;"><i class="bi bi-person-fill text-secondary"></i></div>';
+                    html += '<div class="fw-semibold">' + escHtml(u.name) + '</div>'
+                    '</div>';
+                });
+                var el = document.getElementById('likesList-' + postId);
+                if (el) el.innerHTML = html;
             });
-            var el = document.getElementById('likesList-' + postId);
-            if (el) el.innerHTML = html;
-            });
-            }
+    }
 
-            function prependComment(postId, comment) {
-            var list = document.getElementById('commentsList-' + postId);
-            if (!list) return;
-            var empty = list.querySelector('p');
-            if (empty) empty.remove();
-            comment.replies = [];
-            list.prepend(buildCommentEl(postId, comment));
-            }
+    function prependComment(postId, comment) {
+        var list = document.getElementById('commentsList-' + postId);
+        if (!list) return;
+        var empty = list.querySelector('p');
+        if (empty) empty.remove();
+        comment.replies = [];
+        list.prepend(buildCommentEl(postId, comment));
+    }
 
-            function appendReply(commentId, reply) {
-            var c = document.getElementById('replies-' + commentId);
-            if (c) c.insertAdjacentHTML('beforeend', buildReplyHtml(reply));
-            }
+    function appendReply(commentId, reply) {
+        var c = document.getElementById('replies-' + commentId);
+        if (c) c.insertAdjacentHTML('beforeend', buildReplyHtml(reply));
+    }
 
-            function updateCommentCount(postId, delta) {
-            var h = document.getElementById('answersCount-' + postId);
-            if (h) h.textContent = parseInt(h.textContent || 0) + delta;
-            var b = document.getElementById('commentCount-' + postId);
-            if (b) b.textContent = '(' + (parseInt(b.textContent.replace(/\D/g, '') || 0) + delta) + ')';
-            }
+    function updateCommentCount(postId, delta) {
+        var h = document.getElementById('answersCount-' + postId);
+        if (h) h.textContent = parseInt(h.textContent || 0) + delta;
+        var b = document.getElementById('commentCount-' + postId);
+        if (b) b.textContent = '(' + (parseInt(b.textContent.replace(/\D/g, '') || 0) + delta) + ')';
+    }
 
-            function escHtml(str) {
-            var d = document.createElement('div');
-            d.appendChild(document.createTextNode(str || ''));
-            return d.innerHTML;
-            }
-            const qForm = document.getElementById('qForm');
-            const tagInput = document.getElementById('qTagIn');
-            const hiddenTags = document.getElementById('qTagsHidden');
+    function escHtml(str) {
+        var d = document.createElement('div');
+        d.appendChild(document.createTextNode(str || ''));
+        return d.innerHTML;
+    }
+    const qForm = document.getElementById('qForm');
+    const tagInput = document.getElementById('qTagIn');
+    const hiddenTags = document.getElementById('qTagsHidden');
 
-            if (qForm) {
+    if (qForm) {
 
-            let tagsArray = [];
+        let tagsArray = [];
 
-            tagInput.addEventListener('keydown', function(e) {
+        tagInput.addEventListener('keydown', function(e) {
             if (e.key === 'Enter') {
-            e.preventDefault();
+                e.preventDefault();
 
-            let tag = tagInput.value.trim().toLowerCase();
+                let tag = tagInput.value.trim().toLowerCase();
 
-            if (tag && !tagsArray.includes(tag)) {
-            tagsArray.push(tag);
+                if (tag && !tagsArray.includes(tag)) {
+                    tagsArray.push(tag);
+                    hiddenTags.value = tagsArray.join(',');
+                    tagInput.value = '';
+                }
+            }
+        });
+
+        qForm.addEventListener('submit', function() {
             hiddenTags.value = tagsArray.join(',');
-            tagInput.value = '';
-            }
-            }
+        });
+
+    }
+
+    const form = document.getElementById('filterForm');
+    const searchInput = document.getElementById('searchInput');
+    const tagFilter = document.getElementById('tagFilter');
+
+    if (form) {
+
+        if (tagFilter) {
+            tagFilter.addEventListener('change', function() {
+                form.submit();
             });
+        }
 
-            qForm.addEventListener('submit', function() {
-            hiddenTags.value = tagsArray.join(',');
-            });
-
-            }
-
-            const form = document.getElementById('filterForm');
-            const searchInput = document.getElementById('searchInput');
-            const tagFilter = document.getElementById('tagFilter');
-
-            if (form) {
-
-            if (tagFilter) {
-            tagFilter.addEventListener('change', function () {
-            form.submit();
-            });
-            }
-
-            if (searchInput) {
+        if (searchInput) {
             let typingTimer;
-            searchInput.addEventListener('keyup', function () {
-            clearTimeout(typingTimer);
-            typingTimer = setTimeout(() => {
-            form.submit();
-            }, 500);
+            searchInput.addEventListener('keyup', function() {
+                clearTimeout(typingTimer);
+                typingTimer = setTimeout(() => {
+                    form.submit();
+                }, 500);
             });
-            }
+        }
 
-            }
-            document.addEventListener('DOMContentLoaded', function () {
+    }
+    document.addEventListener('DOMContentLoaded', function() {
 
-            const form = document.getElementById('filterForm');
-            const searchInput = document.getElementById('searchInput');
+        const form = document.getElementById('filterForm');
+        const searchInput = document.getElementById('searchInput');
 
-            if (searchInput) {
-            searchInput.addEventListener('keydown', function (e) {
+        if (searchInput) {
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    form.submit();
+                }
+            });
+        }
+
+    });
+    document.querySelectorAll('.edit-tag-input').forEach(function(input) {
+
+        input.addEventListener('keyup', function(e) {
             if (e.key === 'Enter') {
-            e.preventDefault();
-            form.submit();
+                e.preventDefault();
+
+                const hiddenId = input.dataset.hidden;
+                const hidden = document.getElementById(hiddenId);
+
+                let current = hidden.value ? hidden.value.split(',') : [];
+                let tag = input.value.trim();
+
+                if (tag && !current.includes(tag)) {
+                    current.push(tag);
+                    hidden.value = current.join(',');
+                    input.value = '';
+                }
             }
-            });
-            }
+        });
 
-            });
-            document.querySelectorAll('.edit-tag-input').forEach(function(input) {
-
-            input.addEventListener('keyup', function(e) {
-            if (e.key === 'Enter') {
-            e.preventDefault();
-
-            const hiddenId = input.dataset.hidden;
-            const hidden = document.getElementById(hiddenId);
-
-            let current = hidden.value ? hidden.value.split(',') : [];
-            let tag = input.value.trim();
-
-            if (tag && !current.includes(tag)) {
-            current.push(tag);
-            hidden.value = current.join(',');
-            input.value = '';
-            }
-            }
-            });
-
-            });
-            </script>
-            @endsection
+    });
+</script>
+@endsection

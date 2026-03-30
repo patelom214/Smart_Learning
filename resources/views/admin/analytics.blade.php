@@ -484,7 +484,9 @@ Last {{ request('period',7) }} days
                     <span class="text-muted fw-bold" style="width:18px;font-size:.75rem;">{{ $i+1 }}</span>
                     {{-- Profile Photo --}}
                     @if($user && $user->profile_photo)
-                    <img src="{{ asset('storage/' . $user->profile_photo) }}"
+                    <img src="{{ $user->profile_photo 
+                         ? asset(''.$user->profile_photo) 
+                         : asset('images/default.png') }}"
                         class="rounded-circle"
                         width="48" height="48"
                         style="object-fit:cover;">
@@ -538,7 +540,9 @@ Last {{ request('period',7) }} days
                     <li class="list-group-item border-0 px-4 py-3 d-flex align-items-center gap-3">
                         {{-- Profile Photo --}}
                         @if($user && $user->profile_photo)
-                        <img src="{{ asset('storage/' . $user->profile_photo) }}"
+                        <img src="{{ $user->profile_photo 
+                         ? asset(''.$user->profile_photo) 
+                         : asset('images/default.png') }}"
                             class="rounded-circle"
                             width="48" height="48"
                             style="object-fit:cover;">

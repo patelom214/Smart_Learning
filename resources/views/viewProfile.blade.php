@@ -229,9 +229,12 @@
                 <div class="card-body text-center pt-0">
                     <div class="profile-photo-wrapper">
                         @if($user->profile_photo)
-                        <img src="{{ asset('storage/' . $user->profile_photo) }}"
-                            class="rounded-circle profile-photo"
-                            alt="{{ $user->name }}">
+                        <!-- Profile Image -->
+                        <img src="{{ $user->profile_photo ?? asset('images/default.png') }}"
+                            class="rounded-circle border shadow"
+                            width="150"
+                            height="150"
+                            style="object-fit: cover;" alt="{{ $user->name }}">
                         @else
                         <div class="rounded-circle profile-placeholder d-flex align-items-center justify-content-center mx-auto">
                             <i class="bi bi-person-fill fs-1 text-white"></i>
@@ -308,7 +311,8 @@
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="d-flex align-items-center">
                                                     @if($follower->profile_photo)
-                                                    <img src="{{ asset('storage/' . $follower->profile_photo) }}"
+                                                    
+                                                    <img src="{{ $follower->profile_photo ?? asset('images/default.png') }}"
                                                         class="rounded-circle friend-avatar me-3"
                                                         alt="{{ $follower->name }}">
                                                     @else
@@ -353,7 +357,7 @@
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <div class="d-flex align-items-center">
                                                     @if($followed->profile_photo)
-                                                    <img src="{{ asset('storage/' . $followed->profile_photo) }}"
+                                                    <img src="{{ $followed->profile_photo ?? asset('images/default.png') }}"
                                                         class="rounded-circle friend-avatar me-3"
                                                         alt="{{ $followed->name }}">
                                                     @else

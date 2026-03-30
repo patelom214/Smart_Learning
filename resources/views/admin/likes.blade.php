@@ -53,7 +53,9 @@
                             <td class="ps-4">
                                 <div class="d-flex align-items-center gap-2">
                                     @if($like->user->profile_photo)
-                                    <img src="{{ asset('storage/'.$like->user->profile_photo) }}"
+                                    <img src="{{ $like->user->profile_photo
+                         ? $like->user->profile_photo
+                         : asset('images/default.png') }}"
                                         width="35" height="35"
                                         class="rounded-circle">
                                     @else

@@ -58,7 +58,9 @@
                 {{-- ✅ Check if photo exists in storage, else show generated avatar --}}
                 @if($user->profile_photo && Storage::disk('public')->exists($user->profile_photo))
                     <img id="avatarPreview"
-                         src="{{ asset('storage/' . $user->profile_photo) }}"
+                         src="{{ $user->profile_photo 
+                         ? asset(''.$user->profile_photo) 
+                         : asset('images/default.png') }}"
                          alt="Profile Photo">
                 @else
                     <img id="avatarPreview"

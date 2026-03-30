@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+ use Cloudinary\Cloudinary;
 
 class ProfileController extends Controller
 {
@@ -17,27 +18,40 @@ class ProfileController extends Controller
     //     ]);
     // }
 
-    public function update(Request $request)
-    {
-        $user = Auth::user();
+public function update(Request $request)
+{
+    $user = Auth::user();
 
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
+    if ($request->hasFile('profile_photo')) {
+
+        // Cloudinary config (PUT YOUR VALUES HERE)
+        $cloudinary = new Cloudinary([
+            'cloud' => [
+                'cloud_name' => 'djn6trzl7',
+                'api_key'    => '677882441651463',
+                'api_secret' => 'lfZ8IQzl9MJ6aVmfscpnugIOwaU',
+            ],
+            'url' => [
+                'secure' => true
+            ]
         ]);
 
-        DB::table('users')
-            ->where('id', $user->id)
-            ->update([
-                'name' => $request->name,
-                'email' => $request->email,
-                'profile_photo' => $request->hasFile('profile_photo')
-                    ? $request->file('profile_photo')->store('profiles', 'public')
-                    : $user->profile_photo,
-            ]);
+        // upload
+        $upload = $cloudinary->uploadApi()->upload(
+            $request->file('profile_photo')->getRealPath()
+        );
 
-        return back()->with('success', 'Profile updated successfully');
+        // get URL
+        $imageUrl = $upload['secure_url'];
+
+        // save in DB
+        $user->profile_photo = $imageUrl;
     }
+
+    $user->save();
+
+    return back()->with('success', 'Profile updated!');
+}
     public function show()
     {
         $user = Auth::user();

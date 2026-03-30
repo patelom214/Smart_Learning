@@ -30,104 +30,132 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'name'     => 'required|string|max:255',
-        'email'    => 'required|email|unique:users,email',
-        'password' => 'required|min:6',
-        'role'     => 'required',
-        'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:5120'
-    ], [
-    'name.required' => 'Name is required.',
-    'name.regex'    => 'Name may only contain alphabetic characters and spaces.',
-    'email.unique'  => 'This email is already taken. Please use a different email address.',
-    'password.min'  => 'Password must be at least 8 characters.',
-    ]);
+    {
+        $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|min:6',
+            'role'     => 'required',
+            'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:5120'
+        ], [
+            'name.required' => 'Name is required.',
+            'email.unique'  => 'This email is already taken.',
+            'password.min'  => 'Password must be at least 6 characters.',
+        ]);
 
-    $profilePath = null;
+        $profilePath = null;
 
-    // Store Image
-    if ($request->hasFile('profile_photo')) {
-        $profilePath = $request->file('profile_photo')
-                               ->store('profiles', 'public');
-    }
+        // 🔥 FIXED IMAGE UPLOAD
+        if ($request->hasFile('profile_photo')) {
 
-    User::create([
-        'name'     => $request->name,
-        'email'    => $request->email,
-        'password' => Hash::make($request->password),
-        'role'     => $request->role,
-        'profile_photo' => $profilePath,
-    ]);
+            $file = $request->file('profile_photo');
 
-    return redirect()
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            $destination = public_path('profiles');
+
+            if (!file_exists($destination)) {
+                mkdir($destination, 0777, true);
+            }
+
+            $file->move($destination, $filename);
+
+            $profilePath = 'profiles/' . $filename;
+        }
+
+        User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+            'role'     => $request->role,
+            'profile_photo' => $profilePath,
+        ]);
+
+        return redirect()
             ->route('admin.users.users')
             ->with('success', 'User created successfully');
-}
+    }
     public function edit(User $user)
-{
-    return view('admin.users.edit', compact('user'));
-}
+    {
+        return view('admin.users.edit', compact('user'));
+    }
+
 
     public function update(Request $request, User $user)
-{
-    $request->validate([
-        'name'  => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email,' . $user->id,
-        'bio'   => 'nullable|max:500',
-        'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
-    ]);
+    {
+        $request->validate([
+            'name'  => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'bio'   => 'nullable|max:500',
+            'profile_photo' => 'nullable|image|mimes:jpg,jpeg,png|max:5120',
+        ]);
 
-    if($request->hasFile('profile_photo')){
-        $path = $request->file('profile_photo')
-                        ->store('profiles','public');
-        $user->profile_photo = $path;
+        // 🔥 IMAGE UPLOAD FIX (public folder)
+        if ($request->hasFile('profile_photo')) {
+
+            // delete old image
+            if ($user->profile_photo && file_exists(public_path($user->profile_photo))) {
+                unlink(public_path($user->profile_photo));
+            }
+
+            $file = $request->file('profile_photo');
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            $destination = public_path('profiles');
+
+            if (!file_exists($destination)) {
+                mkdir($destination, 0777, true);
+            }
+
+            $file->move($destination, $filename);
+
+            $user->profile_photo = 'profiles/' . $filename;
+        }
+
+        // update other fields
+        $user->update([
+            'name'  => $request->name,
+            'email' => $request->email,
+            'bio'   => $request->bio,
+            'role'  => $request->role,
+            'profile_photo' => $user->profile_photo,
+        ]);
+
+        return redirect()->route('admin.users.users')
+            ->with('success', 'User updated successfully');
     }
+    public function block(User $user)
+    {
+        DB::beginTransaction();
 
-    $user->update([
-        'name'  => $request->name,
-        'email' => $request->email,
-        'bio'   => $request->bio,
-        'role'  => $request->role,
-        'profile_photo' => $user->profile_photo,
-    ]);
+        try {
+            // Change status
+            $user->status = 'inactive';
+            $user->save();
 
-    return redirect()->route('admin.users.users')
-                     ->with('success','User updated successfully');
-}
-public function block(User $user)
-{
-    DB::beginTransaction();
+            // Remove friend requests
+            FriendRequest::where('sender_id', $user->id)
+                ->orWhere('receiver_id', $user->id)
+                ->delete();
 
-    try {
-        // Change status
-        $user->status = 'inactive';
+            // Remove followers
+            Follower::where('follower_id', $user->id)
+                ->orWhere('following_id', $user->id)
+                ->delete();
+
+            DB::commit();
+
+            return back()->with('success', 'User blocked successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Something went wrong.');
+        }
+    }
+    public function unblock(User $user)
+    {
+        $user->status = 'active';
         $user->save();
 
-        // Remove friend requests
-        FriendRequest::where('sender_id', $user->id)
-            ->orWhere('receiver_id', $user->id)
-            ->delete();
-
-        // Remove followers
-        Follower::where('follower_id', $user->id)
-            ->orWhere('following_id', $user->id)
-            ->delete();
-
-        DB::commit();
-
-        return back()->with('success', 'User blocked successfully.');
-
-    } catch (\Exception $e) {
-        DB::rollBack();
-        return back()->with('error', 'Something went wrong.');
+        return back()->with('success', 'User unblocked successfully.');
     }
-}
-public function unblock(User $user)
-{
-    $user->status = 'active';
-    $user->save();
-
-    return back()->with('success', 'User unblocked successfully.');
-}
 }

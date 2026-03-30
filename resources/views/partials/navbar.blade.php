@@ -2,37 +2,37 @@
     <div class="container">
 
         <!-- Brand -->
-       <a href="{{ url('/') }}"
-   class="navbar-brand d-flex align-items-center gap-2 text-decoration-none p-0">
+        <a href="{{ url('/') }}"
+            class="navbar-brand d-flex align-items-center gap-2 text-decoration-none p-0">
 
-  <!-- Graduation Cap Icon -->
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="slLogo" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="#3b82f6"/>
-        <stop offset="100%" stop-color="#0d6efd"/>
-      </linearGradient>
-    </defs>
-    <!-- Icon background rounded square -->
-    <rect width="32" height="32" rx="8" fill="url(#slLogo)"/>
-    <!-- Cap board -->
-    <polygon points="16,6 28,12 16,18 4,12" fill="white"/>
-    <!-- Stand -->
-    <line x1="16" y1="18" x2="16" y2="27" stroke="white" stroke-width="2" stroke-linecap="round"/>
-    <!-- Base -->
-    <rect x="10" y="26" width="12" height="3.5" rx="1.75" fill="white"/>
-    <!-- Tassel cord -->
-    <line x1="28" y1="12" x2="28" y2="22" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round"/>
-    <!-- Tassel end -->
-    <circle cx="28" cy="24" r="2" fill="rgba(255,255,255,0.7)"/>
-  </svg>
+            <!-- Graduation Cap Icon -->
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="slLogo" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#3b82f6" />
+                        <stop offset="100%" stop-color="#0d6efd" />
+                    </linearGradient>
+                </defs>
+                <!-- Icon background rounded square -->
+                <rect width="32" height="32" rx="8" fill="url(#slLogo)" />
+                <!-- Cap board -->
+                <polygon points="16,6 28,12 16,18 4,12" fill="white" />
+                <!-- Stand -->
+                <line x1="16" y1="18" x2="16" y2="27" stroke="white" stroke-width="2" stroke-linecap="round" />
+                <!-- Base -->
+                <rect x="10" y="26" width="12" height="3.5" rx="1.75" fill="white" />
+                <!-- Tassel cord -->
+                <line x1="28" y1="12" x2="28" y2="22" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round" />
+                <!-- Tassel end -->
+                <circle cx="28" cy="24" r="2" fill="rgba(255,255,255,0.7)" />
+            </svg>
 
-  <!-- Wordmark -->
-  <span style="font-size:1.05rem;line-height:1;">
-    <span style="font-weight:800;color:#0d6efd;letter-spacing:-0.4px;">Smart</span><span style="font-weight:400;color:#1c1e21;letter-spacing:-0.3px;">  Learn</span>
-  </span>
+            <!-- Wordmark -->
+            <span style="font-size:1.05rem;line-height:1;">
+                <span style="font-weight:800;color:#0d6efd;letter-spacing:-0.4px;">Smart</span><span style="font-weight:400;color:#1c1e21;letter-spacing:-0.3px;"> Learn</span>
+            </span>
 
-</a>
+        </a>
 
         <!-- Mobile Toggle -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
@@ -101,17 +101,17 @@
                 @endphp
 
                 <div class="position-relative">
-    <a href="{{ route('notifications') }}" class="nav-link">
-        <i class="bi bi-bell fs-5"></i>
+                    <a href="{{ route('notifications') }}" class="nav-link">
+                        <i class="bi bi-bell fs-5"></i>
 
-        @if($unreadCount > 0)
-            <span class="position-absolute top-0 start-100 translate-middle 
+                        @if($unreadCount > 0)
+                        <span class="position-absolute top-0 start-100 translate-middle 
                          badge rounded-pill bg-danger">
-                {{ $unreadCount }}
-            </span>
-        @endif
-    </a>
-</div>
+                            {{ $unreadCount }}
+                        </span>
+                        @endif
+                    </a>
+                </div>
                 @endauth
 
                 <!-- Profile Dropdown -->
@@ -120,9 +120,13 @@
                         href="#" data-bs-toggle="dropdown">
 
                         @if(auth()->user()->profile_photo)
-                        <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}"
-                            width="36" height="36"
-                            class="rounded-circle border object-fit-cover shadow-sm">
+                        <img src="{{ Auth::user()->profile_photo 
+                        ? Auth::user()->profile_photo 
+                            : asset('images/default.png') }}"
+                            class="rounded-circle"
+                            width="36"
+                            height="36"
+                            style="object-fit: cover;">
                         @else
                         <div class="d-flex align-items-center justify-content-center 
                     rounded-circle border bg-light shadow-sm"

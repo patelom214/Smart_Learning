@@ -276,9 +276,11 @@
             <div class="col-md-6 text-center">
                 <div class="hero-image">
                     @auth
-                    @if(auth()->user()->profile_photo)
-                    <img src="{{ asset('storage/' . auth()->user()->profile_photo) }}"
-                        alt="Profile"
+                    @if(Auth::user()->profile_photo)
+                    <img src="{{ Auth::user()->profile_photo 
+                         ? Auth::user()->profile_photo 
+                         : asset('images/default.png') }}"
+                     alt="Profile"
                        loading="lazy"  class="img-fluid rounded-circle profile-hero-image">
                     @else
                     <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
@@ -289,7 +291,7 @@
                     @else
                     <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
                         alt="Learning"
-                         class="img-fluid"
+                        class="img-fluid"
                         style="max-height:400px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));">
                     @endguest
                 </div>

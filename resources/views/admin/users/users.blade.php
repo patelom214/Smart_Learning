@@ -83,11 +83,37 @@
     .d3 {
         animation-delay: .15s
     }
-
+.user-row {
+    word-break: break-word;
+}
+.user-row .text-muted.small {
+    word-break: break-all;   /* FIX email breaking */
+    font-size: 13px;
+}
+@media (max-width: 768px) {
+    .user-row .card-body {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+}
     /* ── Confirm delete modal backdrop ── */
     .delete-row {
         cursor: pointer;
     }
+    @media (max-width: 576px) {
+    .user-row .btn {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+
+    .user-row .btn span {
+        display: none; /* hide "Delete" text, keep icon */
+    }
+
+    .user-row .btn i {
+        margin: 0 !important;
+    }
+}
 </style>
 @endpush
 
@@ -184,21 +210,23 @@
                 data-email="{{ strtolower($user->email) }}"
                 data-role="{{ strtolower($user->role) }}">
 
-                <div class="card-body d-flex justify-content-between align-items-center">
+                <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
 
                     {{-- Left: Avatar + Info --}}
-                    <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-start gap-3 w-100">
 
-                        @if($user->profile_photo)
-                        <img src="{{ asset('storage/'.$user->profile_photo) }}"
-                            width="35" height="35"
-                            class="rounded-circle">
-                        @else
-                        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
-                            style="width:35px;height:35px;font-size:13px;">
-                            {{ strtoupper(substr($user->name,0,1)) }}
-                        </div>
-                        @endif
+                       <div class="flex-shrink-0">
+    @if($user->profile_photo)
+        <img src="{{ asset($user->profile_photo) }}"
+            class="rounded-circle"
+            style="width:40px;height:40px;object-fit:cover;">
+    @else
+        <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+            style="width:40px;height:40px;font-size:14px;">
+            {{ strtoupper(substr($user->name,0,1)) }}
+        </div>
+    @endif
+</div>
 
                         <div>
                             <div class="fw-semibold small">
@@ -230,7 +258,7 @@
                     </div>
 
                     {{-- Right: Actions --}}
-                    <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex flex-wrap align-items-center gap-2 w-100 w-md-auto justify-content-start justify-content-md-end">
                         {{-- Edit --}}
                         <a href="{{ route('admin.users.edit',$user->id) }}"
                             class="btn btn-sm btn-light border rounded-3 d-flex align-items-center justify-content-center"

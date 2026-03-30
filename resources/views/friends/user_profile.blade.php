@@ -116,7 +116,7 @@
                     <!-- Profile Photo -->
                     <div class="profile-photo-wrapper">
                         @if($user->profile_photo)
-                        <img src="{{ asset('storage/' . $user->profile_photo) }}"
+                        <img src="{{ $user->profile_photo ?? asset('images/default.png') }}"
                             class="rounded-circle profile-photo">
                         @else
                         <div class="rounded-circle profile-placeholder d-flex align-items-center justify-content-center mx-auto">

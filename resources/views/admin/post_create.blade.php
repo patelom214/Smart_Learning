@@ -59,9 +59,51 @@
     font-weight: 600;
     border: none;
 }
+@media (max-width: 768px) {
+    .form-control-lg {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .btn-gradient {
+        width: 100%;
+        text-align: center;
+    }
+}
 
 .btn-gradient:hover {
-    opacity: .9;
+ opacity: .9;
+}
+@media (max-width: 768px) {
+    .post-create-card .card-body {
+        padding: 16px !important;
+    }
+}
+@media (max-width: 768px) {
+    .step-nav {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .step-nav .border-bottom {
+        display: none; /* remove lines on mobile */
+    }
+
+    .step-label {
+        font-size: .75rem;
+    }
+
+    .step-pill {
+        width: 26px;
+        height: 26px;
+        font-size: .7rem;
+    }
+}
+@media (max-width: 768px) {
+    .btn-cancel {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
 }
 </style>
 @endpush
@@ -73,7 +115,7 @@
     <div class="card-body p-4">
 
         {{-- Step Navigation --}}
-        <div class="d-flex align-items-center mb-4 gap-3">
+        <div class="d-flex align-items-center mb-4 gap-3 step-nav flex-wrap">
             <div class="d-flex align-items-center gap-2">
                 <a href="{{ route('admin.posts') }}" class="btn btn-light border btn-cancel">
                     ← Back

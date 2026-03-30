@@ -36,7 +36,9 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center gap-3 mb-3">
                             @if($request->sender->profile_photo)
-                            <img src="{{ asset('storage/' . $request->sender->profile_photo) }}"
+                            <img src="{{ $request->sender->profile_photo 
+                         ? $request->sender->profile_photo 
+                         : asset('images/default.png') }}"
                                 class="rounded-circle"
                                 alt="{{ $request->sender->name }}"
                                 width="60" height="60"
@@ -95,7 +97,9 @@
                         <div class="d-flex align-items-center justify-content-between mb-2">
                             <div class="d-flex align-items-center gap-3">
                                 @if($friend->profile_photo)
-                                <img src="{{ asset('storage/' . $friend->profile_photo) }}"
+                                <img src="{{ $friend->profile_photo 
+                         ? $friend->profile_photo 
+                         : asset('images/default.png') }}"
                                     class="rounded-circle"
                                     alt="{{ $friend->name }}"
                                     width="50" height="50"
@@ -176,7 +180,10 @@
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
                             @if($user->profile_photo)
-                            <img src="{{ asset('storage/' . $user->profile_photo) }}" class="rounded-circle" alt="{{ $user->name }}" width="50" height="50" style="object-fit:cover;">
+                            
+                            <img src="{{ $user->profile_photo 
+                         ? $user->profile_photo 
+                         : asset('images/default.png') }}" class="rounded-circle" alt="{{ $user->name }}" width="50" height="50" style="object-fit:cover;">
                             @else
                             <div class="rounded-circle text-white d-flex align-items-center justify-content-center" style="width:50px;height:50px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);">
                                 {{ strtoupper(substr($user->name, 0, 1)) }}
@@ -261,8 +268,11 @@
                             }
 
                             users.forEach(user => {
+                                
                                 const avatar = user.profile_photo ?
-                                    `<img src="/storage/${user.profile_photo}" class="rounded-circle" width="50" height="50" style="object-fit:cover;" alt="${user.name}">` :
+                                    `<img src="{{ $user->profile_photo 
+                         ? $user->profile_photo 
+                         : asset('images/default.png') }}" class="rounded-circle" width="50" height="50" style="object-fit:cover;" alt="${user.name}">` :
                                     `<div class="rounded-circle text-white d-flex align-items-center justify-content-center fw-bold" style="width:50px;height:50px;min-width:50px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);">${user.name.charAt(0).toUpperCase()}</div>`;
 
                                 const action = user.is_pending ?

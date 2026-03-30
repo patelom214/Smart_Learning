@@ -90,6 +90,38 @@
     .d3 {
         animation-delay: .15s
     }
+
+    /* Prevent overflow issues */
+    .post-row div {
+        min-width: 0;
+    }
+
+    /* Fix text wrapping */
+    .post-card {
+        word-break: break-word;
+    }
+
+    /* Mobile optimization */
+    @media (max-width: 768px) {
+        .post-card h5 {
+            font-size: 16px;
+        }
+
+        .post-card .btn {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        .post-card .btn i {
+            margin: 0 !important;
+        }
+
+        /* Stack layout clean */
+        .post-card .d-flex {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+        }
+    }
 </style>
 @endpush
 
@@ -106,13 +138,13 @@
     <div class="d-flex align-items-center gap-3">
 
         <a href="{{ route('admin.posts.create') }}"
-           class="btn text-white rounded-pill px-4 py-2 fw-semibold"
-           style="background:var(--gradient); box-shadow:0 4px 15px rgba(102,126,234,.35);">
+            class="btn text-white rounded-pill px-4 py-2 fw-semibold"
+            style="background:var(--gradient); box-shadow:0 4px 15px rgba(102,126,234,.35);">
             Create Post
         </a>
 
         <span class="badge rounded-pill px-3 py-2 text-white"
-              style="background:var(--gradient); font-size:.78rem;">
+            style="background:var(--gradient); font-size:.78rem;">
             {{ $posts->count() }} Posts
         </span>
 
@@ -148,22 +180,28 @@
         data-content="{{ strtolower(strip_tags($post->content)) }}"
         data-title="{{ strtolower($post->title ?? '') }}">
 
-        <div class="d-flex align-items-start justify-content-between">
+        <div class="d-flex flex-column flex-md-row align-items-start justify-content-between gap-3">
 
             {{-- LEFT SIDE --}}
-            <div class="d-flex gap-3 flex-grow-1">
+            <div class="d-flex align-items-start gap-3 flex-grow-1 w-100">
 
                 {{-- Profile Photo --}}
-                @if($post->user && $post->user->profile_photo)
-                <img src="{{ asset('storage/' . $post->user->profile_photo) }}"
-                    class="rounded-circle"
-                    width="48" height="48"
-                    style="object-fit:cover;">
-                @else
-                <div class="post-avatar">
-                    {{ strtoupper(substr($post->user->name ?? 'U', 0, 1)) }}
+                <div class="flex-shrink-0">
+                    @if($post->user && $post->user->profile_photo)
+                    <img src="{{ $post->user->profile_photo 
+                         ? $post->user->profile_photo 
+                         : asset('images/default.png') }}"
+                        class="rounded-circle"
+                        width="48" height="48"
+                        style="object-fit:cover;">
+                    @else
+                    <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center"
+                        style="width:42px;height:42px;font-size:14px;">
+                        {{ strtoupper(substr($post->user->name ?? 'U', 0, 1)) }}
+                    </div>
+                    @endif
                 </div>
-                @endif
+
 
                 {{-- Content Area --}}
                 <div class="flex-grow-1">
@@ -199,7 +237,7 @@
             </div>
 
             {{-- RIGHT SIDE --}}
-            <div class="text-end d-flex flex-column align-items-end gap-2">
+            <div class="d-flex flex-wrap flex-md-column align-items-start align-items-md-end gap-2 w-100 w-md-auto">
 
                 {{-- Stats --}}
                 <div class="small text-muted">
@@ -213,7 +251,7 @@
                 </div>
 
                 {{-- Buttons --}}
-                <div class="d-flex gap-2">
+                <div class="d-flex flex-wrap gap-2">
 
                     <button type="button"
                         class="btn btn-sm btn-light border rounded-3 btn-view-post"
@@ -225,7 +263,7 @@
                         : '' }}">
                         <i class="bi bi-eye text-primary"></i>
                     </button>
-                      {{-- Edit Button --}}
+                    {{-- Edit Button --}}
                     <a href="{{ route('admin.posts.edit',$post->id) }}"
                         class="btn btn-sm btn-light border rounded-3 d-flex align-items-center justify-content-center"
                         style="width:34px;height:34px;">
@@ -318,7 +356,7 @@
 
             <div class="modal-footer border-top px-4 py-3 d-flex justify-content-between">
                 <span class="text-muted small" id="modalPostId"></span>
-                <div class="d-flex gap-2">
+                <div class="d-flex flex-wrap gap-2">
                     <button class="btn btn-sm btn-light border rounded-3" data-bs-dismiss="modal">Close</button>
                     <button type="button"
                         class="btn btn-sm btn-danger rounded-3 px-3"
@@ -343,7 +381,7 @@
                 <p class="text-muted small mb-3" id="deletePostModalText">
                     This action cannot be undone.
                 </p>
-                <div class="d-flex gap-2 justify-content-center">
+                <div class="d-flex flex-wrap gap-2 justify-content-center">
                     <button class="btn btn-sm btn-light border rounded-3 px-3"
                         data-bs-dismiss="modal">Cancel</button>
                     <form id="deletePostForm" method="POST">

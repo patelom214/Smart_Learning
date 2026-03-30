@@ -320,7 +320,10 @@ body { background: var(--bg); font-family: 'Segoe UI', system-ui, -apple-system,
         @foreach($recentPosts as $post)
         <div class="feed-item">
             @if($post->user && $post->user->profile_photo)
-                <div class="feed-avatar"><img src="{{ asset('storage/'.$post->user->profile_photo) }}" alt="{{ $post->user->name }}"></div>
+            
+                <div class="feed-avatar"><img src="{{ $post->user->profile_photo 
+                         ? $post->user->profile_photo 
+                         : asset('images/default.png') }}" alt="{{ $post->user->name }}"></div>
             @else
                 <div class="feed-avatar av-purple">{{ strtoupper(substr($post->user->name ?? 'U', 0, 1)) }}</div>
             @endif
@@ -335,7 +338,10 @@ body { background: var(--bg); font-family: 'Segoe UI', system-ui, -apple-system,
         @foreach($recentUsers as $user)
         <div class="feed-item">
             @if($user->profile_photo)
-                <div class="feed-avatar"><img src="{{ asset('storage/'.$user->profile_photo) }}" alt="{{ $user->name }}"></div>
+                <div class="feed-avatar">
+                    <img src="{{ $user->profile_photo 
+                         ? asset(''.$user->profile_photo) 
+                         : asset('images/default.png') }}" alt="{{ $user->name }}"></div>
             @else
                 <div class="feed-avatar av-green">{{ strtoupper(substr($user->name, 0, 1)) }}</div>
             @endif

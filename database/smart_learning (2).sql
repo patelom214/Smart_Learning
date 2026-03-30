@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Mar 18, 2026 at 07:13 AM
+-- Generation Time: Mar 29, 2026 at 12:36 PM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.30
 
@@ -68,7 +68,8 @@ CREATE TABLE `comments` (
 INSERT INTO `comments` (`id`, `user_id`, `post_id`, `parent_id`, `comment`, `created_at`, `updated_at`) VALUES
 (17, 1, 23, NULL, 'Great Steps', '2026-02-22 23:36:17', '2026-02-22 23:36:17'),
 (18, 1, 23, 17, 'Thanks', '2026-02-22 23:36:33', '2026-02-22 23:36:33'),
-(19, 5, 23, 17, 'Good Work', '2026-02-27 03:41:19', '2026-02-27 03:41:19');
+(19, 5, 23, 17, 'Good Work', '2026-02-27 03:41:19', '2026-02-27 03:41:19'),
+(20, 7, 30, NULL, 'hoo', '2026-03-27 05:12:17', '2026-03-27 05:12:17');
 
 -- --------------------------------------------------------
 
@@ -131,13 +132,16 @@ INSERT INTO `followers` (`id`, `follower_id`, `following_id`, `created_at`, `upd
 (17, 4, 5, '2026-02-13 00:42:48', '2026-02-13 00:42:48'),
 (20, 1, 5, '2026-02-13 03:32:18', '2026-02-13 03:32:18'),
 (26, 5, 7, '2026-02-18 01:32:44', '2026-02-18 01:32:44'),
-(35, 8, 1, '2026-03-03 05:06:34', '2026-03-03 05:06:34'),
 (36, 7, 8, '2026-03-03 05:07:08', '2026-03-03 05:07:08'),
 (37, 5, 8, '2026-03-03 05:07:34', '2026-03-03 05:07:34'),
 (38, 4, 8, '2026-03-03 05:07:58', '2026-03-03 05:07:58'),
 (40, 1, 4, '2026-03-11 00:39:20', '2026-03-11 00:39:20'),
 (41, 7, 1, '2026-03-11 00:40:03', '2026-03-11 00:40:03'),
-(42, 7, 4, '2026-03-11 00:40:07', '2026-03-11 00:40:07');
+(42, 7, 4, '2026-03-11 00:40:07', '2026-03-11 00:40:07'),
+(43, 12, 1, '2026-03-19 01:02:58', '2026-03-19 01:02:58'),
+(44, 7, 12, '2026-03-19 01:03:52', '2026-03-19 01:03:52'),
+(45, 4, 12, '2026-03-19 01:04:21', '2026-03-19 01:04:21'),
+(46, 8, 12, '2026-03-27 05:39:14', '2026-03-27 05:39:14');
 
 -- --------------------------------------------------------
 
@@ -162,13 +166,18 @@ INSERT INTO `friend_requests` (`id`, `sender_id`, `receiver_id`, `status`, `crea
 (23, 5, 1, 'accepted', '2026-02-13 03:30:08', '2026-02-13 03:32:18'),
 (24, 5, 4, 'accepted', '2026-02-13 03:30:10', '2026-02-13 03:31:27'),
 (30, 7, 5, 'accepted', '2026-02-18 01:29:00', '2026-02-18 01:32:44'),
-(39, 1, 8, 'accepted', '2026-03-03 05:06:10', '2026-03-03 05:06:34'),
 (40, 8, 4, 'accepted', '2026-03-03 05:06:37', '2026-03-03 05:07:58'),
 (41, 8, 5, 'accepted', '2026-03-03 05:06:38', '2026-03-03 05:07:34'),
 (42, 8, 7, 'accepted', '2026-03-03 05:06:39', '2026-03-03 05:07:08'),
 (44, 1, 7, 'accepted', '2026-03-11 00:28:02', '2026-03-11 00:40:03'),
 (45, 4, 1, 'accepted', '2026-03-11 00:29:34', '2026-03-11 00:39:20'),
-(46, 4, 7, 'accepted', '2026-03-11 00:38:24', '2026-03-11 00:40:06');
+(46, 4, 7, 'accepted', '2026-03-11 00:38:24', '2026-03-11 00:40:06'),
+(47, 1, 12, 'accepted', '2026-03-18 23:58:19', '2026-03-19 01:02:58'),
+(48, 12, 7, 'accepted', '2026-03-19 01:03:02', '2026-03-19 01:03:51'),
+(49, 12, 8, 'accepted', '2026-03-19 01:03:05', '2026-03-27 05:39:14'),
+(50, 12, 4, 'accepted', '2026-03-19 01:03:07', '2026-03-19 01:04:21'),
+(51, 12, 5, 'pending', '2026-03-19 01:03:09', '2026-03-19 01:03:09'),
+(52, 8, 1, 'pending', '2026-03-27 05:39:32', '2026-03-27 05:39:32');
 
 -- --------------------------------------------------------
 
@@ -229,7 +238,8 @@ INSERT INTO `likes` (`id`, `user_id`, `post_id`, `created_at`, `updated_at`) VAL
 (166, 7, 30, '2026-02-27 03:36:59', '2026-02-27 03:36:59'),
 (167, 5, 30, '2026-02-27 03:40:55', '2026-02-27 03:40:55'),
 (168, 5, 27, '2026-02-27 03:40:57', '2026-02-27 03:40:57'),
-(169, 5, 23, '2026-02-27 03:41:02', '2026-02-27 03:41:02');
+(169, 5, 23, '2026-02-27 03:41:02', '2026-02-27 03:41:02'),
+(170, 1, 27, '2026-03-27 05:24:27', '2026-03-27 05:24:27');
 
 -- --------------------------------------------------------
 
@@ -272,7 +282,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (22, '2026_02_20_111044_add_parent_id_to_comments_table', 13),
 (23, '2026_02_23_051237_add_tags_to_posts_table', 14),
 (24, '2026_03_18_063759_add_completed_tasks_to_user_skills', 15),
-(25, '2026_03_18_064800_add_completed_tasks_to_user_skills', 16);
+(25, '2026_03_18_064800_add_completed_tasks_to_user_skills', 16),
+(26, '2026_03_18_073411_add_roadmap_id_to_user_skills', 17),
+(27, '2026_03_18_073830_add_roadmap_id_to_user_skills', 18),
+(28, '2026_03_18_074211_add_fk_to_user_skills', 19),
+(29, '2026_03_18_094635_create_user_task_progress_table', 20);
 
 -- --------------------------------------------------------
 
@@ -358,7 +372,6 @@ CREATE TABLE `roadmap_tasks` (
   `id` bigint UNSIGNED NOT NULL,
   `roadmap_id` bigint UNSIGNED NOT NULL,
   `task_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_completed` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -367,25 +380,25 @@ CREATE TABLE `roadmap_tasks` (
 -- Dumping data for table `roadmap_tasks`
 --
 
-INSERT INTO `roadmap_tasks` (`id`, `roadmap_id`, `task_name`, `is_completed`, `created_at`, `updated_at`) VALUES
-(10, 3, 'Install XAMPP / Laravel Installer', 1, '2026-02-24 05:52:43', '2026-03-18 01:42:48'),
-(11, 3, 'Create First Laravel Project', 1, '2026-02-25 00:24:24', '2026-03-18 01:42:46'),
-(12, 3, 'Understand Project Folder Structure', 1, '2026-02-25 00:24:46', '2026-03-18 01:36:04'),
-(13, 3, 'Configure .env File', 1, '2026-02-25 00:25:01', '2026-03-18 01:35:59'),
-(14, 3, 'Setup Database Connection', 1, '2026-02-25 00:25:23', '2026-03-18 01:36:01'),
-(15, 3, 'Run Migrations', 1, '2026-02-25 00:25:44', '2026-03-18 01:36:07'),
-(16, 3, 'Create First Route', 1, '2026-02-25 00:26:07', '2026-03-18 01:36:11'),
-(17, 3, 'Create First Controller', 1, '2026-02-25 00:26:19', '2026-03-18 01:36:12'),
-(18, 3, 'Return View from Controller', 1, '2026-02-25 00:26:34', '2026-03-18 01:36:12'),
-(19, 3, 'Use Blade Template Basics', 1, '2026-02-25 00:26:56', '2026-03-18 01:36:27'),
-(20, 4, 'Route Parameters', 1, '2026-02-25 00:27:41', '2026-03-18 01:35:16'),
-(21, 4, 'Named Routes', 1, '2026-02-25 00:28:01', '2026-03-18 01:35:19'),
-(22, 4, 'Route Groups', 0, '2026-02-25 00:28:21', '2026-02-25 04:03:03'),
-(23, 4, 'Resource Controllers', 0, '2026-02-25 00:28:39', '2026-02-25 04:03:18'),
-(24, 4, 'Form Handling (POST Request)', 0, '2026-02-25 00:28:59', '2026-02-25 04:03:15'),
-(25, 4, 'CSRF Protection', 0, '2026-02-25 00:29:26', '2026-02-25 04:03:11'),
-(26, 4, 'Redirect with Flash Messages', 0, '2026-02-25 00:29:43', '2026-02-25 04:03:07'),
-(27, 2, 'Arrow Function', 0, '2026-02-27 03:25:29', '2026-02-27 03:25:29');
+INSERT INTO `roadmap_tasks` (`id`, `roadmap_id`, `task_name`, `created_at`, `updated_at`) VALUES
+(10, 3, 'Install XAMPP / Laravel Installer', '2026-02-24 05:52:43', '2026-03-19 00:03:06'),
+(11, 3, 'Create First Laravel Project', '2026-02-25 00:24:24', '2026-03-19 00:02:35'),
+(12, 3, 'Understand Project Folder Structure', '2026-02-25 00:24:46', '2026-03-19 00:02:35'),
+(13, 3, 'Configure .env File', '2026-02-25 00:25:01', '2026-03-19 00:02:35'),
+(14, 3, 'Setup Database Connection', '2026-02-25 00:25:23', '2026-03-19 00:02:35'),
+(15, 3, 'Run Migrations', '2026-02-25 00:25:44', '2026-03-19 00:02:35'),
+(16, 3, 'Create First Route', '2026-02-25 00:26:07', '2026-03-19 00:02:35'),
+(17, 3, 'Create First Controller', '2026-02-25 00:26:19', '2026-03-19 00:02:35'),
+(18, 3, 'Return View from Controller', '2026-02-25 00:26:34', '2026-03-19 00:02:35'),
+(19, 3, 'Use Blade Template Basics', '2026-02-25 00:26:56', '2026-03-19 00:02:35'),
+(20, 4, 'Route Parameters', '2026-02-25 00:27:41', '2026-03-19 00:03:21'),
+(21, 4, 'Named Routes', '2026-02-25 00:28:01', '2026-03-19 00:02:35'),
+(22, 4, 'Route Groups', '2026-02-25 00:28:21', '2026-03-19 00:02:35'),
+(23, 4, 'Resource Controllers', '2026-02-25 00:28:39', '2026-03-19 00:02:35'),
+(24, 4, 'Form Handling (POST Request)', '2026-02-25 00:28:59', '2026-03-19 00:02:35'),
+(25, 4, 'CSRF Protection', '2026-02-25 00:29:26', '2026-03-19 00:02:35'),
+(26, 4, 'Redirect with Flash Messages', '2026-02-25 00:29:43', '2026-03-19 00:02:35'),
+(27, 2, 'Arrow Function', '2026-02-27 03:25:29', '2026-03-18 05:09:20');
 
 -- --------------------------------------------------------
 
@@ -407,7 +420,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('TrWE2rrqsdtISxg3MgvYT7Ojfvu7WqSdybUOYR1r', 12, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiblhFS2VsV0NqdlhNMEE1cXdhYVVFYTZiZDdWczF3TmFJaTM3eko1RCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yb2FkbWFwL3Rhc2tzLzMiO3M6NToicm91dGUiO3M6MTM6InJvYWRtYXAudGFza3MiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxMjt9', 1773817968);
+('cYmrXPDUij3svrfoKLG2PF8JOMScXHMUzR8wcLec', 7, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiUU0zb0xodDlGRkhZVTBQS1pSNXZ0aTZlZ3diZWFtZDRJZHA5cUZEVyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9pbmRleCI7czo1OiJyb3V0ZSI7czo0OiJob21lIjt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Nzt9', 1774672815),
+('rYZ08RbypYSI5ACFMoVfeMmmu3sSkRmkaasJhDzu', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiUjlMWVUxVWhvUVl3R1FIN0NlSDVqZmlYNTRUMjhGZUtySnFaRWtGUCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJuZXciO2E6MDp7fXM6Mzoib2xkIjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hZG1pbi9kYXNoYm9hcmQiO3M6NToicm91dGUiO3M6MTU6ImFkbWluLmRhc2hib2FyZCI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1774611469);
 
 -- --------------------------------------------------------
 
@@ -476,12 +490,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `google_id`, `email_verified_at`, `password`, `role`, `bio`, `profile_photo`, `reputation_points`, `status`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Om Patel', 'pom323701@gmail.com', NULL, NULL, '$2y$12$i4g910UtJO3AVAa8jCC4WurT8zNoLS5RFLXtN3lGg4gVbvgd5guHy', 'admin', 'Hello Laravel Developer', 'profiles/QQKDYd3LdZYhWEKccaoGnYu6w1dhIEHTgavZhdFB.jpg', 0, 'active', '8KqcsJBb6atRmyzhAVYO1I0fZnj5zTTkvdLwkpXrJyINvXcWrLXLymco1ldh', '2026-01-21 04:47:05', '2026-02-08 23:44:06'),
-(4, 'Mann Patel', 'patelmann13301@gmail.com', NULL, NULL, '$2y$12$Hv0ytqeMqntcgzFi83nWheNCOQByTrcUhaJp8xLV3fYcCISk9V7rC', 'user', 'Python Developer', 'profiles/6hR1lhC512jKRW1g8nOiA7VEhYqUDFGBE8de3wT3.jpg', 0, 'active', NULL, '2026-02-12 04:01:53', '2026-02-12 04:01:53'),
+(1, 'Om Patel', 'pom323701@gmail.com', NULL, NULL, '$2y$12$i4g910UtJO3AVAa8jCC4WurT8zNoLS5RFLXtN3lGg4gVbvgd5guHy', 'admin', 'Hello Laravel Developer', 'https://res.cloudinary.com/djn6trzl7/image/upload/v1774608847/dlrlnls8aljzkxzwnbrw.jpg', 0, 'active', 'lGFgFEbnZdnVvxaMplUZnMvs6uENAiJF1jF1yP4XucopogoCyWRtq44e6c2h', '2026-01-21 04:47:05', '2026-03-27 05:24:12'),
+(4, 'Mann Patel', 'patelmann13301@gmail.com', NULL, NULL, '$2y$12$Hv0ytqeMqntcgzFi83nWheNCOQByTrcUhaJp8xLV3fYcCISk9V7rC', 'user', 'Python Developer', 'https://res.cloudinary.com/djn6trzl7/image/upload/v1774609461/qbheksbv2w5tuw6nwkcr.jpg', 0, 'active', NULL, '2026-02-12 04:01:53', '2026-03-27 05:34:26'),
 (5, 'Dhruv Patel', 'dhruv23807@gmail.com', NULL, NULL, '$2y$12$7UCUMBpFYCrPATy6T7P4kesto7OAwFbE05gwzbAF7ypOEWoTO8iW2', 'user', 'Mechanical Engineer', 'profiles/JUatSnkha55ghtslHX9qCatwksiNx7huhlRQpc0m.jpg', 0, 'active', NULL, '2026-02-12 04:12:04', '2026-02-12 04:12:04'),
-(7, 'OM PATEL', 'patelom4136@gmail.com', NULL, NULL, '$2y$12$WHaShXOAOpN1yupGgtyYs.ENbcD2/bzFAR3sFO9km/yPFj38IDqoK', 'user', 'Laravel Developer', 'profiles/BlPLFS1dCG5arODzNXPfnilJIgV9VXYLaspdzCcz.jpg', 0, 'active', NULL, '2026-02-18 01:28:12', '2026-02-18 06:00:43'),
-(8, 'Shan Patel', 'patelshan2310@gmail.com', NULL, NULL, '$2y$12$Y2WmeRzaZhdsL4PbAjEZTeKCCNviC11S4tevN19HrKQQfCDxELe3y', 'user', NULL, 'profiles/AyyqgrmOlWSDHtj05GD4FdEP5EurYOupA98xxkhZ.jpg', 0, 'active', NULL, '2026-02-24 00:25:35', '2026-03-03 05:06:00'),
-(12, 'Patel Omkumar', 'patelom123@gmail.com', NULL, NULL, '$2y$12$mh1PW9vWqzyTvYSbiLxRJ.PhG4qjKlE5KTo0V8FWv7l.jUqnE68Km', 'user', 'React Developer', 'profiles/tmAUWnU1c60oK7IOsRUhN8RyPowlLyfTCUbp3v3I.jpg', 0, 'active', NULL, '2026-03-18 00:46:45', '2026-03-18 00:46:45');
+(7, 'OM PATEL', 'patelom4136@gmail.com', NULL, NULL, '$2y$12$WHaShXOAOpN1yupGgtyYs.ENbcD2/bzFAR3sFO9km/yPFj38IDqoK', 'user', 'Laravel Developer', 'https://res.cloudinary.com/djn6trzl7/image/upload/v1774605968/vdnmvwvdl9xal9fd3fwa.jpg', 0, 'active', NULL, '2026-02-18 01:28:12', '2026-03-27 04:36:13'),
+(8, 'Shan Patel', 'patelshan2310@gmail.com', NULL, NULL, '$2y$12$Y2WmeRzaZhdsL4PbAjEZTeKCCNviC11S4tevN19HrKQQfCDxELe3y', 'user', NULL, 'https://res.cloudinary.com/djn6trzl7/image/upload/v1774609736/k9me31wrgzlbuxgeaqwo.jpg', 0, 'active', NULL, '2026-02-24 00:25:35', '2026-03-27 05:39:01'),
+(12, 'Patel Omkumar', 'patelom123@gmail.com', NULL, NULL, '$2y$12$mh1PW9vWqzyTvYSbiLxRJ.PhG4qjKlE5KTo0V8FWv7l.jUqnE68Km', 'user', 'React Developer', 'https://res.cloudinary.com/djn6trzl7/image/upload/v1774609652/djgzouwxqvji2s625s42.jpg', 0, 'active', NULL, '2026-03-18 00:46:45', '2026-03-27 05:37:37');
 
 -- --------------------------------------------------------
 
@@ -493,6 +507,7 @@ CREATE TABLE `user_skills` (
   `id` bigint UNSIGNED NOT NULL,
   `user_id` bigint UNSIGNED NOT NULL,
   `skill_id` bigint UNSIGNED NOT NULL,
+  `roadmap_id` bigint UNSIGNED NOT NULL,
   `level` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Beginner',
   `progress_percentage` int NOT NULL DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -504,12 +519,51 @@ CREATE TABLE `user_skills` (
 -- Dumping data for table `user_skills`
 --
 
-INSERT INTO `user_skills` (`id`, `user_id`, `skill_id`, `level`, `progress_percentage`, `created_at`, `updated_at`, `completed_tasks`) VALUES
-(1, 1, 1, 'Beginner', 0, '2026-02-12 03:59:56', '2026-02-12 03:59:56', 0),
-(4, 7, 1, 'Beginner', 0, '2026-02-25 01:23:37', '2026-02-25 01:23:37', 0),
-(6, 7, 2, 'Beginner', 0, '2026-02-25 03:52:54', '2026-02-25 03:52:54', 0),
-(7, 12, 1, 'Beginner', 100, '2026-03-18 00:49:16', '2026-03-18 01:42:48', 10),
-(8, 12, 2, 'Beginner', 0, '2026-03-18 00:49:19', '2026-03-18 00:49:19', 0);
+INSERT INTO `user_skills` (`id`, `user_id`, `skill_id`, `roadmap_id`, `level`, `progress_percentage`, `created_at`, `updated_at`, `completed_tasks`) VALUES
+(30, 12, 1, 3, 'Beginner', 10, '2026-03-18 05:09:03', '2026-03-18 05:09:45', 1),
+(31, 12, 1, 4, 'Beginner', 14, '2026-03-18 05:09:03', '2026-03-18 05:09:51', 1),
+(32, 12, 2, 2, 'Beginner', 100, '2026-03-18 05:09:14', '2026-03-18 05:09:20', 1),
+(37, 1, 2, 2, 'Beginner', 100, '2026-03-19 00:05:07', '2026-03-19 00:42:35', 1),
+(38, 1, 1, 3, 'Beginner', 50, '2026-03-19 00:23:58', '2026-03-19 00:51:00', 5),
+(39, 1, 1, 4, 'Beginner', 14, '2026-03-19 00:23:58', '2026-03-19 00:39:00', 1),
+(40, 7, 1, 3, 'Beginner', 40, '2026-03-22 23:31:35', '2026-03-22 23:31:52', 4),
+(41, 7, 1, 4, 'Beginner', 0, '2026-03-22 23:31:35', '2026-03-22 23:31:35', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_task_progress`
+--
+
+CREATE TABLE `user_task_progress` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `task_id` bigint UNSIGNED NOT NULL,
+  `is_completed` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_task_progress`
+--
+
+INSERT INTO `user_task_progress` (`id`, `user_id`, `task_id`, `is_completed`, `created_at`, `updated_at`) VALUES
+(1, 12, 27, 1, '2026-03-18 04:29:07', '2026-03-18 04:31:08'),
+(2, 12, 10, 1, '2026-03-18 04:32:37', '2026-03-18 04:32:37'),
+(3, 12, 11, 1, '2026-03-18 04:32:44', '2026-03-18 04:32:44'),
+(4, 12, 12, 1, '2026-03-18 04:32:47', '2026-03-18 04:32:47'),
+(5, 1, 27, 1, '2026-03-19 00:20:38', '2026-03-19 00:42:35'),
+(6, 1, 10, 1, '2026-03-19 00:24:06', '2026-03-19 00:24:06'),
+(7, 1, 11, 1, '2026-03-19 00:24:10', '2026-03-19 00:30:10'),
+(8, 1, 12, 1, '2026-03-19 00:27:35', '2026-03-19 00:30:11'),
+(9, 1, 20, 1, '2026-03-19 00:39:00', '2026-03-19 00:39:00'),
+(10, 1, 13, 1, '2026-03-19 00:50:10', '2026-03-19 00:50:10'),
+(11, 1, 14, 1, '2026-03-19 00:51:00', '2026-03-19 00:51:00'),
+(12, 7, 10, 1, '2026-03-22 23:31:44', '2026-03-22 23:31:44'),
+(13, 7, 11, 1, '2026-03-22 23:31:47', '2026-03-22 23:31:47'),
+(14, 7, 12, 1, '2026-03-22 23:31:49', '2026-03-22 23:31:49'),
+(15, 7, 13, 1, '2026-03-22 23:31:52', '2026-03-22 23:31:52');
 
 --
 -- Indexes for dumped tables
@@ -659,7 +713,16 @@ ALTER TABLE `users`
 ALTER TABLE `user_skills`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_skills_user_id_foreign` (`user_id`),
-  ADD KEY `user_skills_skill_id_foreign` (`skill_id`);
+  ADD KEY `user_skills_skill_id_foreign` (`skill_id`),
+  ADD KEY `roadmap_id` (`roadmap_id`);
+
+--
+-- Indexes for table `user_task_progress`
+--
+ALTER TABLE `user_task_progress`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_task_progress_user_id_foreign` (`user_id`),
+  ADD KEY `user_task_progress_task_id_foreign` (`task_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -669,7 +732,7 @@ ALTER TABLE `user_skills`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `contacts`
@@ -687,13 +750,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `followers`
 --
 ALTER TABLE `followers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `friend_requests`
 --
 ALTER TABLE `friend_requests`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -705,13 +768,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `likes`
 --
 ALTER TABLE `likes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=170;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -753,7 +816,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_skills`
 --
 ALTER TABLE `user_skills`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT for table `user_task_progress`
+--
+ALTER TABLE `user_task_progress`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
@@ -816,8 +885,16 @@ ALTER TABLE `shares`
 -- Constraints for table `user_skills`
 --
 ALTER TABLE `user_skills`
+  ADD CONSTRAINT `user_skills_roadmap_id_foreign` FOREIGN KEY (`roadmap_id`) REFERENCES `roadmaps` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `user_skills_skill_id_foreign` FOREIGN KEY (`skill_id`) REFERENCES `skills` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `user_skills_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `user_task_progress`
+--
+ALTER TABLE `user_task_progress`
+  ADD CONSTRAINT `user_task_progress_task_id_foreign` FOREIGN KEY (`task_id`) REFERENCES `roadmap_tasks` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_task_progress_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -139,6 +139,12 @@
             flex-shrink: 0;
         }
 
+        #adminSidebar {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
         /* ── Main area ── */
         .admin-main {
             margin-left: var(--sidebar-w);
@@ -231,6 +237,17 @@
 
             .admin-main {
                 margin-left: 0 !important;
+            }
+        }
+
+        #adminSidebar>div:last-child {
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 991px) {
+            #adminSidebar {
+                overflow-y: auto;
+                padding-bottom: 20px;
             }
         }
 
@@ -350,7 +367,7 @@
         </div>
 
         {{-- Spacer --}}
-        <div class="flex-grow-1 mt-3"></div>
+        <div class="mt-3"></div>
 
         {{-- Footer --}}
         <div class="border-top pt-3 mt-2">
@@ -373,7 +390,9 @@
                 <!-- User Profile Image -->
                 {{-- Profile Image --}}
                 @if(auth()->user()->profile_photo)
-                <img src="{{ asset('storage/'.auth()->user()->profile_photo) }}"
+                <img src="{{ auth()->user()->profile_photo 
+    ? asset(auth()->user()->profile_photo) 
+    : asset('images/default.png') }}"
                     width="35" height="35"
                     class="rounded-circle"
                     style="object-fit:cover;">

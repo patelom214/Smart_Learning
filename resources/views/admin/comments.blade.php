@@ -49,7 +49,10 @@
                             <td class="ps-4">
                                 <div class="d-flex align-items-center gap-2">
                                     @if($comment->user->profile_photo)
-                                    <img src="{{ asset('storage/'.$comment->user->profile_photo) }}"
+                                    <img src="{{ $comment->user->profile_photo 
+                         ? $comment->user->profile_photo 
+                         : asset('images/default.png') }}" alt="{{ $comment->user->name }}"
+                                        style="object-fit:cover;"
                                         width="35" height="35"
                                         class="rounded-circle">
                                     @else
