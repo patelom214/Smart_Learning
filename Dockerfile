@@ -1,9 +1,11 @@
 FROM php:8.2-apache
 
-# Install system dependencies
+# Install dependencies (FIXED)
 RUN apt-get update && apt-get install -y \
-    zip unzip git curl libzip-dev \
-    && docker-php-ext-install pdo pdo_mysql zip
+    git curl zip unzip libzip-dev \
+    && docker-php-ext-install pdo pdo_mysql zip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 # Enable Apache rewrite
 RUN a2enmod rewrite
@@ -19,15 +21,14 @@ RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Install dependencies (IMPORTANT FIX)
+# Install Laravel dependencies (SAFE)
 RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 # Permissions
 RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 775 storage bootstrap/cache
 
-RUN apt-get update && apt-get install ...
-# Generate key after install
+# Generate key (safe)
 RUN php artisan key:generate || true
 
 EXPOSE 80
