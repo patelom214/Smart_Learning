@@ -3,24 +3,229 @@
 @section('title', 'Join Smart Learning')
 
 @push('styles')
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
 <style>
-.field-error { font-size:.73rem; color:#dc3545; margin-top:.25rem; display:none; }
-.is-invalid  { border-color:#dc3545 !important; box-shadow:0 0 0 3px rgba(220,53,69,.1) !important; }
+    .reg-page {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #e8f4fd 0%, #f0ebff 50%, #fde8f0 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'DM Sans', sans-serif;
+        padding: 2rem;
+    }
 
-/* Toast */
-#toast {
-    position:fixed; top:1rem; right:1rem; z-index:9999;
-    background:#fff; border-left:4px solid #dc3545;
-    border-radius:10px; padding:.8rem 1.1rem;
-    box-shadow:0 6px 24px rgba(0,0,0,.12);
-    font-size:.82rem; max-width:320px;
-    display:none; animation:tIn .3s ease;
-}
-#toast.show { display:block; }
-@keyframes tIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+    .reg-card {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 2.5rem 2.25rem;
+        width: 100%;
+        max-width: 580px;
+        border: 0.5px solid rgba(0, 0, 0, 0.08);
+        box-shadow: 0 4px 40px rgba(0, 0, 0, 0.06);
+    }
 
-/* Password strength */
-#strengthBar { height:3px; border-radius:3px; width:0; transition:width .3s,background .3s; margin-top:5px; }
+    /* Logo */
+    .reg-logo-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 2rem;
+    }
+
+    .reg-logo-icon {
+        width: 36px;
+        height: 36px;
+        background: #2563eb;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .reg-logo-icon svg {
+        width: 20px;
+        height: 20px;
+        fill: white;
+    }
+
+    .reg-brand {
+        font-size: 17px;
+        font-weight: 500;
+        color: #1a1a2e;
+    }
+
+    .reg-brand span {
+        color: #2563eb;
+    }
+
+    /* Title */
+    .reg-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 24px;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin-bottom: 0.25rem;
+    }
+
+    .reg-subtitle {
+        font-size: 13.5px;
+        color: #6b7280;
+        margin-bottom: 1.75rem;
+    }
+
+    /* Fields */
+    .reg-field {
+        margin-bottom: 1.1rem;
+    }
+
+    .reg-field label {
+        display: block;
+        font-size: 12.5px;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 6px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+    }
+
+    .reg-field label .opt {
+        font-size: 11px;
+        color: #9ca3af;
+        font-weight: 400;
+        text-transform: none;
+        letter-spacing: 0;
+    }
+
+    .reg-field input[type="text"],
+    .reg-field input[type="email"],
+    .reg-field input[type="password"],
+    .reg-field textarea {
+        width: 100%;
+        padding: 11px 14px;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 10px;
+        font-size: 14px;
+        font-family: 'DM Sans', sans-serif;
+        color: #1a1a2e;
+        background: #fafafa;
+        transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+        outline: none;
+        resize: none;
+    }
+
+    .reg-field input:focus,
+    .reg-field textarea:focus {
+        border-color: #2563eb;
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+    }
+
+    .reg-field input.is-invalid,
+    .reg-field textarea.is-invalid {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.08) !important;
+    }
+
+    /* Field error */
+    .field-error {
+        font-size: 12px;
+        color: #dc3545;
+        margin-top: 5px;
+        display: none;
+    }
+
+    /* Strength bar */
+    #strengthBar {
+        height: 3px;
+        border-radius: 3px;
+        width: 0;
+        transition: width 0.3s, background 0.3s;
+        margin-top: 6px;
+    }
+
+    /* Bio counter row */
+    .bio-footer {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 4px;
+    }
+
+    .bio-footer small {
+        font-size: 12px;
+        color: #9ca3af;
+    }
+
+    /* Submit button */
+    .btn-reg-main {
+        width: 100%;
+        padding: 13px;
+        background: #2563eb;
+        color: #ffffff;
+        border: none;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 600;
+        font-family: 'DM Sans', sans-serif;
+        cursor: pointer;
+        letter-spacing: 0.01em;
+        transition: background 0.2s, transform 0.1s;
+        margin-top: 0.5rem;
+    }
+
+    .btn-reg-main:hover {
+        background: #1d4ed8;
+    }
+
+    .btn-reg-main:active {
+        transform: scale(0.99);
+    }
+
+    /* Footer */
+    .reg-footer {
+        text-align: center;
+        font-size: 13px;
+        color: #6b7280;
+        margin-top: 1.25rem;
+    }
+
+    .reg-footer a {
+        color: #2563eb;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    .reg-footer a:hover {
+        text-decoration: underline;
+    }
+
+    /* Toast */
+    #toast {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 9999;
+        background: #ffffff;
+        border-left: 4px solid #dc3545;
+        border-radius: 12px;
+        padding: 0.85rem 1.1rem;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+        font-size: 13px;
+        font-family: 'DM Sans', sans-serif;
+        max-width: 320px;
+        display: none;
+        animation: tIn 0.3s ease;
+    }
+
+    #toast.show {
+        display: block;
+    }
+
+    @keyframes tIn {
+        from { opacity: 0; transform: translateX(20px); }
+        to   { opacity: 1; transform: translateX(0); }
+    }
 </style>
 @endpush
 
@@ -31,18 +236,31 @@
      data-errors="{{ htmlspecialchars(json_encode($errors->all()), ENT_QUOTES, 'UTF-8') }}"
      style="display:none"></div>
 
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="card shadow-lg border-0 p-4" style="max-width:560px;width:100%">
-        <h3 class="text-center mb-3">Make the most of your learning</h3>
+<div class="reg-page">
+    <div class="reg-card">
+
+        {{-- Logo --}}
+        <div class="reg-logo-row">
+            <div class="reg-logo-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                </svg>
+            </div>
+            <div class="reg-brand"><span>Smart</span> Learn</div>
+        </div>
+
+        {{-- Heading --}}
+        <h2 class="reg-title">Create your account</h2>
+        <p class="reg-subtitle">Make the most of your learning journey</p>
 
         <form action="{{ route('register.store') }}" method="POST" id="regForm" novalidate>
             @csrf
 
-            <!-- Name -->
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Full Name</label>
+            {{-- Full Name --}}
+            <div class="reg-field">
+                <label for="name">Full Name</label>
                 <input type="text" name="name" id="name"
-                       class="form-control @error('name') is-invalid @enderror"
+                       class="@error('name') is-invalid @enderror"
                        value="{{ old('name') }}" placeholder="Letters only">
                 <div class="field-error" id="nameErr">
                     @error('name'){{ $message }}@else Name may only contain letters and spaces. @enderror
@@ -50,11 +268,11 @@
                 @error('name') <script>document.getElementById('nameErr').style.display='block'</script> @enderror
             </div>
 
-            <!-- Email -->
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Email Address</label>
+            {{-- Email --}}
+            <div class="reg-field">
+                <label for="email">Email Address</label>
                 <input type="email" name="email" id="email"
-                       class="form-control @error('email') is-invalid @enderror"
+                       class="@error('email') is-invalid @enderror"
                        value="{{ old('email') }}" placeholder="you@example.com">
                 <div class="field-error" id="emailErr">
                     @error('email'){{ $message }}@else Please enter a valid email. @enderror
@@ -62,11 +280,11 @@
                 @error('email') <script>document.getElementById('emailErr').style.display='block'</script> @enderror
             </div>
 
-            <!-- Password -->
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Password</label>
+            {{-- Password --}}
+            <div class="reg-field">
+                <label for="password">Password</label>
                 <input type="password" name="password" id="password"
-                       class="form-control @error('password') is-invalid @enderror"
+                       class="@error('password') is-invalid @enderror"
                        placeholder="Min. 8 characters">
                 <div id="strengthBar"></div>
                 <div class="field-error" id="passErr">
@@ -75,46 +293,45 @@
                 @error('password') <script>document.getElementById('passErr').style.display='block'</script> @enderror
             </div>
 
-            <!-- Confirm Password -->
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Confirm Password</label>
+            {{-- Confirm Password --}}
+            <div class="reg-field">
+                <label for="confirm">Confirm Password</label>
                 <input type="password" name="password_confirmation" id="confirm"
-                       class="form-control" placeholder="Re-enter password">
+                       placeholder="Re-enter password">
                 <div class="field-error" id="confirmErr">Passwords do not match.</div>
             </div>
 
-            <!-- Bio -->
-            <div class="mb-3">
-                <label class="form-label fw-semibold">
-                    Short Bio <span class="text-muted fw-normal">(optional)</span>
-                </label>
+            {{-- Bio --}}
+            <div class="reg-field">
+                <label for="bio">Short Bio <span class="opt">(optional)</span></label>
                 <textarea name="bio" id="bio"
-                          class="form-control @error('bio') is-invalid @enderror"
+                          class="@error('bio') is-invalid @enderror"
                           rows="2" maxlength="300"
                           placeholder="Tell us a little about yourself...">{{ old('bio') }}</textarea>
-                <div class="d-flex justify-content-between">
-                    <div class="field-error @error('bio') d-block @enderror">@error('bio'){{ $message }}@enderror</div>
-                    <small class="text-muted ms-auto" id="bioCount">{{ strlen(old('bio','')) }} / 300</small>
+                <div class="bio-footer">
+                    <small id="bioCount">{{ strlen(old('bio', '')) }} / 300</small>
                 </div>
+                <div class="field-error @error('bio') d-block @enderror">@error('bio'){{ $message }}@enderror</div>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100 rounded-pill">Agree &amp; Join</button>
+            <button type="submit" class="btn-reg-main">Agree &amp; Join</button>
 
-            <p class="text-center mt-3 small">
+            <p class="reg-footer">
                 Already have an account? <a href="{{ route('login') }}">Sign in</a>
             </p>
         </form>
+
     </div>
 </div>
+
 @endsection
 
 @push('scripts')
 <script>
-// Helpers
 var $ = id => document.getElementById(id);
 
 function err(inputId, errId, show) {
-    $( inputId).classList.toggle('is-invalid', show);
+    $(inputId).classList.toggle('is-invalid', show);
     $(errId).style.display = show ? 'block' : 'none';
 }
 

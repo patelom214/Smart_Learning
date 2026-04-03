@@ -5,115 +5,177 @@
 
 @push('styles')
 <style>
-    :root {
-        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
+:root {
+    --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
 
-    /* ── Table row hover ── */
-    .users-table tbody tr {
-        transition: background .15s;
-    }
+/* ── Table row hover ── */
+.users-table tbody tr {
+    transition: background .15s;
+}
 
-    .users-table tbody tr:hover {
-        background: rgba(102, 126, 234, .04);
-    }
+.users-table tbody tr:hover {
+    background: rgba(102, 126, 234, .04);
+}
 
-    /* ── Avatar circle ── */
-    .user-avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
-        background: var(--gradient);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-weight: 700;
-        font-size: .82rem;
-        flex-shrink: 0;
-    }
+/* ── Avatar ── */
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: var(--gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 700;
+    font-size: .82rem;
+    flex-shrink: 0;
+}
 
-    /* ── Role badge ── */
-    .role-admin {
-        background: rgba(102, 126, 234, .12);
-        color: #667eea;
-    }
+/* ── Role badges ── */
+.role-admin {
+    background: rgba(102, 126, 234, .12);
+    color: #667eea;
+}
 
-    .role-user {
-        background: rgba(108, 117, 125, .10);
-        color: #6c757d;
-    }
+.role-user {
+    background: rgba(108, 117, 125, .10);
+    color: #6c757d;
+}
 
-    .role-mod {
-        background: rgba(255, 193, 7, .12);
-        color: #d39e00;
-    }
+.role-mod {
+    background: rgba(255, 193, 7, .12);
+    color: #d39e00;
+}
 
-    /* ── Search input focus ── */
-    #userSearch:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 .2rem rgba(102, 126, 234, .2);
-    }
+/* ── Input focus ── */
+#userSearch:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 .2rem rgba(102, 126, 234, .2);
+}
 
-    /* ── Fade-up ── */
-    .fu {
-        animation: fadeUp .4s ease both;
-    }
+/* ── Animation ── */
+.fu {
+    animation: fadeUp .4s ease both;
+}
 
-    @keyframes fadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(12px);
-        }
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+.d1 { animation-delay: .05s }
+.d2 { animation-delay: .10s }
+.d3 { animation-delay: .15s }
 
-    .d1 {
-        animation-delay: .05s
-    }
-
-    .d2 {
-        animation-delay: .10s
-    }
-
-    .d3 {
-        animation-delay: .15s
-    }
+/* ── Responsive fixes ── */
 .user-row {
     word-break: break-word;
 }
+
 .user-row .text-muted.small {
-    word-break: break-all;   /* FIX email breaking */
+    word-break: break-all;
     font-size: 13px;
 }
+
 @media (max-width: 768px) {
     .user-row .card-body {
         flex-direction: column !important;
         align-items: flex-start !important;
     }
 }
-    /* ── Confirm delete modal backdrop ── */
-    .delete-row {
-        cursor: pointer;
-    }
-    @media (max-width: 576px) {
+
+@media (max-width: 576px) {
     .user-row .btn {
         padding: 4px 8px;
         font-size: 12px;
     }
 
     .user-row .btn span {
-        display: none; /* hide "Delete" text, keep icon */
+        display: none;
     }
 
     .user-row .btn i {
         margin: 0 !important;
     }
 }
+
+/* ───────────────────────── */
+/* 🌙 DARK MODE PERFECT FIX */
+/* ───────────────────────── */
+[data-bs-theme="dark"] {
+
+    /* Cards */
+    .card {
+        background-color: #1e1e2f !important;
+        color: #eaeaf0;
+    }
+
+    /* Header */
+    .card-header {
+        background-color: transparent !important;
+        border-color: #333 !important;
+    }
+
+    /* Inputs */
+    /* .bg-light {
+        background-color: #2a2a3d !important;
+        color: #fff !important;
+    } */
+
+    .form-control {
+        background-color: #2a2a3d !important;
+        color: #fff !important;
+        border-color: #444;
+    }
+
+    .input-group-text {
+        background-color: #2a2a3d !important;
+        color: #aaa;
+        border-color: #444;
+    }
+
+    /* Select */
+    .form-select {
+        background-color: #2a2a3d !important;
+        color: #fff !important;
+        border-color: #444;
+    }
+
+    /* Buttons */
+    .btn-light {
+        background-color: #2a2a3d !important;
+        color: #fff !important;
+        border-color: #444;
+    }
+
+    /* Text */
+    .text-muted {
+        color: #aaa !important;
+    }
+
+    /* Borders */
+    .border {
+        border-color: #444 !important;
+    }
+
+    /* Hover */
+    .users-table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+    
+}
+
+[data-bs-theme="dark"] h5,
+[data-bs-theme="dark"] .text-title {
+    color: #080808 !important;
+}
+
+[data-bs-theme="dark"] .text-subtitle {
+    color: #040404 !important;
+}
+
 </style>
 @endpush
 
@@ -122,8 +184,8 @@
 {{-- ── Top bar: heading + action ── --}}
 <div class="d-flex align-items-center justify-content-between mb-4 fu d1">
     <div>
-        <h5 class="fw-bold mb-0">All Users</h5>
-        <small class="text-muted">Manage, search and remove platform users</small>
+      <h5 class="fw-bold mb-0 text-title">All Users</h5>
+<small class="text-subtitle">Manage, search and remove platform users</small>
     </div>
     <a href="/admin/users/create" class="btn btn-sm text-white rounded-pill px-4 py-2 fw-semibold d-flex align-items-center gap-2"
         style="background:var(--gradient); box-shadow:0 4px 15px rgba(102,126,234,.35);">
@@ -175,17 +237,17 @@
         <div class="row g-2 align-items-center">
             <div class="col-md-6">
                 <div class="input-group input-group-sm">
-                    <span class="input-group-text bg-light border-end-0 text-muted">
+                    <span class="input-group-text bg-body-secondary border-end-0 text-muted">
                         <i class="bi bi-search"></i>
                     </span>
                     <input type="text" id="userSearch"
-                        class="form-control border-start-0 bg-light"
+                        class="form-control border-start-0 bg-body-secondary"
                         placeholder="Search by name or email…"
                         oninput="filterUsers()">
                 </div>
             </div>
             <div class="col-md-3">
-                <select class="form-select form-select-sm bg-light" id="roleFilter" onchange="filterUsers()">
+                <select class="form-select form-select-sm bg-body-secondary" id="roleFilter" onchange="filterUsers()">
                     <option value="">All Roles</option>
                     <option value="admin">Admin</option>
                     <option value="user">User</option>

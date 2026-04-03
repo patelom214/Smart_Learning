@@ -4,229 +4,237 @@
 
 @section('content')
 
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
 <style>
     :root {
-        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        --card-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.12);
-        --cl-bg: #f3f2ef;
-        --cl-surface: #ffffff;
-        --cl-border: #e4e6ea;
-        --cl-primary: #667eea;
-        --cl-primary-d: #5568d4;
-        --cl-accent: #e7440d;
-        --cl-text: #050505;
-        --cl-text-sec: #65676b;
-        --cl-tag-bg: #eef0ff;
-        --cl-tag-text: #667eea;
+        --blue: #2563eb;
+        --blue-d: #1d4ed8;
+        --blue-soft: rgba(37, 99, 235, .07);
+        --text: #1a1a2e;
+        --text-mid: #374151;
+        --text-muted: #6b7280;
+        --border: rgba(0, 0, 0, .07);
+        --bg: #f5f7fa;
+        --surface: #fff;
+        --radius: 14px;
+        --shadow: 0 2px 10px rgba(0, 0, 0, .06);
+        --shadow-h: 0 6px 20px rgba(0, 0, 0, .1);
+        --primary-gradient: linear-gradient(135deg, #667eea, #764ba2);
+        --cl-primary: #2563eb;
+        --cl-primary-d: #1d4ed8;
+        --cl-tag-bg: rgba(37, 99, 235, .07);
+        --cl-tag-text: #2563eb;
+        --cl-border: rgba(0, 0, 0, .07);
+        --cl-text: #1a1a2e;
+        --cl-text-sec: #6b7280;
         --cl-ans-bg: #f0fdf4;
         --cl-ans-bdr: #22c55e;
-        --cl-radius: 14px;
+        --cl-accent: #e7440d;
+        --cl-surface: #fff;
+        --cl-bg: #f5f7fa;
+    }
+
+    * {
+        font-family: 'DM Sans', sans-serif
     }
 
     .feed-container {
-        background: var(--cl-bg);
-        min-height: 100vh;
+        background: var(--bg);
+        min-height: 100vh
     }
 
-    /* LEFT SIDEBAR */
-    .profile-card {
-        border-radius: 16px;
+    /* ── SIDEBAR ── */
+    .profile-card,
+    .news-card {
+        border-radius: var(--radius);
         border: none;
-        box-shadow: var(--card-shadow);
-        background: white;
-        transition: all .3s;
+        box-shadow: var(--shadow);
+        background: var(--surface)
     }
 
-    .profile-card:hover {
-        box-shadow: var(--card-shadow-hover);
+    .profile-card:hover,
+    .news-card:hover {
+        box-shadow: var(--shadow-h)
     }
 
     .profile-avatar {
-        width: 80px;
-        height: 80px;
+        width: 72px;
+        height: 72px;
         object-fit: cover;
-        border: 3px solid #667eea;
-        transition: transform .3s;
-    }
-
-    .profile-avatar:hover {
-        transform: scale(1.05);
+        border: 3px solid var(--blue)
     }
 
     .sidebar-link {
-        padding: .5rem 1rem;
+        padding: .45rem .9rem;
         border-radius: 8px;
         transition: all .2s;
         font-weight: 500;
+        font-size: 14px
     }
 
     .sidebar-link:hover {
-        background: #f3f2ef;
-        color: #667eea !important;
-        transform: translateX(5px);
-    }
-
-    /* RIGHT SIDEBAR */
-    .news-card {
-        border-radius: 16px;
-        border: none;
-        box-shadow: var(--card-shadow);
-        background: white;
+        background: var(--blue-soft);
+        color: var(--blue) !important;
+        transform: translateX(4px)
     }
 
     .news-link {
-        padding: .5rem 0;
-        transition: all .2s;
+        padding: .4rem 0;
         display: block;
-        color: #333;
+        color: var(--text-mid);
         font-weight: 500;
+        font-size: 13.5px;
         text-decoration: none;
+        transition: all .2s
     }
 
     .news-link:hover {
-        color: #667eea;
-        padding-left: .5rem;
+        color: var(--blue);
+        padding-left: .4rem
     }
 
     .sticky-sidebar {
         position: sticky;
         top: 80px;
+        max-height: calc(100vh - 90px);
+        overflow-y: auto;
+        scrollbar-width: none;
+        /* hides scrollbar on Firefox */
     }
 
     @media(max-width:768px) {
         .sticky-sidebar {
             position: relative;
-            top: 0;
+            top: 0
         }
     }
 
-    /* POST CARDS */
+    /* ── POST CARDS ── */
     .post-card {
-        border-radius: 16px;
+        border-radius: var(--radius);
         border: none;
-        box-shadow: var(--card-shadow);
-        background: white;
+        box-shadow: var(--shadow);
+        background: var(--surface);
         margin-bottom: 1rem;
-        transition: all .3s;
+        transition: box-shadow .25s
     }
 
     .post-card:hover {
-        box-shadow: var(--card-shadow-hover);
+        box-shadow: var(--shadow-h)
     }
 
     .post-header {
-        padding: 1rem 1.25rem;
-        border-bottom: 1px solid #f0f0f0;
+        padding: .9rem 1.1rem;
+        border-bottom: 1px solid #f0f2f5
     }
 
     .post-media-wrapper {
-        background: #f8f9fa;
-        border-top: 1px solid #e0e0e0;
-        border-bottom: 1px solid #e0e0e0;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee
     }
 
     .action-btn {
         border: none;
         background: transparent;
-        padding: .6rem 1rem;
+        padding: .55rem .9rem;
         border-radius: 8px;
         transition: all .2s;
         font-weight: 500;
-        color: #666;
+        color: var(--text-muted);
         cursor: pointer;
+        font-size: 14px
     }
 
     .action-btn:hover {
-        background: #f3f2ef;
-        color: #667eea;
+        background: var(--blue-soft);
+        color: var(--blue)
     }
 
     .action-btn i {
-        font-size: 1.1rem;
-        margin-right: .25rem;
+        font-size: 1rem;
+        margin-right: .2rem
     }
 
     .like-btn i {
-        color: #6c757d;
-        transition: all .3s;
+        color: #9ca3af;
+        transition: all .3s
     }
 
     .like-btn.liked i {
-        color: #667eea;
-        transform: scale(1.2);
+        color: var(--blue);
+        transform: scale(1.2)
     }
 
     .modal-content {
         border: none;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, .15);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, .12)
     }
 
-    /* COMPOSER SHELL */
+    /* ── COMPOSER ── */
     .sl-composer {
-        background: var(--cl-surface);
-        border-radius: var(--cl-radius);
-        box-shadow: var(--card-shadow);
+        background: var(--surface);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
         margin-bottom: 1rem;
-        overflow: hidden;
+        overflow: hidden
     }
 
     .sl-tabs {
         display: flex;
         gap: 4px;
-        padding: 12px 14px 0;
-        border-bottom: 1px solid var(--cl-border);
+        padding: 10px 12px 0;
+        border-bottom: 1px solid var(--cl-border)
     }
 
     .sl-tab {
         display: flex;
         align-items: center;
         gap: 6px;
-        padding: 9px 16px;
+        padding: 8px 14px;
         font-size: 13px;
-        font-weight: 700;
-        font-family: inherit;
+        font-weight: 600;
         background: transparent;
         border: none;
-        border-bottom: 3px solid transparent;
+        border-bottom: 2.5px solid transparent;
         border-radius: 8px 8px 0 0;
         color: var(--cl-text-sec);
         cursor: pointer;
         transition: all .2s;
-        margin-bottom: -1px;
+        margin-bottom: -1px
     }
 
     .sl-tab:hover {
         color: var(--cl-primary);
-        background: var(--cl-tag-bg);
+        background: var(--cl-tag-bg)
     }
 
     .sl-tab.active {
         color: var(--cl-primary);
         border-bottom-color: var(--cl-primary);
-        background: var(--cl-tag-bg);
+        background: var(--cl-tag-bg)
     }
 
     .sl-tab svg {
-        width: 15px;
-        height: 15px;
-        flex-shrink: 0;
+        width: 14px;
+        height: 14px;
+        flex-shrink: 0
     }
 
     .sl-panel {
         display: none;
-        padding: 16px;
+        padding: 14px
     }
 
     .sl-panel.active {
         display: block;
-        animation: slFadeIn .2s ease;
+        animation: slFadeIn .2s ease
     }
 
     @keyframes slFadeIn {
         from {
             opacity: 0;
-            transform: translateY(5px)
+            transform: translateY(4px)
         }
 
         to {
@@ -235,17 +243,16 @@
         }
     }
 
-    /* USER ROW */
     .sl-user-row {
         display: flex;
         align-items: center;
         gap: 10px;
-        margin-bottom: 14px;
+        margin-bottom: 12px
     }
 
     .sl-avatar {
-        width: 42px;
-        height: 42px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         flex-shrink: 0;
         display: flex;
@@ -253,111 +260,107 @@
         justify-content: center;
         font-weight: 700;
         color: #fff;
-        font-size: 15px;
+        font-size: 14px;
         overflow: hidden;
-        background: var(--primary-gradient);
+        background: var(--primary-gradient)
     }
 
     .sl-avatar img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: cover
     }
 
     .sl-user-info h5 {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 700;
-        margin: 0 0 2px;
+        margin: 0 0 2px
     }
 
     .sl-audience {
-        font-family: inherit;
-        font-size: 12px;
+        font-size: 11.5px;
         font-weight: 700;
         color: var(--cl-primary);
         background: var(--cl-tag-bg);
         border: none;
         border-radius: 20px;
-        padding: 3px 10px;
-        cursor: pointer;
+        padding: 2px 9px;
+        cursor: pointer
     }
 
-    /* IMAGE PANEL */
     .sl-caption {
         width: 100%;
         border: none;
         resize: none;
-        font-family: inherit;
-        font-size: 15px;
+        font-size: 14.5px;
         color: var(--cl-text);
-        min-height: 68px;
+        min-height: 64px;
         outline: none;
         line-height: 1.6;
-        margin-bottom: 10px;
+        margin-bottom: 10px
     }
 
     .sl-caption::placeholder {
-        color: #bcc0c4;
+        color: #bcc0c4
     }
 
     .sl-emoji-row {
         display: flex;
         flex-wrap: wrap;
         gap: 4px;
-        margin-bottom: 12px;
+        margin-bottom: 10px
     }
 
     .sl-emoji-row button {
         background: none;
         border: 1.5px solid var(--cl-border);
         border-radius: 7px;
-        padding: 4px 7px;
-        font-size: 15px;
+        padding: 3px 6px;
+        font-size: 14px;
         cursor: pointer;
-        transition: all .15s;
-        line-height: 1;
+        transition: all .15s
     }
 
     .sl-emoji-row button:hover {
         background: var(--cl-tag-bg);
         border-color: var(--cl-primary);
-        transform: scale(1.15);
+        transform: scale(1.12)
     }
 
     .sl-drop-zone {
         border: 2px dashed var(--cl-border);
         border-radius: 10px;
-        padding: 24px;
+        padding: 20px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 6px;
+        gap: 5px;
         cursor: pointer;
         background: #fafafa;
         transition: all .2s;
-        margin-bottom: 14px;
+        margin-bottom: 12px
     }
 
     .sl-drop-zone:hover {
         border-color: var(--cl-primary);
-        background: var(--cl-tag-bg);
+        background: var(--cl-tag-bg)
     }
 
     .sl-drop-zone svg {
-        width: 30px;
-        height: 30px;
-        color: var(--cl-text-sec);
+        width: 28px;
+        height: 28px;
+        color: var(--cl-text-sec)
     }
 
     .sl-drop-zone span {
         font-size: 13px;
         font-weight: 700;
-        color: var(--cl-text-sec);
+        color: var(--cl-text-sec)
     }
 
     .sl-drop-zone small {
         font-size: 11px;
-        color: #bcc0c4;
+        color: #bcc0c4
     }
 
     .sl-media-preview {
@@ -365,31 +368,31 @@
         position: relative;
         border-radius: 10px;
         overflow: hidden;
-        margin-bottom: 14px;
+        margin-bottom: 12px
     }
 
     .sl-media-preview img {
         width: 100%;
         display: block;
-        max-height: 300px;
-        object-fit: cover;
+        max-height: 280px;
+        object-fit: cover
     }
 
     .sl-remove-media {
         position: absolute;
         top: 8px;
         right: 8px;
-        background: rgba(0, 0, 0, .55);
+        background: rgba(0, 0, 0, .5);
         border: none;
         border-radius: 50%;
-        width: 28px;
-        height: 28px;
+        width: 26px;
+        height: 26px;
         color: #fff;
-        font-size: 13px;
+        font-size: 12px;
         cursor: pointer;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: center
     }
 
     .sl-friends-label {
@@ -398,310 +401,307 @@
         color: var(--cl-text-sec);
         text-transform: uppercase;
         letter-spacing: .5px;
-        margin-bottom: 8px;
-        display: block;
+        margin-bottom: 7px;
+        display: block
     }
 
     .sl-send-all-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 9px 13px;
+        padding: 8px 12px;
         background: #fafafa;
         border-radius: 8px;
-        margin-bottom: 10px;
-        border: 1.5px solid var(--cl-border);
+        margin-bottom: 9px;
+        border: 1.5px solid var(--cl-border)
     }
 
     .sl-send-all-row span {
         font-size: 13px;
-        font-weight: 600;
+        font-weight: 600
     }
 
     .sl-toggle {
         position: relative;
         display: inline-block;
-        width: 42px;
-        height: 23px;
+        width: 40px;
+        height: 22px
     }
 
     .sl-toggle input {
         opacity: 0;
         width: 0;
-        height: 0;
+        height: 0
     }
 
     .sl-slider {
         position: absolute;
         inset: 0;
         background: #ccd0d5;
-        border-radius: 23px;
+        border-radius: 22px;
         cursor: pointer;
-        transition: .3s;
+        transition: .3s
     }
 
     .sl-slider::before {
         content: '';
         position: absolute;
-        height: 17px;
-        width: 17px;
+        height: 16px;
+        width: 16px;
         left: 3px;
         bottom: 3px;
         background: #fff;
         border-radius: 50%;
-        transition: .3s;
+        transition: .3s
     }
 
     .sl-toggle input:checked+.sl-slider {
-        background: var(--cl-primary);
+        background: var(--cl-primary)
     }
 
     .sl-toggle input:checked+.sl-slider::before {
-        transform: translateX(19px);
+        transform: translateX(18px)
     }
 
     .sl-friends-list {
         display: flex;
         flex-wrap: wrap;
-        gap: 7px;
-        margin-bottom: 14px;
+        gap: 6px;
+        margin-bottom: 12px
     }
 
     .sl-friend-chip {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 5px;
         background: #fafafa;
         border: 1.5px solid var(--cl-border);
         border-radius: 20px;
-        padding: 5px 12px;
+        padding: 4px 11px;
         cursor: pointer;
-        font-size: 13px;
+        font-size: 12.5px;
         font-weight: 500;
         color: var(--cl-text-sec);
         transition: all .2s;
-        user-select: none;
+        user-select: none
     }
 
     .sl-friend-chip input {
-        display: none;
+        display: none
     }
 
     .sl-friend-chip.selected {
         background: var(--cl-tag-bg);
         border-color: var(--cl-primary);
-        color: var(--cl-primary);
+        color: var(--cl-primary)
     }
 
     .sl-friend-chip .fc-av {
-        width: 22px;
-        height: 22px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 10px;
+        font-size: 9px;
         font-weight: 700;
         color: #fff;
         flex-shrink: 0;
-        background: var(--primary-gradient);
+        background: var(--primary-gradient)
     }
 
-    /* QUESTION STEPS */
     .sl-steps {
         display: flex;
         align-items: center;
-        margin-bottom: 18px;
+        margin-bottom: 16px
     }
 
     .sl-step {
         display: flex;
         align-items: center;
-        gap: 7px;
+        gap: 6px;
         font-size: 12px;
         font-weight: 700;
-        color: var(--cl-text-sec);
+        color: var(--cl-text-sec)
     }
 
     .sl-step.active .sl-step-num {
         background: var(--cl-primary);
-        color: #fff;
+        color: #fff
     }
 
     .sl-step.done .sl-step-num {
         background: var(--cl-ans-bdr);
-        color: #fff;
+        color: #fff
     }
 
     .sl-step-num {
-        width: 22px;
-        height: 22px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
         background: var(--cl-border);
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 11px;
+        font-size: 10px;
         font-weight: 700;
         flex-shrink: 0;
-        transition: background .3s;
+        transition: background .3s
     }
 
     .sl-step-line {
         flex: 1;
         height: 2px;
         background: var(--cl-border);
-        margin: 0 8px;
+        margin: 0 7px
     }
 
     .sl-step-line.done {
-        background: var(--cl-ans-bdr);
+        background: var(--cl-ans-bdr)
     }
 
-    /* FORM ELEMENTS */
     .sl-form-group {
-        margin-bottom: 14px;
+        margin-bottom: 13px
     }
 
     .sl-form-group>label {
         display: block;
-        font-size: 13px;
+        font-size: 12.5px;
         font-weight: 700;
         margin-bottom: 4px;
         color: var(--cl-text);
+        text-transform: uppercase;
+        letter-spacing: .03em
     }
 
     .sl-hint {
         font-size: 11px;
         color: var(--cl-text-sec);
-        margin-bottom: 5px;
+        margin-bottom: 4px
     }
 
     .sl-input {
         width: 100%;
         border: 1.5px solid var(--cl-border);
         border-radius: 8px;
-        padding: 9px 13px;
-        font-family: inherit;
-        font-size: 14px;
+        padding: 8px 12px;
+        font-size: 13.5px;
         color: var(--cl-text);
         outline: none;
         transition: border-color .2s;
-        background: var(--cl-surface);
+        background: var(--cl-surface)
     }
 
     .sl-input:focus {
-        border-color: var(--cl-primary);
+        border-color: var(--cl-primary)
     }
 
     .sl-rt-bar {
         display: flex;
         gap: 2px;
-        padding: 6px 8px;
+        padding: 5px 7px;
         background: #fafafa;
         border: 1.5px solid var(--cl-border);
         border-bottom: none;
-        border-radius: 8px 8px 0 0;
+        border-radius: 8px 8px 0 0
     }
 
     .sl-rt-btn {
-        width: 28px;
-        height: 28px;
+        width: 26px;
+        height: 26px;
         border: none;
         background: transparent;
-        border-radius: 5px;
+        border-radius: 4px;
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
         color: var(--cl-text-sec);
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 700;
-        transition: background .15s;
+        transition: background .15s
     }
 
     .sl-rt-btn:hover {
-        background: var(--cl-border);
+        background: var(--cl-border)
     }
 
     .sl-rt-area {
         border: 1.5px solid var(--cl-border);
         border-top: none;
         border-radius: 0 0 8px 8px;
-        padding: 10px 13px;
-        min-height: 100px;
+        padding: 9px 12px;
+        min-height: 90px;
         outline: none;
-        font-family: inherit;
-        font-size: 14px;
-        line-height: 1.6;
+        font-size: 13.5px;
+        line-height: 1.6
     }
 
     .sl-rt-area:focus {
-        border-color: var(--cl-primary);
+        border-color: var(--cl-primary)
     }
 
     .sl-type-opts {
         display: flex;
-        gap: 8px;
-        margin-top: 6px;
+        gap: 7px;
+        margin-top: 5px
     }
 
     .sl-type-opt {
         flex: 1;
-        padding: 10px 8px;
+        padding: 9px 7px;
         border: 1.5px solid var(--cl-border);
         border-radius: 8px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 5px;
+        gap: 4px;
         cursor: pointer;
         transition: all .2s;
-        font-size: 12px;
+        font-size: 11.5px;
         font-weight: 700;
         color: var(--cl-text-sec);
         background: var(--cl-surface);
-        font-family: inherit;
-        text-align: center;
+        text-align: center
     }
 
     .sl-type-opt svg {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px
     }
 
     .sl-type-opt.selected {
         border-color: var(--cl-primary);
         background: var(--cl-tag-bg);
-        color: var(--cl-primary);
+        color: var(--cl-primary)
     }
 
     .sl-tags-wrap {
         border: 1.5px solid var(--cl-border);
         border-radius: 8px;
-        padding: 6px 10px;
+        padding: 5px 9px;
         display: flex;
         flex-wrap: wrap;
-        gap: 6px;
+        gap: 5px;
         cursor: text;
         transition: border-color .2s;
-        min-height: 42px;
+        min-height: 40px
     }
 
     .sl-tags-wrap:focus-within {
-        border-color: var(--cl-primary);
+        border-color: var(--cl-primary)
     }
 
     .sl-tag-pill {
         display: flex;
         align-items: center;
-        gap: 4px;
+        gap: 3px;
         background: var(--cl-tag-bg);
         color: var(--cl-tag-text);
         border-radius: 6px;
-        padding: 3px 8px;
+        padding: 2px 7px;
         font-size: 12px;
-        font-weight: 700;
+        font-weight: 700
     }
 
     .sl-tag-pill button {
@@ -711,204 +711,201 @@
         cursor: pointer;
         font-size: 12px;
         padding: 0;
-        line-height: 1;
+        line-height: 1
     }
 
     .sl-tag-input {
         border: none;
         outline: none;
-        font-family: inherit;
         font-size: 13px;
         flex: 1;
-        min-width: 90px;
-        padding: 3px 0;
-        background: transparent;
+        min-width: 80px;
+        padding: 2px 0;
+        background: transparent
     }
 
     .sl-visibility-row {
         display: flex;
         align-items: center;
-        gap: 8px;
-        padding: 9px 13px;
+        gap: 7px;
+        padding: 8px 12px;
         background: #fafafa;
         border-radius: 8px;
         border: 1.5px solid var(--cl-border);
         font-size: 13px;
-        font-weight: 600;
+        font-weight: 600
     }
 
     .sl-visibility-row select {
         border: none;
         background: transparent;
-        font-family: inherit;
         font-size: 13px;
         font-weight: 700;
         color: var(--cl-primary);
         cursor: pointer;
-        outline: none;
+        outline: none
     }
 
     .sl-edit-notice {
         display: flex;
-        gap: 10px;
-        padding: 10px 13px;
+        gap: 9px;
+        padding: 9px 12px;
         background: #fff8e1;
         border-left: 3px solid #f59e0b;
         border-radius: 6px;
-        margin-bottom: 14px;
+        margin-bottom: 13px;
         font-size: 12px;
         color: #92400e;
-        line-height: 1.5;
+        line-height: 1.5
     }
 
     .sl-edit-notice svg {
-        width: 16px;
-        height: 16px;
+        width: 15px;
+        height: 15px;
         flex-shrink: 0;
         color: #f59e0b;
-        margin-top: 1px;
+        margin-top: 1px
     }
 
     .sl-action-bar {
         display: flex;
         justify-content: flex-end;
-        gap: 8px;
-        margin-top: 6px;
+        gap: 7px;
+        margin-top: 5px
     }
 
     .sl-btn {
-        padding: 8px 18px;
-        border-radius: 8px;
-        font-family: inherit;
-        font-size: 14px;
-        font-weight: 700;
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 13.5px;
+        font-weight: 600;
         cursor: pointer;
         border: none;
-        transition: all .2s;
+        transition: all .2s
     }
 
     .sl-btn-ghost {
         background: #f0f2f5;
-        color: var(--cl-text-sec);
+        color: var(--cl-text-sec)
     }
 
     .sl-btn-ghost:hover {
-        background: #e4e6ea;
+        background: #e4e6ea
     }
 
     .sl-btn-primary {
-        background: var(--cl-primary);
-        color: #fff;
+        background: var(--blue);
+        color: #fff
     }
 
     .sl-btn-primary:hover {
-        background: var(--cl-primary-d);
+        background: var(--blue-d)
     }
 
     .sl-btn-primary:disabled {
         opacity: .45;
-        cursor: not-allowed;
+        cursor: not-allowed
     }
 
     .sl-char {
         text-align: right;
         font-size: 11px;
         color: var(--cl-text-sec);
-        margin-top: 3px;
+        margin-top: 3px
     }
 
-    /* Q&A FEED */
+    /* ── Q&A FEED ── */
     .sl-q-badge {
         display: inline-flex;
         align-items: center;
-        gap: 5px;
+        gap: 4px;
         font-size: 11px;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: .5px;
-        padding: 3px 10px;
+        padding: 2px 9px;
         border-radius: 20px;
-        margin-bottom: 8px;
+        margin-bottom: 7px
     }
 
     .sl-q-badge svg {
-        width: 12px;
-        height: 12px;
+        width: 11px;
+        height: 11px
     }
 
     .sl-q-badge.troubleshoot {
         background: #fff0ea;
-        color: #e7440d;
+        color: #e7440d
     }
 
     .sl-q-badge.design {
         background: #f0e7ff;
-        color: #7c3aed;
+        color: #7c3aed
     }
 
     .sl-q-badge.general {
         background: #e7f3ff;
-        color: #1877f2;
+        color: #1877f2
     }
 
     .sl-q-title {
-        font-size: 16px;
+        font-size: 15.5px;
         font-weight: 700;
         line-height: 1.4;
-        margin-bottom: 8px;
-        color: var(--cl-text);
+        margin-bottom: 7px;
+        color: var(--text)
     }
 
     .sl-q-tags {
         display: flex;
         flex-wrap: wrap;
         gap: 5px;
-        margin-top: 8px;
+        margin-top: 7px
     }
 
     .sl-q-tag {
         font-size: 12px;
-        font-weight: 700;
-        background: var(--cl-tag-bg);
-        color: var(--cl-tag-text);
+        font-weight: 600;
+        background: var(--blue-soft);
+        color: var(--blue);
         padding: 2px 9px;
-        border-radius: 6px;
+        border-radius: 6px
     }
 
-    /* ANSWERS SECTION */
+    /* ── ANSWERS ── */
     .sl-answers {
-        border-top: 1px solid var(--cl-border);
-        display: none;
+        border-top: 1px solid #f0f2f5;
+        display: none
     }
 
     .sl-answers-hdr {
-        padding: 10px 16px 6px;
+        padding: 9px 14px 5px;
         font-size: 13px;
         font-weight: 700;
-        color: var(--cl-text-sec);
+        color: var(--text-muted);
         display: flex;
         align-items: center;
-        gap: 7px;
+        gap: 6px
     }
 
     .sl-answers-hdr span {
-        background: var(--cl-primary);
+        background: var(--blue);
         color: #fff;
-        font-size: 11px;
+        font-size: 10px;
         border-radius: 10px;
-        padding: 1px 7px;
+        padding: 1px 6px
     }
 
     .sl-answer-item {
-        padding: 10px 16px;
-        border-top: 1px solid var(--cl-border);
+        padding: 9px 14px;
+        border-top: 1px solid #f0f2f5;
         display: flex;
-        gap: 10px;
+        gap: 9px
     }
 
     .sl-a-avatar {
-        width: 34px;
-        height: 34px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         flex-shrink: 0;
         display: flex;
@@ -916,92 +913,91 @@
         justify-content: center;
         font-weight: 700;
         color: #fff;
-        font-size: 12px;
+        font-size: 11px;
         overflow: hidden;
-        background: var(--primary-gradient);
+        background: var(--primary-gradient)
     }
 
     .sl-a-avatar img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: cover
     }
 
     .sl-a-body {
         flex: 1;
-        min-width: 0;
+        min-width: 0
     }
 
     .sl-a-bubble {
-        background: #f3f2ef;
-        border-radius: 12px;
-        padding: 9px 13px;
-        margin-bottom: 4px;
+        background: #f5f7fa;
+        border-radius: 10px;
+        padding: 8px 12px;
+        margin-bottom: 4px
     }
 
     .sl-a-bubble h5 {
-        font-size: 13px;
+        font-size: 12.5px;
         font-weight: 700;
-        margin: 0 0 3px;
+        margin: 0 0 2px
     }
 
     .sl-a-bubble p {
         font-size: 13px;
         line-height: 1.6;
         color: #333;
-        margin: 0;
+        margin: 0
     }
 
     .sl-a-meta {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        gap: 10px;
-        font-size: 12px;
-        color: var(--cl-text-sec);
+        gap: 9px;
+        font-size: 11.5px;
+        color: var(--text-muted)
     }
 
     .sl-a-meta button {
         background: none;
         border: none;
-        font-family: inherit;
-        font-size: 12px;
+        font-size: 11.5px;
         font-weight: 600;
-        color: var(--cl-text-sec);
+        color: var(--text-muted);
         cursor: pointer;
-        padding: 0;
+        padding: 0
     }
 
     .sl-a-meta button:hover {
-        color: var(--cl-primary);
+        color: var(--blue)
     }
 
     .sl-accepted-badge {
         color: var(--cl-ans-bdr);
-        font-weight: 700;
+        font-weight: 700
     }
 
     .sl-answer-item.accepted .sl-a-bubble {
         background: var(--cl-ans-bg);
-        border: 1.5px solid var(--cl-ans-bdr);
+        border: 1.5px solid var(--cl-ans-bdr)
     }
 
     .sl-replies {
-        margin-top: 7px;
-        padding-left: 14px;
-        border-left: 2px solid var(--cl-border);
-        display: none;
+        margin-top: 6px;
+        padding-left: 12px;
+        border-left: 2px solid #e5e7eb;
+        display: none
     }
 
     .sl-reply {
         display: flex;
-        gap: 7px;
-        margin-top: 8px;
+        gap: 6px;
+        margin-top: 7px
     }
 
     .sl-r-avatar {
-        width: 26px;
-        height: 26px;
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
         flex-shrink: 0;
         display: flex;
@@ -1009,115 +1005,112 @@
         justify-content: center;
         font-weight: 700;
         color: #fff;
-        font-size: 9px;
+        font-size: 8px;
         overflow: hidden;
-        background: var(--primary-gradient);
+        background: var(--primary-gradient)
     }
 
     .sl-r-avatar img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: cover
     }
 
     .sl-r-bubble {
-        background: #f3f2ef;
-        border-radius: 9px;
-        padding: 7px 11px;
-        flex: 1;
+        background: #f5f7fa;
+        border-radius: 8px;
+        padding: 6px 10px;
+        flex: 1
     }
 
     .sl-r-bubble h6 {
-        font-size: 12px;
+        font-size: 11.5px;
         font-weight: 700;
-        margin: 0 0 2px;
+        margin: 0 0 2px
     }
 
     .sl-r-bubble p {
-        font-size: 12px;
+        font-size: 11.5px;
         line-height: 1.5;
         color: #444;
-        margin: 0;
+        margin: 0
     }
 
     .sl-reply-compose {
         display: flex;
-        gap: 6px;
-        margin-top: 7px;
-        align-items: center;
+        gap: 5px;
+        margin-top: 6px;
+        align-items: center
     }
 
     .sl-reply-input {
         flex: 1;
-        border: 1.5px solid var(--cl-border);
+        border: 1.5px solid #e5e7eb;
         border-radius: 20px;
-        padding: 5px 12px;
-        font-family: inherit;
+        padding: 5px 11px;
         font-size: 12px;
         outline: none;
-        transition: border-color .2s;
+        transition: border-color .2s
     }
 
     .sl-reply-input:focus {
-        border-color: var(--cl-primary);
+        border-color: var(--blue)
     }
 
     .sl-ans-composer {
-        padding: 10px 16px;
+        padding: 9px 14px;
         display: flex;
-        gap: 10px;
-        border-top: 1px solid var(--cl-border);
-        align-items: flex-start;
+        gap: 9px;
+        border-top: 1px solid #f0f2f5;
+        align-items: flex-start
     }
 
     .sl-ans-input {
         width: 100%;
-        border: 1.5px solid var(--cl-border);
-        border-radius: 22px;
-        padding: 9px 16px;
-        font-family: inherit;
+        border: 1.5px solid #e5e7eb;
+        border-radius: 20px;
+        padding: 8px 14px;
         font-size: 13px;
-        color: var(--cl-text);
+        color: var(--text);
         outline: none;
         transition: all .3s;
         resize: none;
-        line-height: 1.5;
+        line-height: 1.5
     }
 
     .sl-ans-input:focus {
-        border-color: var(--cl-primary);
-        border-radius: 12px;
-        min-height: 72px;
+        border-color: var(--blue);
+        border-radius: 10px;
+        min-height: 68px
     }
 
     .sl-ans-input::placeholder {
-        color: #bcc0c4;
+        color: #bcc0c4
     }
 
-    .sl-ans-actions {
-        display: none;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 8px;
+    /* ── SEARCH / FILTER CARD ── */
+    .filter-card {
+        background: var(--surface);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: .85rem 1rem;
+        margin-bottom: 1rem
     }
 
-    .sl-ans-emojis {
-        display: flex;
-        gap: 4px;
+    .filter-card .form-control,
+    .filter-card .form-select {
+        border: 1.5px solid #e5e7eb;
+        border-radius: 10px;
+        font-size: 13.5px;
+        padding: .5rem .85rem;
+        outline: none;
+        transition: border-color .2s
     }
 
-    .sl-ans-emojis button {
-        background: none;
-        border: none;
-        font-size: 15px;
-        cursor: pointer;
-        padding: 2px;
-        border-radius: 4px;
-        transition: transform .15s;
-    }
-
-    .sl-ans-emojis button:hover {
-        transform: scale(1.25);
+    .filter-card .form-control:focus,
+    .filter-card .form-select:focus {
+        border-color: var(--blue);
+        box-shadow: none
     }
 </style>
 
@@ -1125,31 +1118,39 @@
     <div class="container py-4">
         <div class="row">
 
-            {{-- ══ LEFT SIDEBAR (UNCHANGED) ══ --}}
+            {{-- ══ LEFT SIDEBAR ══ --}}
             <div class="col-md-3 d-none d-md-block">
                 <div class="sticky-sidebar">
                     <div class="profile-card mb-3">
                         <div class="card-body text-center">
                             @if(auth()->user()->profile_photo)
-                            <img src="{{ Auth::user()->profile_photo 
-                                ? Auth::user()->profile_photo 
-                                : asset('images/default.png') }}"
-                                class="rounded-circle"
-                                width="36"
-                                height="36"
-                                style="object-fit: cover;">
+                            <img src="{{ Auth::user()->profile_photo ? Auth::user()->profile_photo : asset('images/default.png') }}"
+                                class="rounded-circle profile-avatar mb-2" width="72" height="72" style="object-fit:cover;">
                             @else
-                            <div class="rounded-circle profile-avatar d-flex align-items-center justify-content-center mx-auto mb-3 bg-light">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2 bg-light" style="width:72px;height:72px;border:3px solid var(--blue)">
                                 <i class="bi bi-person-fill fs-2 text-secondary"></i>
                             </div>
                             @endif
-                            <h5 class="fw-bold mb-1">{{ auth()->user()->name }}</h5>
-                            <p class="text-muted small mb-3">{{ auth()->user()->bio ?? 'No bio yet' }}</p>
-                            <hr class="my-3">
-                            <a href="{{ route('posts.my') }}" class="sidebar-link text-decoration-none text-muted d-flex align-items-center gap-2 mb-2"><i class="bi bi-file-earmark-post"></i> My Posts</a>
-                            <a href="{{ url('/friends') }}" class="sidebar-link text-decoration-none text-muted d-flex align-items-center gap-2 mb-2"><i class="bi bi-people-fill"></i> Friends</a>
-                            <a href="{{ url('/skills') }}" class="sidebar-link text-decoration-none text-muted d-flex align-items-center gap-2 mb-2"><i class="bi bi-lightbulb-fill"></i> My Skills</a>
+                            <h6 class="fw-bold mb-0">{{ auth()->user()->name }}</h6>
+                            <p class="text-muted small mb-3" style="font-size:12.5px">{{ auth()->user()->bio ?? 'No bio yet' }}</p>
+                            <hr class="my-2">
+                            <a href="{{ route('posts.my') }}" class="sidebar-link text-decoration-none text-muted d-flex align-items-center gap-2 mb-1"><i class="bi bi-file-earmark-post"></i> My Posts</a>
+                            <a href="{{ url('/friends') }}" class="sidebar-link text-decoration-none text-muted d-flex align-items-center gap-2 mb-1"><i class="bi bi-people-fill"></i> Friends</a>
+                            <a href="{{ url('/skills') }}" class="sidebar-link text-decoration-none text-muted d-flex align-items-center gap-2 mb-1"><i class="bi bi-lightbulb-fill"></i> My Skills</a>
                             <a href="{{ url('/roadmaps') }}" class="sidebar-link text-decoration-none text-muted d-flex align-items-center gap-2"><i class="bi bi-map-fill"></i> Learning Roadmap</a>
+                        </div>
+                    </div>
+                    <div class="news-card mb-3" id="dailyPuzzleCard">
+                        <div class="card-body text-center">
+                            <h6 class="fw-bold mb-3" style="font-size:13.5px">
+                                <i class="bi bi-puzzle-fill me-2 text-primary"></i>Today's Puzzle
+                            </h6>
+                            <div id="puzzleContent">
+                                <div class="text-muted small py-3">
+                                    <div class="spinner-border spinner-border-sm text-primary mb-2" role="status"></div>
+                                    <div>Loading today's puzzle…</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1160,7 +1161,6 @@
 
                 {{-- COMPOSER --}}
                 <div class="sl-composer">
-
                     <div class="sl-tabs">
                         <button type="button" class="sl-tab active" data-panel="q-panel">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1240,7 +1240,7 @@
                                 <div class="sl-form-group">
                                     <label>Question Type <span style="color:var(--cl-accent)">*</span></label>
                                     <div class="sl-type-opts">
-                                        <button type="button" class="sl-type-opt selected" data-type="troubleshoot">
+                                        <button type="button" class="sl-type-opt ask-type-opt selected" data-type="troubleshoot">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <circle cx="12" cy="12" r="10" />
                                                 <line x1="12" y1="8" x2="12" y2="12" />
@@ -1248,13 +1248,13 @@
                                             </svg>
                                             Troubleshooting
                                         </button>
-                                        <button type="button" class="sl-type-opt" data-type="design">
+                                        <button type="button" class="sl-type-opt ask-type-opt" data-type="design">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                                             </svg>
                                             Design Advice
                                         </button>
-                                        <button type="button" class="sl-type-opt" data-type="general">
+                                        <button type="button" class="sl-type-opt ask-type-opt" data-type="general">
                                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <circle cx="12" cy="12" r="10" />
                                                 <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
@@ -1273,7 +1273,7 @@
                                 <div class="sl-form-group">
                                     <label>Visibility</label>
                                     <div class="sl-visibility-row">
-                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <circle cx="12" cy="12" r="10" />
                                             <line x1="2" y1="12" x2="22" y2="12" />
                                             <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
@@ -1312,8 +1312,14 @@
                             @if(auth()->id() === $post->user_id || auth()->user()->role === 'admin')
                             <form id="editForm-{{ $post->id }}" class="sl-edit-form" style="display:none"
                                 method="POST" action="{{ route('posts.update', $post->id) }}" enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
+                                @csrf @method('PUT')
+
+                                {{-- ✅ FIX: Preserve post_type and type so they are never null --}}
+                                <input type="hidden" name="post_type" value="{{ $post->post_type ?? 'question' }}">
+                                <input type="hidden" name="type" value="{{ $post->type ?? 'public' }}">
+                                {{-- q_type is sent via hidden input updated by the type selector buttons below --}}
+                                <input type="hidden" name="q_type" id="editQTypeHidden-{{ $post->id }}" value="{{ $post->q_type ?? 'general' }}">
+
                                 <div class="sl-edit-notice">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <circle cx="12" cy="12" r="10" />
@@ -1322,10 +1328,12 @@
                                     </svg>
                                     Your edit will be placed in a review queue. Please make the post clearer and more valuable.
                                 </div>
+
                                 <div class="sl-form-group">
                                     <label>Title</label>
                                     <input class="sl-input" type="text" name="title" value="{{ $post->title ?? '' }}" placeholder="Question title…">
                                 </div>
+
                                 <div class="sl-form-group">
                                     <label>Body <span style="color:var(--cl-accent)">*</span></label>
                                     <div class="sl-rt-bar">
@@ -1339,14 +1347,53 @@
                                     <div class="sl-rt-area" id="editBody-{{ $post->id }}" contenteditable="true">{!! $post->content !!}</div>
                                     <input type="hidden" name="content" id="editBodyHidden-{{ $post->id }}">
                                 </div>
+
                                 @if($post->media)
                                 <div class="mb-2 text-center" id="editOldImg-{{ $post->id }}">
-                                    <img src="{{ asset('storage/' . $post->media) }}" class="img-fluid rounded-3" style="max-height:200px;">
+                                    <img src="{{ asset('storage/' . $post->media) }}" class="img-fluid rounded-3" style="max-height:180px;">
                                 </div>
                                 @endif
                                 <div class="mb-2 text-center d-none" id="editNewImgBox-{{ $post->id }}">
-                                    <img src="" class="img-fluid rounded-3" style="max-height:200px;" id="editNewImg-{{ $post->id }}">
+                                    <img src="" class="img-fluid rounded-3" style="max-height:180px;" id="editNewImg-{{ $post->id }}">
                                 </div>
+
+                                {{-- ✅ FIX: Question Type selector — user can change q_type here --}}
+                                @if(!empty($post->post_type) && $post->post_type === 'question')
+                                <div class="sl-form-group">
+                                    <label>Question Type</label>
+                                    <div class="sl-type-opts edit-type-opts" data-post="{{ $post->id }}">
+                                        <button type="button"
+                                            class="sl-type-opt edit-type-opt {{ ($post->q_type ?? 'general') === 'troubleshoot' ? 'selected' : '' }}"
+                                            data-type="troubleshoot" data-post="{{ $post->id }}">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <line x1="12" y1="8" x2="12" y2="12" />
+                                                <line x1="12" y1="16" x2="12.01" y2="16" />
+                                            </svg>
+                                            Troubleshooting
+                                        </button>
+                                        <button type="button"
+                                            class="sl-type-opt edit-type-opt {{ ($post->q_type ?? 'general') === 'design' ? 'selected' : '' }}"
+                                            data-type="design" data-post="{{ $post->id }}">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                            </svg>
+                                            Design Advice
+                                        </button>
+                                        <button type="button"
+                                            class="sl-type-opt edit-type-opt {{ ($post->q_type ?? 'general') === 'general' ? 'selected' : '' }}"
+                                            data-type="general" data-post="{{ $post->id }}">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                                <line x1="12" y1="17" x2="12.01" y2="17" />
+                                            </svg>
+                                            General Q&amp;A
+                                        </button>
+                                    </div>
+                                </div>
+                                @endif
+
                                 <div class="sl-form-group">
                                     <label>Tags</label>
                                     <div class="sl-tags-wrap" id="editTagsWrap-{{ $post->id }}">
@@ -1359,15 +1406,14 @@
                                             data-wrap="editTagsWrap-{{ $post->id }}" data-hidden="editTagsHidden-{{ $post->id }}"
                                             placeholder="Add a tag…">
                                     </div>
-                                    <input type="hidden"
-                                        name="tags"
-                                        id="editTagsHidden-{{ $post->id }}"
-                                        value="{{ $post->tags }}">
+                                    <input type="hidden" name="tags" id="editTagsHidden-{{ $post->id }}" value="{{ $post->tags }}">
                                 </div>
+
                                 <div class="sl-form-group">
                                     <label>Edit Summary</label>
                                     <input class="sl-input" type="text" name="edit_summary" placeholder="Corrected spelling, improved formatting…">
                                 </div>
+
                                 <div class="sl-action-bar">
                                     <button type="button" class="sl-btn sl-btn-ghost edit-cancel-btn">Cancel</button>
                                     <button type="submit" class="sl-btn sl-btn-primary edit-save-btn" data-post="{{ $post->id }}">
@@ -1382,34 +1428,19 @@
                 </div>{{-- /sl-composer --}}
 
                 {{-- SEARCH + TAG FILTER --}}
-                <div class="card mb-3 p-3">
-                    <form method="GET" action="{{ route('feed') }}" id="filterForm"
-                        style="display:flex;gap:10px;align-items:center;">
-
-                        {{-- Search Input --}}
-                        <input type="text"
-                            name="search"
-                            id="searchInput"
-                            value="{{ request('search') }}"
-                            placeholder="Search posts..."
-                            class="form-control">
-
-                        {{-- Tag Dropdown --}}
-                        <select name="tag"
-                            id="tagFilter"
-                            class="form-select"
-                            style="max-width:200px;">
+                <div class="filter-card">
+                    <form method="GET" action="{{ route('feed') }}" id="filterForm" style="display:flex;gap:10px;align-items:center;">
+                        <input type="text" name="search" id="searchInput" value="{{ request('search') }}"
+                            placeholder="🔍  Search posts…" class="form-control">
+                        <select name="tag" id="tagFilter" class="form-select" style="max-width:180px;">
                             <option value="">Filter by Tag</option>
                             @foreach($allTags as $tag)
-                            <option value="{{ $tag }}"
-                                {{ request('tag') == $tag ? 'selected' : '' }}>
-                                {{ $tag }}
-                            </option>
+                            <option value="{{ $tag }}" {{ request('tag') == $tag ? 'selected' : '' }}>{{ $tag }}</option>
                             @endforeach
                         </select>
-
                     </form>
                 </div>
+
                 {{-- POSTS FEED --}}
                 @forelse($posts as $post)
                 <div class="post-card">
@@ -1417,42 +1448,34 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-2">
                                 @if($post->user->profile_photo)
-                                <img src="{{ $post->user->profile_photo 
-                         ? $post->user->profile_photo 
-                         : asset('images/default.png') }}" width="48" height="48" class="rounded-circle border object-fit-cover">
+                                <img src="{{ $post->user->profile_photo ? $post->user->profile_photo : asset('images/default.png') }}"
+                                    width="44" height="44" class="rounded-circle" style="object-fit:cover;border:2px solid #e5e7eb;">
                                 @else
-                                <div class="d-flex align-items-center justify-content-center rounded-circle border bg-light" style="width:48px;height:48px;">
-                                    <i class="bi bi-person-fill fs-5 text-secondary"></i>
+                                <div class="d-flex align-items-center justify-content-center rounded-circle bg-light" style="width:44px;height:44px;border:2px solid #e5e7eb;">
+                                    <i class="bi bi-person-fill text-secondary"></i>
                                 </div>
                                 @endif
                                 <div>
-
-                                    <h4 class="fw-bold">{{ $post->title }}</h4>
-                                    <small class="text-muted">
-                                        <i class="bi bi-clock"></i> Posted by {{ $post->user->name }} • {{ $post->created_at->diffForHumans() }}
+                                    <h6 class="fw-bold mb-0" style="font-size:14.5px">{{ $post->title }}</h6>
+                                    <small class="text-muted" style="font-size:12px">
+                                        <i class="bi bi-clock"></i> {{ $post->user->name }} &bull; {{ $post->created_at->diffForHumans() }}
                                         @if(!empty($post->post_type) && $post->post_type === 'question')
-                                        &nbsp;<span class="badge bg-light text-secondary border">Question</span>
+                                        &nbsp;<span class="badge bg-light text-secondary border" style="font-size:10px">Question</span>
                                         @endif
                                     </small>
                                 </div>
                             </div>
                             @if(auth()->id() === $post->user_id || auth()->user()->role === 'admin')
                             <div class="dropdown">
-                                <button class="btn btn-light rounded-circle p-2" data-bs-toggle="dropdown" type="button">
-                                    <i class="bi bi-three-dots-vertical"></i>
+                                <button class="btn btn-light rounded-circle p-1" data-bs-toggle="dropdown" type="button" style="width:32px;height:32px;">
+                                    <i class="bi bi-three-dots-vertical" style="font-size:13px"></i>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3">
-                                    <li>
-                                        <button type="button" class="dropdown-item open-edit-tab-btn" data-post="{{ $post->id }}">
-                                            <i class="bi bi-pencil me-2"></i>Edit
-                                        </button>
-                                    </li>
+                                    <li><button type="button" class="dropdown-item open-edit-tab-btn" data-post="{{ $post->id }}"><i class="bi bi-pencil me-2"></i>Edit</button></li>
                                     <li>
                                         <form method="POST" action="{{ route('posts.destroy', $post->id) }}">
                                             @csrf @method('DELETE')
-                                            <button class="dropdown-item text-danger" type="submit">
-                                                <i class="bi bi-trash me-2"></i>Delete
-                                            </button>
+                                            <button class="dropdown-item text-danger" type="submit"><i class="bi bi-trash me-2"></i>Delete</button>
                                         </form>
                                     </li>
                                 </ul>
@@ -1461,7 +1484,7 @@
                         </div>
                     </div>
 
-                    <div class="card-body px-4 py-3">
+                    <div class="card-body px-3 py-2">
                         @if(!empty($post->post_type) && $post->post_type === 'question')
                         @php
                         $badgeClass = match($post->q_type ?? 'general') { 'troubleshoot'=>'troubleshoot','design'=>'design',default=>'general' };
@@ -1479,7 +1502,7 @@
                         <div class="sl-q-title">{{ $post->title }}</div>
                         @endif
                         @endif
-                        <p class="card-text mb-0">{!! $post->content !!}</p>
+                        <p class="card-text mb-0" style="font-size:14px">{!! $post->content !!}</p>
                         @if(!empty($post->tags))
                         <div class="sl-q-tags mt-2">
                             @foreach(explode(',', $post->tags) as $tag)
@@ -1490,103 +1513,62 @@
                     </div>
 
                     @if($post->media)
-                    <div class="post-media-wrapper" style="width:100%;height:420px;display:flex;align-items:center;justify-content:center;">
+                    <div class="post-media-wrapper" style="width:100%;height:400px;display:flex;align-items:center;justify-content:center;">
                         <img src="{{ asset('storage/' . $post->media) }}" style="width:100%;height:100%;object-fit:cover;object-position:center;" alt="Post media">
                     </div>
                     @endif
 
-                    {{-- ── CARD FOOTER: LIKE / COMMENT / SHARE ── --}}
+                    {{-- CARD FOOTER --}}
                     <div class="card-footer bg-white border-0 py-2 px-3">
                         <div class="d-flex justify-content-around">
-
-                            {{-- Like --}}
-                            <button type="button"
-                                class="action-btn like-btn {{ $post->likes->where('user_id', auth()->id())->count() ? 'liked' : '' }}"
-                                data-post="{{ $post->id }}">
+                            <button type="button" class="action-btn like-btn {{ $post->likes->where('user_id', auth()->id())->count() ? 'liked' : '' }}" data-post="{{ $post->id }}">
                                 <i class="bi bi-hand-thumbs-up-fill"></i>
                                 <span class="like-count">{{ $post->likes_count }}</span>
                             </button>
-
-                            {{-- Comment toggle --}}
-                            <button type="button"
-                                class="action-btn toggle-answers-btn"
-                                data-post="{{ $post->id }}"
-                                data-target="answers-{{ $post->id }}">
+                            <button type="button" class="action-btn toggle-answers-btn" data-post="{{ $post->id }}" data-target="answers-{{ $post->id }}">
                                 <i class="bi bi-chat-fill"></i>
                                 {{ (!empty($post->post_type) && $post->post_type === 'question') ? 'Answer' : 'Comment' }}
-                                <span class="ms-1 text-muted small" id="commentCount-{{ $post->id }}">
-                                    ({{ $post->comments_count }})
-                                </span>
+                                <span class="ms-1 text-muted small" id="commentCount-{{ $post->id }}">({{ $post->comments_count }})</span>
                             </button>
-
-                            {{-- Share --}}
-                            <button type="button" class="action-btn"
-                                data-bs-toggle="modal"
-                                data-bs-target="#shareModal-{{ $post->id }}">
+                            <button type="button" class="action-btn" data-bs-toggle="modal" data-bs-target="#shareModal-{{ $post->id }}">
                                 <i class="bi bi-share-fill"></i> Share
                             </button>
-
                         </div>
-
-                        {{-- Liked by text --}}
                         @php
                         $likeCount = $post->likes_count;
                         $likedUsers = $post->likes->take(2);
                         $remainingLikes = $likeCount - 2;
                         @endphp
                         @if($likeCount > 0)
-                        <div class="px-3 pb-2 small text-muted" id="likeText-{{ $post->id }}">
+                        <div class="px-2 pb-1 small text-muted" id="likeText-{{ $post->id }}" style="font-size:12px">
                             Liked by
-                            @foreach($likedUsers as $like)
-                            {{ $like->user->name }}@if(!$loop->last), @endif
-                            @endforeach
+                            @foreach($likedUsers as $like) {{ $like->user->name }}@if(!$loop->last), @endif @endforeach
                             @if($remainingLikes > 0)
-                            and <a href="#" class="text-dark fw-semibold text-decoration-none show-likes"
-                                data-post="{{ $post->id }}"
-                                data-bs-toggle="modal"
-                                data-bs-target="#likesModal-{{ $post->id }}">
-                                {{ $remainingLikes }} others
-                            </a>
+                            and <a href="#" class="text-dark fw-semibold text-decoration-none show-likes" data-post="{{ $post->id }}" data-bs-toggle="modal" data-bs-target="#likesModal-{{ $post->id }}">{{ $remainingLikes }} others</a>
                             @endif
                         </div>
                         @endif
                     </div>
 
-                    {{-- ── COMMENTS PANEL ── --}}
+                    {{-- COMMENTS PANEL --}}
                     <div class="sl-answers" id="answers-{{ $post->id }}" style="display:none;">
-
-                        {{-- Header --}}
                         <div class="sl-answers-hdr">
                             {{ (!empty($post->post_type) && $post->post_type === 'question') ? 'Answers' : 'Comments' }}
                             <span id="answersCount-{{ $post->id }}">{{ $post->comments_count }}</span>
                         </div>
-
-                        {{-- Dynamic list (filled by JS) --}}
                         <div id="commentsList-{{ $post->id }}"></div>
-
-                        {{-- New comment composer --}}
-                        <div style="display:flex; gap:8px; align-items:center; padding:10px 16px; border-top:1px solid #e4e6ea;">
+                        <div style="display:flex;gap:8px;align-items:center;padding:9px 14px;border-top:1px solid #f0f2f5;">
                             <div class="sl-a-avatar">
                                 @if(auth()->user()->profile_photo)
-                                <img src="{{ Auth::user()->profile_photo 
-                         ? Auth::user()->profile_photo 
-                         : asset('images/default.png') }}" alt="">
+                                <img src="{{ Auth::user()->profile_photo ? Auth::user()->profile_photo : asset('images/default.png') }}" alt="">
                                 @else
                                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                                 @endif
                             </div>
-                            <input class="sl-reply-input main-comment-input"
-                                type="text"
-                                data-post="{{ $post->id }}"
-                                placeholder="Write a {{ (!empty($post->post_type) && $post->post_type === 'question') ? 'answer' : 'comment' }}…"
-                                style="flex:1;">
-                            <button class="sl-btn sl-btn-primary main-comment-btn"
-                                data-post="{{ $post->id }}"
-                                style="padding:5px 14px; font-size:13px; white-space:nowrap;">
-                                Post
-                            </button>
+                            <input class="sl-reply-input main-comment-input" type="text" data-post="{{ $post->id }}"
+                                placeholder="Write a {{ (!empty($post->post_type) && $post->post_type === 'question') ? 'answer' : 'comment' }}…" style="flex:1;">
+                            <button class="sl-btn sl-btn-primary main-comment-btn" data-post="{{ $post->id }}" style="padding:5px 13px;font-size:12.5px;white-space:nowrap;">Post</button>
                         </div>
-
                     </div>
 
                     {{-- SHARE MODAL --}}
@@ -1607,9 +1589,7 @@
                                     <form method="POST" action="{{ route('posts.share.friend', [$post->id, $friend->id]) }}">
                                         @csrf
                                         <button type="submit" class="btn btn-light w-100 text-start mb-2 rounded-pill py-2">
-                                            @if($friend->profile_photo)
-                                            <img src="{{ asset('storage/' . $friend->profile_photo) }}" width="36" height="36" class="rounded-circle me-2">
-                                            @endif
+                                            @if($friend->profile_photo)<img src="{{ asset('' . $friend->profile_photo) }}" width="32" height="32" class="rounded-circle me-2">@endif
                                             {{ $friend->name }}
                                         </button>
                                     </form>
@@ -1631,11 +1611,9 @@
                                     @forelse($post->likes as $like)
                                     <div class="d-flex align-items-center gap-3 mb-3">
                                         @if($like->user->profile_photo)
-                                        <img src="{{ asset('storage/' . $like->user->profile_photo) }}" width="40" height="40" class="rounded-circle">
+                                        <img src="{{ asset('storage/' . $like->user->profile_photo) }}" width="38" height="38" class="rounded-circle" style="object-fit:cover">
                                         @else
-                                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width:40px;height:40px;">
-                                            <i class="bi bi-person-fill text-secondary"></i>
-                                        </div>
+                                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width:38px;height:38px;"><i class="bi bi-person-fill text-secondary"></i></div>
                                         @endif
                                         <span class="fw-semibold">{{ $like->user->name }}</span>
                                     </div>
@@ -1646,52 +1624,44 @@
                             </div>
                         </div>
                     </div>
-
                 </div>{{-- /post-card --}}
                 @empty
                 <div class="post-card">
                     <div class="card-body text-center py-5">
                         <i class="bi bi-inbox fs-1 text-muted mb-3 d-block"></i>
                         <h5 class="text-muted">No posts yet</h5>
-                        <p class="text-muted">Follow friends to see their posts here, or create your first post!</p>
-                        @if(request('search'))
-                        <p>No results found for "<strong>{{ request('search') }}</strong>"</p>
-                        @endif
-
-                        @if(request('tag'))
-                        <p>No posts found under tag "<strong>#{{ request('tag') }}</strong>"</p>
-                        @endif
+                        <p class="text-muted small">Follow friends to see their posts here, or create your first post!</p>
+                        @if(request('search'))<p class="small">No results for "<strong>{{ request('search') }}</strong>"</p>@endif
+                        @if(request('tag'))<p class="small">No posts under tag "<strong>#{{ request('tag') }}</strong>"</p>@endif
                     </div>
                 </div>
                 @endforelse
 
                 <div class="mt-3">{{ $posts->links() }}</div>
-
             </div>{{-- /col center --}}
 
-            {{-- ══ RIGHT SIDEBAR (UNCHANGED) ══ --}}
+            {{-- ══ RIGHT SIDEBAR ══ --}}
             <div class="col-md-3 d-none d-lg-block">
                 <div class="sticky-sidebar">
-                    <div class="news-card mb-3">
+                    <div class="news-card mb-3" id="smartNewsCard">
                         <div class="card-body">
-                            <h6 class="fw-bold mb-3"><i class="bi bi-newspaper me-2"></i>Smart Learners News</h6>
-                            <ul class="list-unstyled small mb-0">
-                                <li class="mb-2"><a href="#" class="news-link">&#8226; AI-Powered Creative Co-Pilots</a></li>
-                                <li class="mb-2"><a href="#" class="news-link">&#8226; Hyper-Personalization Standard</a></li>
-                                <li class="mb-2"><a href="#" class="news-link">&#8226; Gamification 2.0: Emotional Design</a></li>
-                                <li class="mb-2"><a href="#" class="news-link">&#8226; Collaborative In-Flow Learning</a></li>
-                                <li><a href="#" class="news-link">&#8226; Emerging Risks &amp; Regulations</a></li>
+                            <h6 class="fw-bold mb-3" style="font-size:13.5px">
+                                <i class="bi bi-newspaper me-2 text-primary"></i>Smart Learners News
+                            </h6>
+                            <ul class="list-unstyled mb-0" id="newsFeed"
+                               style="max-height:300px;overflow-y:auto;scrollbar-width:none;padding-right:2px;">
+                                <li class="text-muted small text-center py-2">
+                                    <div class="spinner-border spinner-border-sm text-primary mb-1" role="status"></div>
+                                    <div>Loading news…</div>
+                                </li>
                             </ul>
-                        </div>
-                    </div>
-                    <div class="news-card mb-3">
-                        <div class="card-body text-center">
-                            <h6 class="fw-bold mb-3"><i class="bi bi-puzzle-fill me-2"></i>Today's Puzzle</h6>
-                            <img src="{{ asset('images/Sliding Puzzle.gif') }}" alt="Puzzle" class="img-fluid rounded-3 shadow-sm" style="max-height:180px;object-fit:contain;">
+                            <small class="text-muted d-block mt-2" style="font-size:10.5px">
+                                Refreshes in <span id="newsCountdown">--</span>
+                            </small>
                         </div>
                     </div>
                     <div class="card border-0 shadow-sm rounded-4">
-                        <div class="card-body text-center small">
+                        <div class="card-body text-center" style="font-size:12.5px">
                             <p class="fw-semibold text-primary mb-2">Smart Social Learning Platform</p>
                             <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
                                 <a href="{{ route('about') }}" class="text-decoration-none text-muted">About</a><span class="text-muted">&#8226;</span>
@@ -1705,20 +1675,19 @@
                 </div>
             </div>
 
-        </div>{{-- /row --}}
-    </div>{{-- /container --}}
-</div>{{-- /feed-container --}}
+        </div>
+    </div>
+</div>
+
 <input type="hidden" id="sessionFormType" value="{{ session('form_type') }}">
 <input type="hidden" id="sessionEditId" value="{{ session('edit_post_id') }}">
-{{-- ══════════════════════════════════════
-     ALL JAVASCRIPT — ZERO INLINE HANDLERS
-══════════════════════════════════════ --}}
+
 <script>
     const CSRF = document.querySelector('meta[name="csrf-token"]').content;
 
     document.addEventListener('DOMContentLoaded', function() {
 
-        /* ── 1. COMPOSER TABS ── */
+        // ── TAB SWITCHING ──
         document.querySelectorAll('.sl-tab').forEach(function(tab) {
             tab.addEventListener('click', function() {
                 document.querySelectorAll('.sl-panel').forEach(function(p) {
@@ -1732,7 +1701,7 @@
             });
         });
 
-        /* ── 2. QUESTION WIZARD ── */
+        // ── ASK QUESTION STEPS ──
         var qCurrent = 1;
 
         function qGoStep(n) {
@@ -1750,10 +1719,8 @@
             document.getElementById('qs' + n).style.display = 'block';
             qCurrent = n;
         }
-
         var qTitleInput = document.getElementById('qTitle');
         var qNext1 = document.getElementById('qNext1');
-
         if (qTitleInput && qNext1) {
             function validateTitle() {
                 var length = qTitleInput.value.trim().length;
@@ -1764,10 +1731,8 @@
             qTitleInput.addEventListener('input', validateTitle);
             validateTitle();
         }
-
         var qBody = document.getElementById('qBody');
         var qNext2 = document.getElementById('qNext2');
-
         if (qBody) {
             qBody.addEventListener('input', function() {
                 var len = this.innerText.trim().length;
@@ -1775,14 +1740,12 @@
                 if (qNext2) qNext2.disabled = len < 50;
             });
         }
-
         if (qNext1) qNext1.addEventListener('click', function() {
             qGoStep(2);
         });
         if (qNext2) qNext2.addEventListener('click', function() {
             qGoStep(3);
         });
-
         var qBack1 = document.getElementById('qBack1');
         var qBack2 = document.getElementById('qBack2');
         if (qBack1) qBack1.addEventListener('click', function() {
@@ -1792,7 +1755,7 @@
             qGoStep(2);
         });
 
-        /* Rich text toolbar – question */
+        // ── ASK QUESTION RICH TEXT ──
         var qRtBar = document.getElementById('qRtBar');
         if (qRtBar) {
             qRtBar.addEventListener('click', function(e) {
@@ -1803,19 +1766,33 @@
             });
         }
 
-        /* Question type options */
+        // ── ✅ FIX: TYPE OPTION BUTTONS — scoped correctly for Ask vs Edit ──
         document.querySelectorAll('.sl-type-opt').forEach(function(opt) {
             opt.addEventListener('click', function() {
-                document.querySelectorAll('.sl-type-opt').forEach(function(o) {
-                    o.classList.remove('selected');
-                });
-                this.classList.add('selected');
-                var th = document.getElementById('qTypeHidden');
-                if (th) th.value = this.dataset.type;
+                var postId = this.dataset.post; // only edit buttons have data-post
+
+                if (postId) {
+                    // Edit form — only deselect siblings for THIS post's buttons
+                    document.querySelectorAll('.edit-type-opt[data-post="' + postId + '"]').forEach(function(o) {
+                        o.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    // Update the hidden q_type input for this specific edit form
+                    var hidden = document.getElementById('editQTypeHidden-' + postId);
+                    if (hidden) hidden.value = this.dataset.type;
+                } else {
+                    // Ask Question form — only deselect ask-form buttons
+                    document.querySelectorAll('.ask-type-opt').forEach(function(o) {
+                        o.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    var hidden = document.getElementById('qTypeHidden');
+                    if (hidden) hidden.value = this.dataset.type;
+                }
             });
         });
 
-        /* Question tag input */
+        // ── ASK QUESTION TAGS ──
         var qTagIn = document.getElementById('qTagIn');
         if (qTagIn) {
             qTagIn.addEventListener('keydown', function(e) {
@@ -1823,7 +1800,7 @@
             });
         }
 
-        /* Question form submit */
+        // ── ASK QUESTION FORM SUBMIT ──
         var qForm = document.getElementById('qForm');
         if (qForm) {
             qForm.addEventListener('submit', function() {
@@ -1836,7 +1813,7 @@
             });
         }
 
-        /* ── 3. EDIT PANEL ── */
+        // ── EDIT FORM: SELECTOR ──
         var editSelector = document.getElementById('editPostSelector');
 
         function loadEditForm(postId) {
@@ -1852,14 +1829,13 @@
             var form = document.getElementById('editForm-' + postId);
             if (form) form.style.display = 'block';
         }
-
         if (editSelector) {
             editSelector.addEventListener('change', function() {
                 loadEditForm(this.value);
             });
         }
 
-        /* Rich text toolbars – edit forms */
+        // ── EDIT FORM: RICH TEXT BARS ──
         document.querySelectorAll('.sl-edit-form .sl-rt-bar').forEach(function(bar) {
             bar.addEventListener('click', function(e) {
                 var btn = e.target.closest('.sl-rt-btn');
@@ -1869,14 +1845,14 @@
             });
         });
 
-        /* Edit form tag inputs */
+        // ── EDIT FORM: TAG INPUTS ──
         document.querySelectorAll('.edit-tag-input').forEach(function(inp) {
             inp.addEventListener('keydown', function(e) {
                 addTagToWrap(e, inp.dataset.wrap, inp.dataset.hidden);
             });
         });
 
-        /* Edit form image preview */
+        // ── EDIT FORM: IMAGE PREVIEW ──
         document.querySelectorAll('.edit-img-input').forEach(function(inp) {
             inp.addEventListener('change', function() {
                 var postId = this.dataset.post;
@@ -1893,7 +1869,7 @@
             });
         });
 
-        /* Edit save – sync body & tags before submit */
+        // ── EDIT FORM: SAVE BUTTON — sync hidden fields before submit ──
         document.querySelectorAll('.edit-save-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var postId = this.dataset.post;
@@ -1902,10 +1878,11 @@
                 if (body && hidden) hidden.value = body.innerHTML.trim();
                 var tagHidden = document.getElementById('editTagsHidden-' + postId);
                 if (tagHidden) tagHidden.value = collectTags('editTagsWrap-' + postId);
+                // q_type is already kept in sync via the type button click handler above
             });
         });
 
-        /* Edit cancel */
+        // ── EDIT FORM: CANCEL ──
         document.querySelectorAll('.edit-cancel-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 if (editSelector) editSelector.value = '';
@@ -1913,7 +1890,7 @@
             });
         });
 
-        /* Open Edit tab from post dropdown */
+        // ── OPEN EDIT TAB FROM POST DROPDOWN ──
         document.querySelectorAll('.open-edit-tab-btn').forEach(function(btn) {
             btn.addEventListener('click', function() {
                 var postId = this.dataset.post;
@@ -1924,7 +1901,7 @@
                     t.classList.remove('active');
                 });
                 document.getElementById('edit-panel').classList.add('active');
-                var editTab = document.querySelector('.sl-tab[data-panel="edit-panel" ]');
+                var editTab = document.querySelector('.sl-tab[data-panel="edit-panel"]');
                 if (editTab) editTab.classList.add('active');
                 if (editSelector) {
                     editSelector.value = postId;
@@ -1937,7 +1914,7 @@
             });
         });
 
-        /* ── 4. TAG HELPERS ── */
+        // ── TAG HELPERS ──
         function addTagToWrap(e, wrapId, hiddenId) {
             if (e.key !== 'Enter' && e.key !== ',') return;
             e.preventDefault();
@@ -1966,10 +1943,9 @@
             }).join(',');
         }
 
-        /* ── 5. RESTORE SESSION STATE (after validation errors) ── */
+        // ── SESSION RESTORE (redirect back to edit tab) ──
         var formType = document.getElementById('sessionFormType')?.value;
         var editPostId = document.getElementById('sessionEditId')?.value;
-
         if (formType === 'edit') {
             var editTabBtn = document.querySelector('.sl-tab[data-panel="edit-panel"]');
             if (editTabBtn) editTabBtn.click();
@@ -1979,28 +1955,68 @@
             }
         }
 
-    }); // end DOMContentLoaded
+        // ── FILTER FORM ──
+        const form = document.getElementById('filterForm');
+        const searchInput = document.getElementById('searchInput');
+        const tagFilter = document.getElementById('tagFilter');
+        if (form) {
+            if (tagFilter) {
+                tagFilter.addEventListener('change', function() {
+                    form.submit();
+                });
+            }
+            if (searchInput) {
+                let typingTimer;
+                searchInput.addEventListener('keyup', function() {
+                    clearTimeout(typingTimer);
+                    typingTimer = setTimeout(() => {
+                        form.submit();
+                    }, 500);
+                });
+                searchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        form.submit();
+                    }
+                });
+            }
+        }
 
-    /* ════════════════════════════════════════
-    DELEGATED CLICK HANDLER
-    (likes + comments + replies + tags)
-    ════════════════════════════════════════ */
+        // ── EDIT TAG INPUT: keyup enter fallback ──
+        document.querySelectorAll('.edit-tag-input').forEach(function(input) {
+            input.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const hiddenId = input.dataset.hidden;
+                    const hidden = document.getElementById(hiddenId);
+                    let current = hidden.value ? hidden.value.split(',') : [];
+                    let tag = input.value.trim();
+                    if (tag && !current.includes(tag)) {
+                        current.push(tag);
+                        hidden.value = current.join(',');
+                        input.value = '';
+                    }
+                }
+            });
+        });
+    });
+
+    // ── GLOBAL CLICK HANDLER ──
     document.addEventListener('click', function(e) {
 
-        /* ── Remove tag pill ── */
+        // Remove tag pill
         if (e.target.classList.contains('remove-tag-btn')) {
             var pill = e.target.closest('.sl-tag-pill');
             if (pill) pill.remove();
             return;
         }
 
-        /* ── Like / Unlike ── */
+        // Like button
         var likeBtn = e.target.closest('.like-btn');
         if (likeBtn) {
             if (likeBtn.disabled) return;
             likeBtn.disabled = true;
             var postId = likeBtn.dataset.post;
-
             fetch('/posts/' + postId + '/like', {
                     method: 'POST',
                     headers: {
@@ -2014,15 +2030,12 @@
                 .then(function(data) {
                     likeBtn.querySelector('.like-count').innerText = data.likes_count;
                     likeBtn.classList.toggle('liked', data.liked);
-
                     var likeText = document.getElementById('likeText-' + postId);
                     if (!likeText) return;
-
                     if (data.likes_count === 0) {
                         likeText.innerHTML = '';
                         return;
                     }
-
                     var users = data.top_users;
                     var text = 'Liked by ';
                     if (data.likes_count === 1) {
@@ -2030,11 +2043,7 @@
                     } else if (data.likes_count === 2) {
                         text += users[0] + ', ' + users[1];
                     } else {
-                        text += users[0] + ', ' + users[1] +
-                            ' and <a href="#" class="text-dark fw-semibold text-decoration-none show-likes"' +
-                            ' data-post="' + postId + '" data-bs-toggle="modal"' +
-                            ' data-bs-target="#likesModal-' + postId + '">' +
-                            data.remaining + ' others</a>';
+                        text += users[0] + ', ' + users[1] + ' and <a href="#" class="text-dark fw-semibold text-decoration-none show-likes" data-post="' + postId + '" data-bs-toggle="modal" data-bs-target="#likesModal-' + postId + '">' + data.remaining + ' others</a>';
                     }
                     likeText.innerHTML = text;
                 })
@@ -2047,14 +2056,14 @@
             return;
         }
 
-        /* ── Show likes modal ── */
+        // Show likes modal
         var showLikes = e.target.closest('.show-likes');
         if (showLikes) {
             loadLikesModal(showLikes.dataset.post);
             return;
         }
 
-        /* ── Toggle comment panel ── */
+        // Toggle answers/comments panel
         var toggleBtn = e.target.closest('.toggle-answers-btn');
         if (toggleBtn) {
             var postId = toggleBtn.dataset.post;
@@ -2069,7 +2078,7 @@
             return;
         }
 
-        /* ── Post main comment ── */
+        // Post main comment
         var mainBtn = e.target.closest('.main-comment-btn');
         if (mainBtn) {
             var postId = mainBtn.dataset.post;
@@ -2105,7 +2114,7 @@
             return;
         }
 
-        /* ── Toggle reply input box ── */
+        // Toggle reply box
         var replyToggle = e.target.closest('.reply-toggle-btn');
         if (replyToggle) {
             var commentId = replyToggle.dataset.comment;
@@ -2120,7 +2129,7 @@
             return;
         }
 
-        /* ── Post reply ── */
+        // Post reply
         var replyBtn = e.target.closest('.post-reply-btn');
         if (replyBtn) {
             var postId = replyBtn.dataset.post;
@@ -2158,11 +2167,9 @@
                 });
             return;
         }
-
     });
 
-    /* ════ COMMENT FUNCTIONS ════ */
-
+    // ── COMMENTS LOADER ──
     function loadComments(postId) {
         var list = document.getElementById('commentsList-' + postId);
         if (!list) return;
@@ -2196,69 +2203,33 @@
         var div = document.createElement('div');
         div.className = 'sl-answer-item';
         div.id = 'comment-' + comment.id;
-        var av = comment.user.photo ?
-            '<img src="' + comment.user.photo + '" alt="">' :
-            comment.user.initial;
+        var av = comment.user.photo ? '<img src="' + comment.user.photo + '" alt="">' : comment.user.initial;
         var repliesHtml = '';
-        if (comment.replies && comment.replies.length)
-            comment.replies.forEach(function(r) {
-                repliesHtml += buildReplyHtml(r);
-            });
-
-        div.innerHTML =
-            '<div class="sl-a-avatar">' + av + '</div>' +
-            '<div class="sl-a-body">' +
-            '<div class="sl-a-bubble">' +
-            '<h5>' + escHtml(comment.user.name) + '</h5>' +
-            '<p>' + escHtml(comment.comment) + '</p>' +
-            '</div>' +
-            '<div class="sl-a-meta">' +
-            '<span>' + comment.created_at + '</span>' +
-            '<button class="reply-toggle-btn" data-comment="' + comment.id + '">Reply</button>' +
-            '</div>' +
-            '<div id="replyBox-' + comment.id + '" style="display:none;gap:6px;padding:6px 0;align-items:center;">' +
-            '<input class="sl-reply-input reply-input" type="text" data-comment="' + comment.id + '" placeholder="Write a reply…" style="flex:1;">' +
-            '<button class="sl-btn sl-btn-primary post-reply-btn" data-post="' + postId + '" data-comment="' + comment.id + '" style="padding:5px 12px;font-size:12px;white-space:nowrap;">Reply</button>' +
-            '</div>' +
-            '<div class="sl-replies" id="replies-' + comment.id + '" style="display:block;">' + repliesHtml + '</div>' +
-            '</div>';
+        if (comment.replies && comment.replies.length) comment.replies.forEach(function(r) {
+            repliesHtml += buildReplyHtml(r);
+        });
+        div.innerHTML = '<div class="sl-a-avatar">' + av + '</div><div class="sl-a-body"><div class="sl-a-bubble"><h5>' + escHtml(comment.user.name) + '</h5><p>' + escHtml(comment.comment) + '</p></div><div class="sl-a-meta"><span>' + comment.created_at + '</span><button class="reply-toggle-btn" data-comment="' + comment.id + '">Reply</button></div><div id="replyBox-' + comment.id + '" style="display:none;gap:6px;padding:6px 0;align-items:center;"><input class="sl-reply-input reply-input" type="text" data-comment="' + comment.id + '" placeholder="Write a reply…" style="flex:1;"><button class="sl-btn sl-btn-primary post-reply-btn" data-post="' + postId + '" data-comment="' + comment.id + '" style="padding:4px 11px;font-size:12px;white-space:nowrap;">Reply</button></div><div class="sl-replies" id="replies-' + comment.id + '" style="display:block;">' + repliesHtml + '</div></div>';
         return div;
     }
 
     function buildReplyHtml(reply) {
-
-        var av = reply.user.photo ?
-            '<img src="' + reply.user.photo + '" alt="">' :
-            reply.user.initial;
-
-        return '<div class="sl-reply" id="reply-' + reply.id + '">' +
-            '<div class="sl-r-avatar">' + av + '</div>' +
-            '<div class="sl-r-bubble">' +
-            '<h6>' + escHtml(reply.user.name) + '</h6>' +
-            '<p>' + escHtml(reply.comment) + '</p>' +
-            '<span style="font-size:11px;color:#999;">' + reply.created_at + '</span>' +
-            '</div>' +
-            '</div>';
+        var av = reply.user.photo ? '<img src="' + reply.user.photo + '" alt="">' : reply.user.initial;
+        return '<div class="sl-reply" id="reply-' + reply.id + '"><div class="sl-r-avatar">' + av + '</div><div class="sl-r-bubble"><h6>' + escHtml(reply.user.name) + '</h6><p>' + escHtml(reply.comment) + '</p><span style="font-size:11px;color:#999;">' + reply.created_at + '</span></div></div>';
     }
 
     function loadLikesModal(postId) {
-        fetch('/posts/' + postId + '/likes')
-            .then(function(r) {
-                return r.json();
-            })
-            .then(function(users) {
-                var html = users.length ? '' : '<p class="text-muted text-center">No likes yet</p>';
-                users.forEach(function(u) {
-                    html += '<div class="d-flex align-items-center gap-3 mb-3">';
-                    html += u.photo ?
-                        '<img src="' + u.photo + '" class="rounded-circle" width="40" height="40" style="object-fit:cover;">' :
-                        '<div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width:40px;height:40px;"><i class="bi bi-person-fill text-secondary"></i></div>';
-                    html += '<div class="fw-semibold">' + escHtml(u.name) + '</div>'
-                    '</div>';
-                });
-                var el = document.getElementById('likesList-' + postId);
-                if (el) el.innerHTML = html;
+        fetch('/posts/' + postId + '/likes').then(function(r) {
+            return r.json();
+        }).then(function(users) {
+            var html = users.length ? '' : '<p class="text-muted text-center">No likes yet</p>';
+            users.forEach(function(u) {
+                html += '<div class="d-flex align-items-center gap-3 mb-3">';
+                html += u.photo ? '<img src="' + u.photo + '" class="rounded-circle" width="38" height="38" style="object-fit:cover;">' : '<div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width:38px;height:38px;"><i class="bi bi-person-fill text-secondary"></i></div>';
+                html += '<div class="fw-semibold">' + escHtml(u.name) + '</div></div>';
             });
+            var el = document.getElementById('likesList-' + postId);
+            if (el) el.innerHTML = html;
+        });
     }
 
     function prependComment(postId, comment) {
@@ -2287,92 +2258,343 @@
         d.appendChild(document.createTextNode(str || ''));
         return d.innerHTML;
     }
-    const qForm = document.getElementById('qForm');
-    const tagInput = document.getElementById('qTagIn');
-    const hiddenTags = document.getElementById('qTagsHidden');
 
-    if (qForm) {
+    // ── DAILY PUZZLE (refreshes every 24h) ──
+    (function() {
+        const STORAGE_KEY = 'smartlearn_daily_puzzle';
+        const ONE_DAY = 24 * 60 * 60 * 1000;
 
-        let tagsArray = [];
+        function isFresh(saved) {
+            return saved && saved.ts && (Date.now() - saved.ts) < ONE_DAY;
+        }
 
-        tagInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
+        function renderPuzzle(data) {
+            const el = document.getElementById('puzzleContent');
+            if (!el) return;
 
-                let tag = tagInput.value.trim().toLowerCase();
+            if (data.type === 'trivia') {
+                const allAnswers = [...data.incorrect, data.correct].sort(() => Math.random() - 0.5);
+                el.innerHTML = `
+                <div style="text-align:left">
+                    <span class="badge mb-2" style="background:var(--blue-soft);color:var(--blue);font-size:11px;padding:3px 9px;border-radius:20px;font-weight:700">
+                        ${data.category}
+                    </span>
+                    <p style="font-size:13.5px;font-weight:600;line-height:1.5;margin-bottom:12px">${data.question}</p>
+                    <div id="triviaOptions" style="display:flex;flex-direction:column;gap:7px">
+                        ${allAnswers.map((a, i) => `
+                            <button type="button"
+                                class="trivia-opt"
+                                data-correct="${a === data.correct}"
+                                style="background:#f5f7fa;border:1.5px solid #e5e7eb;border-radius:9px;padding:7px 12px;font-size:13px;font-weight:500;text-align:left;cursor:pointer;transition:all .2s;color:var(--text)">
+                                <span style="font-weight:700;margin-right:6px;color:var(--blue)">${String.fromCharCode(65+i)}.</span>${a}
+                            </button>`).join('')}
+                    </div>
+                    <div id="triviaResult" style="display:none;margin-top:10px;font-size:12.5px;font-weight:700;padding:7px 11px;border-radius:8px"></div>
+                    <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
+                        <small style="font-size:11px;color:var(--text-muted)">Refreshes in <span id="puzzleCountdown"></span></small>
+                        <span class="badge" style="background:${data.difficulty==='easy'?'#d1fae5':data.difficulty==='medium'?'#fef3c7':'#fee2e2'};color:${data.difficulty==='easy'?'#065f46':data.difficulty==='medium'?'#92400e':'#991b1b'};font-size:10px;padding:2px 8px;border-radius:12px;font-weight:700;text-transform:capitalize">${data.difficulty}</span>
+                    </div>
+                </div>`;
 
-                if (tag && !tagsArray.includes(tag)) {
-                    tagsArray.push(tag);
-                    hiddenTags.value = tagsArray.join(',');
-                    tagInput.value = '';
-                }
+                // Answer click handler
+                document.querySelectorAll('.trivia-opt').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (document.getElementById('triviaResult').style.display !== 'none') return;
+                        const isCorrect = this.dataset.correct === 'true';
+                        document.querySelectorAll('.trivia-opt').forEach(b => {
+                            b.disabled = true;
+                            if (b.dataset.correct === 'true') {
+                                b.style.background = '#d1fae5';
+                                b.style.borderColor = '#22c55e';
+                                b.style.color = '#065f46';
+                            } else if (b === this && !isCorrect) {
+                                b.style.background = '#fee2e2';
+                                b.style.borderColor = '#ef4444';
+                                b.style.color = '#991b1b';
+                            }
+                        });
+                        const res = document.getElementById('triviaResult');
+                        res.style.display = 'block';
+                        res.style.background = isCorrect ? '#d1fae5' : '#fee2e2';
+                        res.style.color = isCorrect ? '#065f46' : '#991b1b';
+                        res.textContent = isCorrect ? '✓ Correct! Great job!' : `✗ The answer was: ${data.correct}`;
+                    });
+                });
+
+            } else if (data.type === 'math') {
+                el.innerHTML = `
+                <div style="text-align:left">
+                    <span class="badge mb-2" style="background:var(--blue-soft);color:var(--blue);font-size:11px;padding:3px 9px;border-radius:20px;font-weight:700">Math Challenge</span>
+                    <p style="font-size:13.5px;font-weight:600;line-height:1.5;margin-bottom:10px">${data.question}</p>
+                    <div style="display:flex;gap:7px;align-items:center">
+                        <input type="number" id="mathAnswer" class="form-control" placeholder="Your answer…" style="font-size:13px;border-radius:9px;border:1.5px solid #e5e7eb;padding:6px 11px">
+                        <button type="button" id="mathSubmit" class="btn btn-primary btn-sm" style="border-radius:9px;padding:6px 14px;font-size:13px;white-space:nowrap">Check</button>
+                    </div>
+                    <div id="mathResult" style="display:none;margin-top:9px;font-size:12.5px;font-weight:700;padding:7px 11px;border-radius:8px"></div>
+                    <small style="display:block;margin-top:9px;font-size:11px;color:var(--text-muted)">Refreshes in <span id="puzzleCountdown"></span></small>
+                </div>`;
+
+                document.getElementById('mathSubmit').addEventListener('click', function() {
+                    const val = parseInt(document.getElementById('mathAnswer').value);
+                    const res = document.getElementById('mathResult');
+                    res.style.display = 'block';
+                    if (val === data.answer) {
+                        res.style.background = '#d1fae5';
+                        res.style.color = '#065f46';
+                        res.textContent = '✓ Correct! Well done!';
+                    } else {
+                        res.style.background = '#fee2e2';
+                        res.style.color = '#991b1b';
+                        res.textContent = `✗ Not quite. The answer is ${data.answer}.`;
+                    }
+                    this.disabled = true;
+                });
+                document.getElementById('mathAnswer').addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') document.getElementById('mathSubmit').click();
+                });
             }
-        });
 
-        qForm.addEventListener('submit', function() {
-            hiddenTags.value = tagsArray.join(',');
-        });
-
-    }
-
-    const form = document.getElementById('filterForm');
-    const searchInput = document.getElementById('searchInput');
-    const tagFilter = document.getElementById('tagFilter');
-
-    if (form) {
-
-        if (tagFilter) {
-            tagFilter.addEventListener('change', function() {
-                form.submit();
-            });
+            startCountdown();
         }
 
-        if (searchInput) {
-            let typingTimer;
-            searchInput.addEventListener('keyup', function() {
-                clearTimeout(typingTimer);
-                typingTimer = setTimeout(() => {
-                    form.submit();
-                }, 500);
-            });
-        }
+        function startCountdown() {
+            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
 
-    }
-    document.addEventListener('DOMContentLoaded', function() {
-
-        const form = document.getElementById('filterForm');
-        const searchInput = document.getElementById('searchInput');
-
-        if (searchInput) {
-            searchInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    form.submit();
-                }
-            });
-        }
-
-    });
-    document.querySelectorAll('.edit-tag-input').forEach(function(input) {
-
-        input.addEventListener('keyup', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-
-                const hiddenId = input.dataset.hidden;
-                const hidden = document.getElementById(hiddenId);
-
-                let current = hidden.value ? hidden.value.split(',') : [];
-                let tag = input.value.trim();
-
-                if (tag && !current.includes(tag)) {
-                    current.push(tag);
-                    hidden.value = current.join(',');
-                    input.value = '';
-                }
+            function tick() {
+                const els = document.querySelectorAll('#puzzleCountdown');
+                if (!els.length) return;
+                const remaining = Math.max(0, ONE_DAY - (Date.now() - (saved.ts || Date.now())));
+                const h = Math.floor(remaining / 3600000);
+                const m = Math.floor((remaining % 3600000) / 60000);
+                const s = Math.floor((remaining % 60000) / 1000);
+                const text = `${h}h ${m}m ${s}s`;
+                els.forEach(el => el.textContent = text);
             }
-        });
+            tick();
+            setInterval(tick, 1000);
+        }
 
-    });
+        function generateMathPuzzle(seed) {
+            // Seeded deterministic puzzle so all users get same puzzle per day
+            const rng = (n) => {
+                let x = Math.sin(seed + n) * 10000;
+                return Math.floor((x - Math.floor(x)) * n);
+            };
+            const types = ['add', 'mul', 'sub', 'perc', 'seq'];
+            const t = types[rng(5)];
+            if (t === 'add') {
+                const a = rng(50) + 10,
+                    b = rng(50) + 10;
+                return {
+                    type: 'math',
+                    question: `What is ${a} + ${b}?`,
+                    answer: a + b
+                };
+            } else if (t === 'mul') {
+                const a = rng(12) + 2,
+                    b = rng(12) + 2;
+                return {
+                    type: 'math',
+                    question: `What is ${a} × ${b}?`,
+                    answer: a * b
+                };
+            } else if (t === 'sub') {
+                const b = rng(40) + 10,
+                    a = b + rng(40) + 5;
+                return {
+                    type: 'math',
+                    question: `What is ${a} − ${b}?`,
+                    answer: a - b
+                };
+            } else if (t === 'perc') {
+                const p = [10, 20, 25, 50][rng(4)],
+                    n = (rng(8) + 1) * 10;
+                return {
+                    type: 'math',
+                    question: `What is ${p}% of ${n}?`,
+                    answer: Math.round(p * n / 100)
+                };
+            } else {
+                const start = rng(8) + 2,
+                    step = rng(5) + 2;
+                const seq = [start, start + step, start + 2 * step, start + 3 * step];
+                return {
+                    type: 'math',
+                    question: `Next number: ${seq.join(', ')}, __?`,
+                    answer: start + 4 * step
+                };
+            }
+        }
+
+        async function loadPuzzle() {
+            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+            if (isFresh(saved)) {
+                renderPuzzle(saved.data);
+                return;
+            }
+
+            // Try Open Trivia DB (free, no key needed)
+            try {
+                const cats = [17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]; // various knowledge cats
+                const today = new Date();
+                const seed = today.getFullYear() * 10000 + ((today.getMonth() + 1) * 100) + today.getDate();
+                const cat = cats[seed % cats.length];
+                const diff = ['easy', 'medium', 'hard'][seed % 3];
+                const res = await fetch(`https://opentdb.com/api.php?amount=1&category=${cat}&difficulty=${diff}&type=multiple`);
+                const json = await res.json();
+                if (json.response_code === 0 && json.results.length) {
+                    const q = json.results[0];
+                    const decode = s => {
+                        const t = document.createElement('textarea');
+                        t.innerHTML = s;
+                        return t.value;
+                    };
+                    const data = {
+                        type: 'trivia',
+                        category: decode(q.category),
+                        difficulty: q.difficulty,
+                        question: decode(q.question),
+                        correct: decode(q.correct_answer),
+                        incorrect: q.incorrect_answers.map(decode)
+                    };
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                        ts: Date.now(),
+                        data
+                    }));
+                    renderPuzzle(data);
+                    return;
+                }
+            } catch (e) {
+                /* fallback */
+            }
+
+            // Fallback: local math puzzle
+            const today = new Date();
+            const seed = today.getFullYear() * 10000 + ((today.getMonth() + 1) * 100) + today.getDate();
+            const data = generateMathPuzzle(seed);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                ts: Date.now(),
+                data
+            }));
+            renderPuzzle(data);
+        }
+
+        loadPuzzle();
+    })();
+    // ── DYNAMIC NEWS (refreshes every 24h) ──
+    (function() {
+        const NEWS_KEY = 'smartlearn_news_feed_v3';
+        const ONE_DAY = 24 * 60 * 60 * 1000;
+
+        function isFresh(saved) {
+            return saved && saved.ts && (Date.now() - saved.ts) < ONE_DAY;
+        }
+
+        function renderNews(articles) {
+            const ul = document.getElementById('newsFeed');
+            if (!ul) return;
+            ul.innerHTML = articles.map(a => `
+            <li class="mb-2">
+                <a href="${a.url}" target="_blank" rel="noopener" class="news-link"
+                   style="font-size:13px;display:block;line-height:1.4;">
+                   &#8226; ${a.title}
+                </a>
+            </li>`).join('');
+        }
+
+        function startNewsCountdown(ts) {
+            function tick() {
+                const el = document.getElementById('newsCountdown');
+                if (!el) return;
+                const remaining = Math.max(0, ONE_DAY - (Date.now() - ts));
+                const h = Math.floor(remaining / 3600000);
+                const m = Math.floor((remaining % 3600000) / 60000);
+                el.textContent = `${h}h ${m}m`;
+            }
+            tick();
+            setInterval(tick, 60000);
+        }
+
+        // Fallback static articles (used if API fails)
+       function getFallbackNews() {
+    return [
+        { title: 'AI-Powered Creative Co-Pilots in 2026', url: 'https://techcrunch.com' },
+        { title: 'Hyper-Personalization Becomes Standard', url: 'https://wired.com' },
+        { title: 'Gamification 2.0: Emotional Design', url: 'https://edutopia.org' },
+        { title: 'Collaborative In-Flow Learning', url: 'https://elearningindustry.com' },
+        { title: 'Emerging Risks & AI Regulations', url: 'https://theverge.com' },
+        { title: 'Microlearning Trends Reshaping EdTech', url: 'https://elearningindustry.com' },
+        { title: 'Adaptive Learning Platforms of 2026', url: 'https://techcrunch.com' },
+        { title: 'Social Learning & Peer Collaboration', url: 'https://edutopia.org' },
+    ];
+}
+
+        async function loadNews() {
+            const saved = JSON.parse(localStorage.getItem(NEWS_KEY) || 'null');
+            if (isFresh(saved)) {
+                renderNews(saved.articles);
+                startNewsCountdown(saved.ts);
+                return;
+            }
+
+            // Try GNews API (free tier: 100 req/day, no key needed for basic)
+            // Using RSS-to-JSON proxy for ed-tech news (no API key required)
+            try {
+               const rssUrl = encodeURIComponent('https://feeds.feedburner.com/edutopia/RssFeed');
+const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&count=8&api_key=`);
+                const json = await res.json();
+
+                if (json.status === 'ok' && json.items && json.items.length) {
+                    const articles = json.items.slice(0, 8).map(item => ({
+                        title: item.title.length > 55 ? item.title.substring(0, 55) + '…' : item.title,
+                        url: item.link
+                    }));
+                    const payload = {
+                        ts: Date.now(),
+                        articles
+                    };
+                    localStorage.setItem(NEWS_KEY, JSON.stringify(payload));
+                    renderNews(articles);
+                    startNewsCountdown(payload.ts);
+                    return;
+                }
+            } catch (e) {
+                /* fallback */
+            }
+
+            // Try a second source: DEV.to tech articles
+            try {
+               const res = await fetch('https://dev.to/api/articles?tag=education&per_page=8&top=7');
+                const json = await res.json();
+                if (json && json.length) {
+                    const articles = json.slice(0, 8).map(item => ({
+                        title: item.title.length > 55 ? item.title.substring(0, 55) + '…' : item.title,
+                        url: item.url
+                    }));
+                    const payload = {
+                        ts: Date.now(),
+                        articles
+                    };
+                    localStorage.setItem(NEWS_KEY, JSON.stringify(payload));
+                    renderNews(articles);
+                    startNewsCountdown(payload.ts);
+                    return;
+                }
+            } catch (e) {
+                /* fallback */
+            }
+
+            // Final fallback: static articles
+            const payload = {
+                ts: Date.now(),
+                articles: getFallbackNews()
+            };
+            localStorage.setItem(NEWS_KEY, JSON.stringify(payload));
+            renderNews(payload.articles);
+            startNewsCountdown(payload.ts);
+        }
+
+        loadNews();
+    })();
 </script>
 @endsection

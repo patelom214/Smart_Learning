@@ -5,123 +5,98 @@
 
 @push('styles')
 <style>
-    :root {
-        --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  /* ============================= */
+/* 🌙 FULL DARK MODE FIX */
+/* ============================= */
+[data-bs-theme="dark"] {
+
+    /* Page background */
+    body {
+        background-color: #12121c;
+        color: #eaeaf0;
     }
 
-    /* ── Post card ── */
-    .post-card {
-        border-radius: 16px;
-        transition: transform .22s, box-shadow .22s;
+    /* Cards */
+    .card {
+        background-color: #1e1e2f !important;
+        color: #ffffff;
     }
 
+    /* Headings */
+    h1, h2, h3, h4, h5, h6 {
+        color: #ffffff !important;
+    }
+
+    /* Subtitle / muted text */
+    .text-muted {
+        color: #a1a1aa !important;
+    }
+
+    /* Post content */
+    .post-preview,
+    .post-card p,
+    .post-card div {
+        color: #d4d4d8 !important;
+    }
+
+    /* Strong text */
+    strong {
+        color: #ffffff;
+    }
+
+    /* Search bar */
+    .input-group-text {
+        background-color: #2a2a3d !important;
+        color: #aaa;
+        border-color: #444;
+    }
+
+    .form-control {
+        background-color: #2a2a3d !important;
+        color: #ffffff !important;
+        border-color: #444;
+    }
+
+    .form-control::placeholder {
+        color: #888 !important;
+    }
+
+    /* Buttons */
+    .btn-light {
+        background-color: #2a2a3d !important;
+        color: #ffffff !important;
+        border-color: #444;
+    }
+
+    /* Badges */
+    .badge {
+        opacity: 0.95;
+    }
+
+    /* Borders */
+    .border {
+        border-color: #3a3a4d !important;
+    }
+
+    /* Hover effect */
     .post-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, .09) !important;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.6) !important;
     }
 
-    /* ── Author avatar ── */
-    .post-avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 10px;
-        background: var(--gradient);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    /* Modal */
+    .modal-content {
+        background-color: #1e1e2f;
         color: #fff;
-        font-weight: 700;
-        font-size: .82rem;
-        flex-shrink: 0;
     }
+}
+[data-bs-theme="dark"] h4,
+[data-bs-theme="dark"] .text-title {
+    color: #080808 !important;
+}
 
-    /* ── Post content preview (clamp to 3 lines) ── */
-    .post-preview {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        font-size: .875rem;
-        color: #6c757d;
-        line-height: 1.6;
-    }
-
-    /* ── Search focus ── */
-    #postSearch:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 .2rem rgba(102, 126, 234, .2);
-    }
-
-    /* ── View modal post content ── */
-    #modalPostContent img {
-        max-width: 100%;
-        border-radius: 8px;
-    }
-
-    #modalPostContent p {
-        margin-bottom: .75rem;
-    }
-
-    /* ── Fade-up ── */
-    .fu {
-        animation: fadeUp .4s ease both;
-    }
-
-    @keyframes fadeUp {
-        from {
-            opacity: 0;
-            transform: translateY(12px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .d1 {
-        animation-delay: .05s
-    }
-
-    .d2 {
-        animation-delay: .10s
-    }
-
-    .d3 {
-        animation-delay: .15s
-    }
-
-    /* Prevent overflow issues */
-    .post-row div {
-        min-width: 0;
-    }
-
-    /* Fix text wrapping */
-    .post-card {
-        word-break: break-word;
-    }
-
-    /* Mobile optimization */
-    @media (max-width: 768px) {
-        .post-card h5 {
-            font-size: 16px;
-        }
-
-        .post-card .btn {
-            padding: 4px 8px;
-            font-size: 12px;
-        }
-
-        .post-card .btn i {
-            margin: 0 !important;
-        }
-
-        /* Stack layout clean */
-        .post-card .d-flex {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-        }
-    }
+[data-bs-theme="dark"] .text-subtitle {
+    color: #040404 !important;
+}
 </style>
 @endpush
 
@@ -130,8 +105,8 @@
 {{-- ── Page header ── --}}
 <div class="d-flex align-items-center justify-content-between mb-4">
     <div>
-        <h5 class="fw-bold mb-0">All Posts</h5>
-        <small class="text-muted">Review, view and remove platform posts</small>
+        <h4 class="fw-bold mb-0 text-dark text-title">All Posts</h4>
+<small class="text-muted text-subtitle">Review, view and remove platform posts</small>
     </div>
 
     <!-- RIGHT SIDE GROUP -->
@@ -156,11 +131,11 @@
     <div class="row g-2 align-items-center">
         <div class="col-md-6">
             <div class="input-group input-group-sm">
-                <span class="input-group-text bg-light border-end-0 text-muted">
+                <span class="input-group-text border-end-0 text-muted">
                     <i class="bi bi-search"></i>
                 </span>
                 <input type="text" id="postSearch"
-                    class="form-control border-start-0 bg-light"
+                    class="form-control border-start-0 "
                     placeholder="Search by author, title, or content…"
                     oninput="filterPosts()">
             </div>
@@ -208,7 +183,7 @@
 
                     {{-- Title --}}
                     @if($post->title)
-                    <h5 class="fw-bold mb-1">{{ $post->title }}</h5>
+                    <h5 class="fw-bold mb-1 text-dark dark-title">{{ $post->title }}</h5>
                     @endif
 
                     {{-- Meta --}}

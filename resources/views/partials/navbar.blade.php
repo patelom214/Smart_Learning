@@ -2,36 +2,15 @@
     <div class="container">
 
         <!-- Brand -->
-        <a href="{{ url('/') }}"
-            class="navbar-brand d-flex align-items-center gap-2 text-decoration-none p-0">
-
-            <!-- Graduation Cap Icon -->
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="slLogo" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stop-color="#3b82f6" />
-                        <stop offset="100%" stop-color="#0d6efd" />
-                    </linearGradient>
-                </defs>
-                <!-- Icon background rounded square -->
-                <rect width="32" height="32" rx="8" fill="url(#slLogo)" />
-                <!-- Cap board -->
-                <polygon points="16,6 28,12 16,18 4,12" fill="white" />
-                <!-- Stand -->
-                <line x1="16" y1="18" x2="16" y2="27" stroke="white" stroke-width="2" stroke-linecap="round" />
-                <!-- Base -->
-                <rect x="10" y="26" width="12" height="3.5" rx="1.75" fill="white" />
-                <!-- Tassel cord -->
-                <line x1="28" y1="12" x2="28" y2="22" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round" />
-                <!-- Tassel end -->
-                <circle cx="28" cy="24" r="2" fill="rgba(255,255,255,0.7)" />
-            </svg>
-
-            <!-- Wordmark -->
-            <span style="font-size:1.05rem;line-height:1;">
-                <span style="font-weight:800;color:#0d6efd;letter-spacing:-0.4px;">Smart</span><span style="font-weight:400;color:#1c1e21;letter-spacing:-0.3px;"> Learn</span>
-            </span>
-
+        <a href="{{ url('/') }}" class="navbar-brand text-decoration-none p-0">
+            <div class="nav-logo-row">
+                <div class="nav-logo-icon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                    </svg>
+                </div>
+                <div class="nav-brand-text"><span>Smart</span> Learn</div>
+            </div>
         </a>
 
         <!-- Mobile Toggle -->
@@ -69,7 +48,6 @@
                         data-bs-toggle="dropdown" aria-expanded="false">
                         Growth
                     </a>
-
                     <ul class="dropdown-menu growth-dropdown shadow border-0" aria-labelledby="growthDropdown">
                         <li>
                             <a class="dropdown-item growth-item {{ request()->routeIs('skills.skill') ? 'active' : '' }}" href="{{ route('skills.skill') }}">
@@ -83,7 +61,6 @@
                         </li>
                     </ul>
                 </li>
-
             </ul>
             @endif
 
@@ -103,7 +80,6 @@
                 <div class="position-relative">
                     <a href="{{ route('notifications') }}" class="nav-link">
                         <i class="bi bi-bell fs-5"></i>
-
                         @if($unreadCount > 0)
                         <span class="position-absolute top-0 start-100 translate-middle 
                          badge rounded-pill bg-danger">
@@ -142,32 +118,23 @@
 
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-4 p-2"
                         style="min-width: 220px;">
-
-                        <!-- User Info -->
                         <li class="px-3 py-2 border-bottom">
                             <div class="fw-semibold">{{ auth()->user()->name }}</div>
                             <small class="text-muted">{{ auth()->user()->email }}</small>
                         </li>
-
-                        <!-- Menu Items -->
                         <li>
                             <a class="dropdown-item rounded-3 d-flex align-items-center gap-2"
                                 href="{{ route('profile.show', ['user' => auth()->user()->id]) }}">
                                 <i class="bi bi-person"></i> View Profile
                             </a>
                         </li>
-
                         <li>
                             <a class="dropdown-item rounded-3 d-flex align-items-center gap-2"
                                 href="{{ route('profile.edit', auth()->user()->id) }}">
                                 <i class="bi bi-pencil-square"></i> Edit Profile
                             </a>
                         </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
+                        <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
@@ -179,7 +146,6 @@
                     </ul>
                 </div>
 
-
                 @else
                 <!-- Guest: Login / Sign Up -->
                 <a href="{{ route('login') }}" class="btn btn-outline-primary btn-sm me-2">Login</a>
@@ -188,7 +154,83 @@
             </div>
         </div>
     </div>
+
     <style>
+        /* ── Navbar logo fix ── */
+        .nav-logo-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;          /* removed the 2rem bottom margin */
+            padding: 0;
+            line-height: 1;
+        }
+
+        .nav-logo-icon {
+            width: 36px;        /* fixed width */
+            height: 36px;       /* fixed height */
+            min-width: 36px;    /* prevent shrinking */
+            background: #2563eb;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .nav-logo-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+            display: block;
+        }
+
+        .nav-brand-text {
+            font-size: 17px;
+            font-weight: 500;
+            color: #1a1a2e;
+            white-space: nowrap;
+        }
+
+        .nav-brand-text span {
+            color: #2563eb;
+        }
+
+        /* ── Keep auth pages logo using their own class ── */
+        .auth-logo-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .auth-logo-icon {
+            width: 36px;
+            height: 36px;
+            background: #2563eb;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-logo-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .auth-brand {
+            font-size: 17px;
+            font-weight: 500;
+            color: #1a1a2e;
+        }
+
+        .auth-brand span {
+            color: #2563eb;
+        }
+
+        /* ── Other navbar styles ── */
         .hover-bg:hover {
             background-color: #f8f9fa;
         }

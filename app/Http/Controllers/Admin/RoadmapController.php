@@ -11,7 +11,10 @@ class RoadmapController extends Controller
 {
     public function index(Skill $skill)
     {
-        $roadmaps = $skill->roadmaps()->latest()->get();
+        $roadmaps = $skill->roadmaps()
+        ->withCount('tasks') 
+        ->latest()
+        ->get();
         return view('admin.roadmaps.index', compact('skill', 'roadmaps'));
     }
     public function create(Skill $skill)

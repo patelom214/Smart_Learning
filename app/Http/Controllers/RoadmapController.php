@@ -53,13 +53,26 @@ class RoadmapController extends Controller
         return view('skills.roadmap_tasks', compact('roadmap', 'tasks'));
     }
 
-   public function toggleTask(RoadmapTask $task)
+
+
+public function toggleTask(RoadmapTask $task)
 {
     $userId = Auth::id();
     $skillId = $task->roadmap->skill_id;
     $roadmapId = $task->roadmap_id;
 
-    // Find or create progress for THIS USER + THIS TASK
+    // ✅ STEP 1: Check if user has added skill
+    $userSkill = UserSkill::where('user_id', $userId)
+        ->where('skill_id', $skillId)
+        ->where('roadmap_id', $roadmapId)
+        ->first();
+
+    // ❌ If skill not added → block
+    if (!$userSkill) {
+        return back()->with('error', 'Please add this skill first!');
+    }
+
+    // ✅ STEP 2: Get or create task progress
     $progress = UserTaskProgress::firstOrCreate(
         [
             'user_id' => $userId,
@@ -70,30 +83,28 @@ class RoadmapController extends Controller
         ]
     );
 
-    // Toggle
+    // ✅ STEP 3: Toggle status
     $wasCompleted = $progress->is_completed;
+
     $progress->is_completed = !$progress->is_completed;
     $progress->save();
 
-    // Update user_skill counts
-    $userSkill = UserSkill::where('user_id', $userId)
-        ->where('skill_id', $skillId)
-        ->where('roadmap_id', $roadmapId)
-        ->firstOrFail();
-
+    // ✅ STEP 4: Update completed_tasks count safely
     if ($wasCompleted) {
-        // was completed → now uncomplete
+        // Uncomplete
         if ($userSkill->completed_tasks > 0) {
             $userSkill->decrement('completed_tasks');
         }
     } else {
-        // was not completed → now completed
+        // Complete
         $userSkill->increment('completed_tasks');
     }
 
+    // ✅ STEP 5: Update overall progress %
     $this->updateProgress($userId, $skillId, $roadmapId);
 
-    return back();
+    // ✅ STEP 6: Return success
+    return back()->with('success', 'Task updated successfully!');
 }
    public function updateProgress($userId, $skillId, $roadmapId)
 {

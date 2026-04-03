@@ -176,6 +176,91 @@ body { background: var(--bg); font-family: 'Segoe UI', system-ui, -apple-system,
 @keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
 .d1{animation-delay:.04s}.d2{animation-delay:.10s}.d3{animation-delay:.16s}
 .d4{animation-delay:.22s}.d5{animation-delay:.28s}.d6{animation-delay:.34s}.d7{animation-delay:.40s}
+/* ================================= */
+/* 🌙 DASHBOARD DARK MODE (PRO FIX) */
+/* ================================= */
+[data-bs-theme="dark"] {
+
+    /* Override your design system */
+    --bg: #12121c;
+    --surface: #1e1e2f;
+    --border: #2a2a3d;
+
+    --ink: #ffffff;
+    --ink-mid: #c7c7d1;
+    --ink-soft: #9ca3af;
+    --ink-ghost: #6b7280;
+
+    --purple-lt: rgba(102,126,234,0.15);
+    --pink-lt: rgba(245,87,108,0.15);
+    --green-lt: rgba(34,193,123,0.15);
+    --blue-lt: rgba(79,172,254,0.15);
+}
+
+/* Apply variables properly */
+[data-bs-theme="dark"] body {
+    background: var(--bg);
+    color: var(--ink);
+}
+
+/* Cards */
+[data-bs-theme="dark"] .stat-card,
+[data-bs-theme="dark"] .panel {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+/* Text fixes */
+[data-bs-theme="dark"] .card-label {
+    color: var(--ink-soft);
+}
+
+[data-bs-theme="dark"] .card-num {
+    color: var(--ink);
+}
+
+[data-bs-theme="dark"] .panel-title {
+    color: var(--ink);
+}
+
+[data-bs-theme="dark"] .feed-text {
+    color: var(--ink-mid);
+}
+
+[data-bs-theme="dark"] .feed-text strong,
+[data-bs-theme="dark"] .feed-text em {
+    color: var(--ink);
+}
+
+[data-bs-theme="dark"] .feed-time {
+    color: var(--ink-ghost);
+}
+
+/* Hover fixes */
+[data-bs-theme="dark"] .feed-item:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+/* Quick actions */
+[data-bs-theme="dark"] .action-item {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+[data-bs-theme="dark"] .action-item:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+/* Icons background fix */
+[data-bs-theme="dark"] .ic-purple { background: rgba(102,126,234,0.15); }
+[data-bs-theme="dark"] .ic-pink   { background: rgba(245,87,108,0.15); }
+[data-bs-theme="dark"] .ic-green  { background: rgba(34,193,123,0.15); }
+[data-bs-theme="dark"] .ic-blue   { background: rgba(79,172,254,0.15); }
+
+/* Borders */
+[data-bs-theme="dark"] .card-foot {
+    border-color: var(--border);
+}
 </style>
 @endpush
 
